@@ -8,9 +8,9 @@ import Solitario.Mesa;
 public interface Reglas {
     boolean moverCarta(Carta carta, Integer columna);
     boolean moverCartaColumnaFinal(Carta carta, Integer columna);
-    Mazo inicializarCaraja();
-    Mesa inicializarJuego(Mesa mesa);
-    void repartirCartas();
+    //Mesa inicializarJuego(Mesa mesa);
+    void repartirCartasInicio();
     boolean estaGanado();
     boolean esPosibleContinuar();
+    boolean sacarDelMazo();
 }
