@@ -32,10 +32,16 @@ public class ColumnaKlondike extends Columna {
         return auxiliar;
     }
 
-    public void insertarSegmento(Columna segmento) {
+    public boolean insertarSegmento(Columna segmento) {
         Carta ultimaCarta = segmento.getCartas().get(cartas.size()-1);
         if ((cartas.get(0).getNumero() == ultimaCarta.getNumero()+1) && (cartas.get(0).getColor() != ultimaCarta.getColor())) {
             cartas.addAll(0, segmento);
+            return true;
         }
+        if (this.isEmpty() || !this.peek().esVisible()) {
+            cartas.addAll(0, segmento);
+            return true;
+        }
+        return false;
     }
 }

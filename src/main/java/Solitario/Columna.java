@@ -44,7 +44,7 @@ public abstract class Columna extends ArrayList<Carta> {
 
     public abstract Columna obtenerSegmento(Integer indice);
 
-    public abstract void insertarSegmento(Columna segmento );
+    public abstract boolean insertarSegmento(Columna segmento );
 
 
 

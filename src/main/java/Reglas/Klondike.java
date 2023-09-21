@@ -37,6 +37,14 @@ public class Klondike implements Reglas {
 
     public boolean moverCartas(Integer origen, Integer destino, Integer carta) {
         Columna segmento = mesa.columnasMesa.get(origen).obtenerSegmento(carta);
+        if (segmento == null) {
+            return false;
+        }
+        boolean seInserto = mesa.columnasMesa.get(destino).insertarSegmento(segmento);
+        if (!seInserto) {
+            mesa.columnasMesa.get(origen).insertarSegmento(segmento);
+            return false;
+        }
         return true;
     }
 }
