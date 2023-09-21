@@ -1,5 +1,6 @@
 package Reglas;
 
+import Solitario.Carta;
 import Solitario.Columna;
 
 public class ColumnaKlondike extends Columna {
@@ -10,6 +11,9 @@ public class ColumnaKlondike extends Columna {
     public boolean esCadena(Integer indice) {
         for (int i = 0; i < indice; i++) {
             if (cartas.get(i).getNumero() != (cartas.get(i+1).getNumero() - 1)) {
+                return false;
+            }
+            if (cartas.get(i).getColor() == cartas.get(i+1).getColor()) {
                 return false;
             }
         }
@@ -29,7 +33,8 @@ public class ColumnaKlondike extends Columna {
     }
 
     public void insertarSegmento(Columna segmento) {
-        if (cartas.get(0).getNumero() == segmento.getCartas().get(cartas.size()-1).getNumero()+1) {
+        Carta ultimaCarta = segmento.getCartas().get(cartas.size()-1);
+        if ((cartas.get(0).getNumero() == ultimaCarta.getNumero()+1) && (cartas.get(0).getColor() != ultimaCarta.getColor())) {
             cartas.addAll(0, segmento);
         }
     }

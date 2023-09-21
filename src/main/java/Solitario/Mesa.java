@@ -8,8 +8,8 @@ import java.util.HashMap;
 public class Mesa {
     private final Mazo baraja;
     private Mazo barajaDescarte;
-    private ArrayList<Columna> columnasMesa;
-    private ArrayList<Columna> columnasFinales;
+    public ArrayList<Columna> columnasMesa;
+    public ArrayList<Columna> columnasFinales;
 
     public Mesa(Mazo baraja) {
         this.baraja = baraja;
@@ -31,5 +31,9 @@ public class Mesa {
         for (int i=0; i < cantidadColumnasFinales; i++) {
             columnasFinales.add(columna);
         }
+    }
+
+    public Carta sacarCarta() {
+        return baraja.sacarCarta();
     }
 }
