@@ -8,28 +8,28 @@ import java.util.HashMap;
 public class Mesa {
     private final Mazo baraja;
     private Mazo barajaDescarte;
-    private final Map<Integer, Stack<Carta>> columnasMesa;
-    private final Map<Integer, Stack<Carta>> columnasFinales;
+    private final ArrayList<Mazo> columnasMesa;
+    private final ArrayList<Mazo> columnasFinales;
 
     public Mesa(Mazo baraja) {
         this.baraja = baraja;
-        this.columnasMesa = new HashMap<>();
-        this.columnasFinales = new HashMap<>();
+        this.columnasMesa = new ArrayList<>();
+        this.columnasFinales = new ArrayList<>();
     }
 
     public void crearBarajaDescarte() {
         this.barajaDescarte = new Mazo(0, new ArrayList<>());
     }
 
-    public void inicializarColumnasMesa(Integer cantidadColumnas) {
-        for (int i=0; i < cantidadColumnas; i++) {
-            columnasMesa.put(i, new Stack<>());
+    public void inicializarColumnasMesa(Integer cantidadColumnasMesa) {
+        for (int i=0; i < cantidadColumnasMesa; i++) {
+            columnasMesa.add(new Mazo(0, new ArrayList<>()));
         }
     }
 
-    public void inicializarColumnasFinales(Integer cantidadColumnas) {
-        for (int i=0; i < cantidadColumnas; i++) {
-            columnasFinales.put(i, new Stack<>());
+    public void inicializarColumnasFinales(Integer cantidadColumnasFinales) {
+        for (int i=0; i < cantidadColumnasFinales; i++) {
+            columnasFinales.add(new Mazo(0, new ArrayList<>()));
         }
     }
 }

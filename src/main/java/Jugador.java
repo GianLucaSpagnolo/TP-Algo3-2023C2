@@ -1,8 +1,10 @@
-import java.util.List;
+package Solitario;
 
 public class Jugador {
-    private List<Integer> opciones;
-    private List<Integer> cartas;
+    public void moverCartas(Mesa mesa){
+        //segun el estado de la mesa que se tiene que actualizar, voy moviendo cartas de un mazo a otro
+    }
+    public void darVueltaCartaBaraja(Mesa mesa){
 
-    private List<Integer> posiciones;
+    }
 }
