@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.Stack;
 
 public class Mazo {
-    private Stack<Carta> baraja;
+    private final Stack<Carta> baraja;
 
     public Mazo(Integer cantidad, List<Palos> palos) {
         this.baraja = new Stack<>();

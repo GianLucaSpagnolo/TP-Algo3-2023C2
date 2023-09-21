@@ -1,9 +1,9 @@
 package Solitario;
 
 public class Carta {
-    private Integer numero;
-    private Color color;
-    private Palos palo;
+    private final Integer numero;
+    private final Color color;
+    private final Palos palo;
     private boolean esVisible;
     private boolean esInteractuable;
 
@@ -53,8 +53,7 @@ public class Carta {
     }
 
     public void cambiarInteractuabilidad() {
-        this.esInteractuable = !esInteractuable;
+        if (this.esVisible())
+            this.esInteractuable = !esInteractuable;
     }
 }
-
-

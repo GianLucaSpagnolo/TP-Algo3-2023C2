@@ -3,10 +3,10 @@ package Solitario;
 import java.util.*;
 
 public class Mesa {
-    private Mazo baraja;
+    private final Mazo baraja;
     private Mazo barajaDescarte;
-    private Map<Integer, Stack<Carta>> columnasMesa;
-    private Map<Integer, Stack<Carta>> columnasFinales;
+    private final Map<Integer, Stack<Carta>> columnasMesa;
+    private final Map<Integer, Stack<Carta>> columnasFinales;
 
     public Mesa(Mazo baraja) {
         this.baraja = baraja;
