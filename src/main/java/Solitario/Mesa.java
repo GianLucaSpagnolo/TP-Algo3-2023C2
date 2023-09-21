@@ -1,6 +1,9 @@
 package Solitario;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Stack;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Mesa {
     private final Mazo baraja;
@@ -10,23 +13,23 @@ public class Mesa {
 
     public Mesa(Mazo baraja) {
         this.baraja = baraja;
-        this.columnasMesa = new HashMap<Integer, Stack<Carta>>();
-        this.columnasFinales = new HashMap<Integer, Stack<Carta>>();
+        this.columnasMesa = new HashMap<>();
+        this.columnasFinales = new HashMap<>();
     }
 
     public void crearBarajaDescarte() {
-        this.barajaDescarte = new Mazo(0, new ArrayList<Palos>());
+        this.barajaDescarte = new Mazo(0, new ArrayList<>());
     }
 
     public void inicializarColumnasMesa(Integer cantidadColumnas) {
         for (int i=0; i < cantidadColumnas; i++) {
-            columnasMesa.put(i, new Stack<Carta>());
+            columnasMesa.put(i, new Stack<>());
         }
     }
 
     public void inicializarColumnasFinales(Integer cantidadColumnas) {
         for (int i=0; i < cantidadColumnas; i++) {
-            columnasFinales.put(i, new Stack<Carta>());
+            columnasFinales.put(i, new Stack<>());
         }
     }
 }

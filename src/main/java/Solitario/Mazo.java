@@ -10,17 +10,19 @@ public class Mazo {
 
     public Mazo(Integer cantidad, List<Palos> palos) {
         this.baraja = new Stack<>();
-        int contador = 0;
-        int limite = cantidad/palos.size();
-        for (Palos palo : palos) {
-            while (contador < limite) {
-                for (int i = 1; i < 14; i++) {
-                    Carta carta = new Carta(i, palo);
+        if (cantidad != 0 && !palos.isEmpty()) {
+            int contador = 1;
+            int limite = cantidad / palos.size();
+            for (Palos palo : palos) {
+                for (int i = 1; i <= limite; i++) {
+                    if (contador > 13)
+                        contador = 1;
+                    Carta carta = new Carta(contador, palo);
                     baraja.push(carta);
                     contador++;
                 }
+                contador = 1;
             }
-            contador = 0;
         }
     }
 
@@ -29,10 +31,14 @@ public class Mazo {
     }
 
     public Carta sacarCarta() {
-        if (baraja.empty()) {
+        if (mazoVacio()) {
             return null;
         }
         return baraja.pop();
+    }
+
+    public boolean mazoVacio() {
+        return baraja.empty();
     }
 
     public void mezclar() {
@@ -45,6 +51,7 @@ public class Mazo {
         for (int i = 0; i < cantidad; i++) {
             int indice = generador.nextInt(0, cantidad - i);
             agregarCarta(auxiliar.get(indice));
+            auxiliar.remove(indice);
         }
     }
 
