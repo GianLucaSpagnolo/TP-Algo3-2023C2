@@ -28,7 +28,6 @@ public class Klondike implements Reglas {
                 Carta carta = mesa.sacarCarta();
                 if (j == i-1) {
                     carta.darVuelta();
-                    carta.cambiarInteractuabilidad();
                 }
                 mesa.columnasMesa.get(i-1).push(carta);
             }

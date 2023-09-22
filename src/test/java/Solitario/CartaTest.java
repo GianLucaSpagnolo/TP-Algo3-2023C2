@@ -19,40 +19,8 @@ public class CartaTest {
         Carta carta = new Carta(10, Palos.DIAMANTES);
 
         assertFalse(carta.esVisible());
-        assertFalse(carta.esInteractuable());
-
         carta.darVuelta();
-
         assertTrue(carta.esVisible());
-        assertFalse(carta.esInteractuable());
-    }
-
-    @Test
-    public void testHacerInteractuable() {
-        Carta carta = new Carta(10, Palos.DIAMANTES);
-
-        assertFalse(carta.esVisible());
-        assertFalse(carta.esInteractuable());
-
-        carta.cambiarInteractuabilidad();
-        // No se puede cambiar la interactuabilidad de una carta si no es visible.
-
-        assertFalse(carta.esVisible());
-        assertFalse(carta.esInteractuable());
-    }
-
-    @Test
-    public void testDarVueltaYHacerInteractuable() {
-        Carta carta = new Carta(10, Palos.DIAMANTES);
-
-        assertFalse(carta.esVisible());
-        assertFalse(carta.esInteractuable());
-
-        carta.darVuelta();
-        carta.cambiarInteractuabilidad();
-
-        assertTrue(carta.esVisible());
-        assertTrue(carta.esInteractuable());
     }
 
     @Test
