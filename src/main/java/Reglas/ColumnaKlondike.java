@@ -12,7 +12,10 @@ public class ColumnaKlondike extends Columna {
         for (int i = 0; i < indice; i++) {
             Carta carta1 = cartas.get(i);
             Carta carta2 = cartas.get(i+1);
-            if (!Klondike.sonCompatibles(carta1, carta2)) {
+            if (carta2 == null) {
+                return carta1.getNumero() == 13;
+            }
+            if (carta1.getNumero() != (carta2.getNumero() - 1)) {
                 return false;
             }
         }
@@ -28,24 +31,37 @@ public class ColumnaKlondike extends Columna {
             return null;
         }
         for (int i = indice; i >= 0; i--) {
-            auxiliar.push(pop());
+            auxiliar.push(cartas.get(i));
+            cartas.remove(i);
         }
         return auxiliar;
     }
 
     public boolean insertarSegmento(Columna segmento) {
         Carta ultimaCarta = segmento.getCartas().get(cartas.size()-1);
-        if ((cartas.get(0).getNumero() == ultimaCarta.getNumero()+1) && (cartas.get(0).getColor() != ultimaCarta.getColor())) {
+        if ((peek().getNumero() == ultimaCarta.getNumero()+1) && (peek().getColor() != ultimaCarta.getColor())) {
             cartas.addAll(0, segmento);
             return true;
         }
-        if (this.isEmpty() || !this.peek().esVisible()) {
+        if ((isEmpty() && ultimaCarta.getNumero() == 13) || !peek().esVisible()) {
             cartas.addAll(0, segmento);
             return true;
         }
         return false;
     }
 
-    public boolean
+    public boolean insertarSegmentoColumnaFinal(Columna segmento) {
+        Carta ultimaCarta = segmento.getCartas().get(cartas.size()-1);
+        if ((this.isEmpty() && ultimaCarta.getNumero() == 1)) {
+            cartas.addAll(0, segmento);
+            return true;
+        }
+        if ((peek().getNumero() == ultimaCarta.getNumero()-1) && (peek().getColor() == ultimaCarta.getColor())) {
+            cartas.addAll(0, segmento);
+            return true;
+        }
+
+        return false;
+    }
 
 }
