@@ -10,7 +10,7 @@ public class MazoTest {
     @Test
     public void creacionBarajaVacia() {
         Mazo mazo = new Mazo(0, new ArrayList<>());
-        assertTrue(mazo.mazoVacio());
+        assertTrue(mazo.estaVacio());
     }
 
     @Test
@@ -27,7 +27,7 @@ public class MazoTest {
             assertEquals(Color.ROJO, carta.getColor());
             assertEquals(Palos.CORAZONES, carta.getPalo());
         }
-        assertTrue(mazo.mazoVacio());
+        assertTrue(mazo.estaVacio());
     }
 
     @Test
@@ -46,7 +46,7 @@ public class MazoTest {
         carta.darVuelta();
 
         mazo.agregarCarta(carta);
-        assertFalse(mazo.mazoVacio());
+        assertFalse(mazo.estaVacio());
 
         carta = mazo.sacarCarta();
         assertEquals(12, carta.getNumero(), 0);
@@ -68,7 +68,7 @@ public class MazoTest {
         mazo.agregarCarta(carta2);
         mazo.agregarCarta(carta3);
         mazo.agregarCarta(carta4);
-        assertFalse(mazo.mazoVacio());
+        assertFalse(mazo.estaVacio());
     }
 
     @Test
@@ -84,7 +84,7 @@ public class MazoTest {
         assertEquals(Color.ROJO, carta.getColor());
         assertEquals(Palos.DIAMANTES, carta.getPalo());
 
-        assertTrue(mazo.mazoVacio());
+        assertTrue(mazo.estaVacio());
     }
 
     @Test
@@ -101,7 +101,7 @@ public class MazoTest {
             assertEquals(Color.NEGRO, carta.getColor());
             assertEquals(Palos.PICAS, carta.getPalo());
         }
-        assertTrue(mazo.mazoVacio());
+        assertTrue(mazo.estaVacio());
     }
 
     @Test
@@ -120,7 +120,7 @@ public class MazoTest {
                 assertEquals(Palos.DIAMANTES, carta.getPalo());
             }
         }
-        assertTrue(mazo.mazoVacio());
+        assertTrue(mazo.estaVacio());
     }
 
     @Test
@@ -141,7 +141,7 @@ public class MazoTest {
                 assertEquals(palos.get(3 - j), carta.getPalo());
             }
         }
-        assertTrue(mazo.mazoVacio());
+        assertTrue(mazo.estaVacio());
     }
 
     @Test
@@ -158,7 +158,7 @@ public class MazoTest {
             Carta carta = mazo.sacarCarta();
             assertNotNull(carta);
         }
-        assertTrue(mazo.mazoVacio());
+        assertTrue(mazo.estaVacio());
     }
 
     @Test

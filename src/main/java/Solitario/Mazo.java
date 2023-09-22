@@ -31,13 +31,13 @@ public class Mazo {
     }
 
     public Carta sacarCarta() {
-        if (mazoVacio()) {
+        if (estaVacio()) {
             return null;
         }
         return baraja.pop();
     }
 
-    public boolean mazoVacio() {
+    public boolean estaVacio() {
         return baraja.empty();
     }
 

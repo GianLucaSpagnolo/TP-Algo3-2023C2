@@ -6,9 +6,8 @@ import Solitario.Columna;
 
 public interface Reglas {
     boolean moverCartas(Integer origen, Integer destino, Integer carta);
-    boolean moverCartaColumnaFinal(Carta carta, Integer columna);
+    boolean moverCartaColumnaFinal(Integer origen, Integer destino);
     void repartirCartasInicio();
     boolean estaGanado();
-    boolean esPosibleContinuar();
     boolean sacarDelMazo();
 }

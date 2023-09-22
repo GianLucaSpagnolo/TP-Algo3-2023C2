@@ -10,10 +10,9 @@ public class ColumnaKlondike extends Columna {
 
     public boolean esCadena(Integer indice) {
         for (int i = 0; i < indice; i++) {
-            if (cartas.get(i).getNumero() != (cartas.get(i+1).getNumero() - 1)) {
-                return false;
-            }
-            if (cartas.get(i).getColor() == cartas.get(i+1).getColor()) {
+            Carta carta1 = cartas.get(i);
+            Carta carta2 = cartas.get(i+1);
+            if (!Klondike.sonCompatibles(carta1, carta2)) {
                 return false;
             }
         }
@@ -21,13 +20,15 @@ public class ColumnaKlondike extends Columna {
     }
 
     public Columna obtenerSegmento(Integer indice) {
+        if (isEmpty()) {
+            return null;
+        }
         Columna auxiliar = new ColumnaKlondike();
         if (!esCadena(indice)) {
             return null;
         }
         for (int i = indice; i >= 0; i--) {
-            auxiliar.push(cartas.get(i));
-            cartas.remove(i);
+            auxiliar.push(pop());
         }
         return auxiliar;
     }
@@ -44,4 +45,7 @@ public class ColumnaKlondike extends Columna {
         }
         return false;
     }
+
+    public boolean
+
 }

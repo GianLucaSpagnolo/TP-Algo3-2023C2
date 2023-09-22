@@ -34,6 +34,24 @@ public class Mesa {
     }
 
     public Carta sacarCarta() {
+        if (baraja.estaVacio()) {
+            return null;
+        }
         return baraja.sacarCarta();
+    }
+
+    public void insertarEnMazo(Carta carta) {
+        baraja.agregarCarta(carta);
+    }
+
+    public void insertarCartaDescarte(Carta carta) {
+        barajaDescarte.agregarCarta(carta);
+    }
+
+    public Carta sacarCartaDescarte() {
+        if (barajaDescarte.estaVacio()) {
+            return null;
+        }
+        return barajaDescarte.sacarCarta();
     }
 }
