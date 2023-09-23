@@ -1,11 +1,10 @@
 package Reglas;
 
 import Solitario.*;
-
 import java.util.ArrayList;
 
 public class Klondike implements Reglas {
-    private final Mesa mesa;
+    private Mesa mesa;
 
     public Klondike() {
         ArrayList<Palos> palos = new ArrayList<>();
@@ -25,7 +24,7 @@ public class Klondike implements Reglas {
     public void repartirCartasInicio() {
         for (int i=1; i <= 7; i++) {
             for (int j=0; j < i; j++) {
-                Carta carta = mesa.sacarCarta();
+                Carta carta = mesa.sacarCartaMazo();
                 if (j == i-1) {
                     carta.darVuelta();
                 }
@@ -77,7 +76,7 @@ public class Klondike implements Reglas {
     }
 
     public boolean sacarDelMazo() {
-        Carta carta = mesa.sacarCarta();
+        Carta carta = mesa.sacarCartaMazo();
         if (carta == null) {
             reiniciarBaraja();
             return false;
@@ -90,7 +89,8 @@ public class Klondike implements Reglas {
     private void reiniciarBaraja() {
         Carta carta = mesa.sacarCartaDescarte();
         while (carta != null) {
-            mesa.insertarEnMazo(carta);
+            carta.darVuelta();
+            mesa.insertarCartaMazo(carta);
             carta = mesa.sacarCartaDescarte();
         }
     }

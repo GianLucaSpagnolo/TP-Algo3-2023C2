@@ -20,14 +20,14 @@ public abstract class Columna extends ArrayList<Carta> {
         cartas.add(0, carta);
     }
 
-    public ArrayList<Carta> getCartas() {
-        return cartas;
-    }
-
     public Carta pop() {
         Carta carta = cartas.get(0);
         cartas.remove(0);
         return carta;
+    }
+
+    public ArrayList<Carta> getCartas() {
+        return cartas;
     }
 
     @Override
@@ -45,9 +45,6 @@ public abstract class Columna extends ArrayList<Carta> {
     public abstract Columna obtenerSegmento(Integer indice);
 
     public abstract boolean insertarSegmento(Columna segmento );
+
     public abstract boolean insertarSegmentoColumnaFinal(Columna segmento);
-
-
-
-
 }

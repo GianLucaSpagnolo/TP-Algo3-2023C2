@@ -1,9 +1,6 @@
 package Solitario;
 
 import java.util.ArrayList;
-import java.util.Stack;
-import java.util.Map;
-import java.util.HashMap;
 
 public class Mesa {
     private final Mazo baraja;
@@ -33,14 +30,14 @@ public class Mesa {
         }
     }
 
-    public Carta sacarCarta() {
+    public Carta sacarCartaMazo() {
         if (baraja.estaVacio()) {
             return null;
         }
         return baraja.sacarCarta();
     }
 
-    public void insertarEnMazo(Carta carta) {
+    public void insertarCartaMazo(Carta carta) {
         baraja.agregarCarta(carta);
     }
 
