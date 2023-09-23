@@ -12,8 +12,10 @@ public class Klondike implements Reglas {
         palos.add(Palos.TREBOLES);
         palos.add(Palos.CORAZONES);
         palos.add(Palos.DIAMANTES);
-        Mazo mazo = new Mazo(52, palos);
-        mazo.mezclar();
+        Mazo mazo = new Mazo();
+        String semilla = mazo.generarSemilla(52, palos);
+        mazo.generarBaraja(semilla, palos);
+
         Mesa nuevaMesa = new Mesa(mazo);
         nuevaMesa.inicializarColumnasMesa(7, new ColumnaKlondike());
         nuevaMesa.inicializarColumnasFinales(4, new ColumnaKlondike());

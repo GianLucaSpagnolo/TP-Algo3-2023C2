@@ -15,7 +15,7 @@ public class Mesa {
     }
 
     public void crearBarajaDescarte() {
-        this.barajaDescarte = new Mazo(0, new ArrayList<>());
+        this.barajaDescarte = new Mazo();
     }
 
     public void inicializarColumnasMesa(Integer cantidadColumnasMesa, Columna columna) {
