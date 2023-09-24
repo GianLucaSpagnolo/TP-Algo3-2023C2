@@ -8,7 +8,7 @@ public class KlondikeTest {
 
     @Test
     public void test() {
-        Klondike juego = new Klondike();
+        Klondike juego = new Klondike(null);
         juego.repartirCartasInicio();
 
     }

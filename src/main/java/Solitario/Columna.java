@@ -21,6 +21,9 @@ public abstract class Columna extends ArrayList<Carta> {
     }
 
     public Carta pop() {
+        if (cartas.isEmpty()) {
+            return null;
+        }
         Carta carta = cartas.get(0);
         cartas.remove(0);
         return carta;

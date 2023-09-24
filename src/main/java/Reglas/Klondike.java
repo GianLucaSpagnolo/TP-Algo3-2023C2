@@ -6,14 +6,16 @@ import java.util.ArrayList;
 public class Klondike implements Reglas {
     private Mesa mesa;
 
-    public Klondike() {
+    public Klondike(String semilla) {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.PICAS);
         palos.add(Palos.TREBOLES);
         palos.add(Palos.CORAZONES);
         palos.add(Palos.DIAMANTES);
         Mazo mazo = new Mazo();
-        String semilla = mazo.generarSemilla(52, palos);
+        if (semilla == null) {
+            semilla = mazo.generarSemilla(52, palos);
+        }
         mazo.generarBaraja(semilla, palos);
 
         Mesa nuevaMesa = new Mesa(mazo);
@@ -21,6 +23,10 @@ public class Klondike implements Reglas {
         nuevaMesa.inicializarColumnasFinales(4, new ColumnaKlondike());
         nuevaMesa.crearBarajaDescarte();
         this.mesa = nuevaMesa;
+    }
+
+    public void setMesaParticular(Mesa mesa) {
+        this.mesa = mesa;
     }
 
     public void repartirCartasInicio() {

@@ -15,7 +15,7 @@ public class ColumnaKlondike extends Columna {
             if (carta2 == null) {
                 return carta1.getNumero() == 13;
             }
-            if (carta1.getNumero() != (carta2.getNumero() - 1)) {
+            if ((carta1.getNumero() != (carta2.getNumero() - 1)) || (carta1.getColor() == carta2.getColor())) {
                 return false;
             }
         }
