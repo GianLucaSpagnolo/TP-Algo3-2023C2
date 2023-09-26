@@ -12,10 +12,7 @@ public class ColumnaKlondike extends Columna {
         for (int i = 0; i < indice; i++) {
             Carta carta1 = cartas.get(i);
             Carta carta2 = cartas.get(i+1);
-            if (carta2 == null) {
-                return carta1.getNumero() == 13;
-            }
-            if ((carta1.getNumero() != (carta2.getNumero() - 1)) || (carta1.getColor() == carta2.getColor())) {
+            if (!sonCompatibles(carta1, carta2)) {
                 return false;
             }
         }
@@ -38,12 +35,12 @@ public class ColumnaKlondike extends Columna {
     }
 
     public boolean insertarSegmento(Columna segmento) {
-        Carta ultimaCarta = segmento.getCartas().get(segmento.size()-1);
-        if ((peek().getNumero() == ultimaCarta.getNumero()+1) && (peek().getColor() != ultimaCarta.getColor())) {
-            cartas.addAll(0, segmento.getCartas());
-            return true;
+        if (segmento == null || segmento.isEmpty()) {
+            return false;
         }
-        if ((isEmpty() && ultimaCarta.getNumero() == 13) || !peek().esVisible()) {
+        Carta ultimaCarta = segmento.getCartas().get(segmento.size()-1);
+        Carta topeColumna = peek();
+        if ((sonCompatibles(ultimaCarta, topeColumna))) {
             cartas.addAll(0, segmento.getCartas());
             return true;
         }
@@ -51,17 +48,36 @@ public class ColumnaKlondike extends Columna {
     }
 
     public boolean insertarSegmentoColumnaFinal(Columna segmento) {
+        if (segmento == null || segmento.isEmpty()) {
+            return false;
+        }
         Carta ultimaCarta = segmento.getCartas().get(segmento.size()-1);
-        if ((this.isEmpty() && ultimaCarta.getNumero() == 1)) {
+        Carta cartaColumnaFinal = peek();
+        if (sonCompatiblesColumnaFinal(ultimaCarta, cartaColumnaFinal)) {
             cartas.addAll(0, segmento.getCartas());
             return true;
         }
-        if ((peek().getNumero() == ultimaCarta.getNumero()-1) && (peek().getColor() == ultimaCarta.getColor())) {
-            cartas.addAll(0, segmento.getCartas());
-            return true;
-        }
-
         return false;
+    }
+
+    private boolean sonCompatibles(Carta carta1, Carta carta2) {
+        if (!carta1.esVisible()) {
+            return false;
+        }
+        if (carta2 == null) {
+            return carta1.getNumero() == 13;
+        }
+        if (!carta2.esVisible()) {
+            return true;
+        }
+        return (carta1.getNumero() == (carta2.getNumero() - 1)) && (carta1.getColor() != carta2.getColor());
+    }
+
+    private boolean sonCompatiblesColumnaFinal(Carta carta, Carta cartaColumnaFinal) {
+        if (cartaColumnaFinal == null) {
+            return carta.getNumero() == 1;
+        }
+        return (cartaColumnaFinal.getNumero() == carta.getNumero() - 1) && (cartaColumnaFinal.getColor() == carta.getColor());
     }
 
 }

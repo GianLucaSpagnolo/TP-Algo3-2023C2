@@ -16,7 +16,6 @@ public class ColumnaKlondikeTest {
         Columna columna = new ColumnaKlondike();
 
         assertTrue(columna.isEmpty());
-        assertEquals(0, columna.size(),0);
         assertEquals(new ArrayList<Carta>(), columna.getCartas());
         assertNull(columna.peek());
         assertNull(columna.pop());
@@ -43,7 +42,6 @@ public class ColumnaKlondikeTest {
         Carta cartaSacada = columna.pop();
 
         assertTrue(columna.isEmpty());
-        assertEquals(0, columna.size(),0);
         assertEquals(cartaInsertada, cartaSacada);
         assertTrue(columna.esCadena(0));
     }
@@ -172,7 +170,6 @@ public class ColumnaKlondikeTest {
         assertFalse(segmentoEsperado.isEmpty());
         assertTrue(segmentoRestante.isEmpty());
 
-        assertEquals(0, columna.size(),0);
         assertEquals(13, segmentoEsperado.size(),0);
         assertEquals(13, segmento.size(),0);
         assertEquals(0, segmentoRestante.size(),0);
@@ -181,6 +178,69 @@ public class ColumnaKlondikeTest {
         assertTrue(segmento.esCadena(12));
         assertEquals(segmentoEsperado, segmento);
         assertEquals(segmentoRestante, columna);
+    }
+
+    @Test
+    public void TestObtenerSegmentoInvalido() {
+        //Se trata de extraer un segmento que no es cadena de una columna
+        Columna columna = new ColumnaKlondike();
+        for (int i=5; i > 1; i--) {
+            //inserta cartas intercaladas
+            if (i % 2 == 0) {
+                Carta cartaNegra = new Carta(i, Palos.TREBOLES);
+                cartaNegra.darVuelta();
+                columna.push(cartaNegra);
+            } else {
+                Carta cartaRoja = new Carta(i, Palos.CORAZONES);
+                cartaRoja.darVuelta();
+                columna.push(cartaRoja);
+            }
+        }
+        Carta carta = new Carta(1, Palos.TREBOLES); //Esta carta en el tope rompe la cadena e impide extraer un segmento de mas de 1 carta
+        carta.darVuelta();
+        columna.push(carta);
+
+        Columna segmentoExtraido = columna.obtenerSegmento(4);
+
+        assertNull(segmentoExtraido);
+        assertEquals(5, columna.size(),0);
+    }
+
+    @Test
+    public void TestObtenerSegmentoDeColumnaVacia() {
+        //Se trata de extraer un segmento de una columna vacia
+        Columna columnaVacia = new ColumnaKlondike();
+        Columna segmentoExtraido = columnaVacia.obtenerSegmento(0);
+
+        assertNull(segmentoExtraido);
+        assertTrue(columnaVacia.isEmpty());
+    }
+
+    @Test
+    public void TestObtenerSegmentoSobreCartasInvisibles() {
+        //Se trata de extraer un segmento con un indice de una carta invisible
+        Columna columna = new ColumnaKlondike();
+        for (int i=6; i > 2; i--) {
+            //inserta cartas intercaladas no visibles
+            if (i % 2 == 0) {
+                Carta cartaNegra = new Carta(i, Palos.TREBOLES);
+                columna.push(cartaNegra);
+            } else {
+                Carta cartaRoja = new Carta(i, Palos.CORAZONES);
+                columna.push(cartaRoja);
+            }
+        }
+        Carta carta1 = new Carta(2, Palos.TREBOLES);
+        carta1.darVuelta();
+        columna.push(carta1);
+
+        Carta carta2 = new Carta(1, Palos.CORAZONES);
+        carta2.darVuelta();
+        columna.push(carta2);
+
+        Columna segmento = columna.obtenerSegmento(5);
+        assertNull(segmento);
+        assertEquals(6, columna.size());
     }
 
     @Test
@@ -335,5 +395,136 @@ public class ColumnaKlondikeTest {
         assertEquals(columnaResultado, columna2);
     }
 
-    //segmentos vacios
+    @Test
+    public void TestInsertarSegmentoValidoUnaCarta() {
+        //Inserta un segmento de una carta sola
+        Columna columnaCompleta = generarColumna();
+        Columna columna2 = new ColumnaKlondike();
+        Carta carta1 = new Carta(2, Palos.TREBOLES);
+        carta1.darVuelta();
+        columna2.push(carta1);
+
+        Columna segmentoExtraido = columnaCompleta.obtenerSegmento(0);
+        boolean seInserto = columna2.insertarSegmento(segmentoExtraido);
+
+        Columna columnaEsperada = new ColumnaKlondike();
+        Carta carta2 = new Carta(2, Palos.TREBOLES);
+        Carta carta3 = new Carta(1, Palos.CORAZONES);
+        carta2.darVuelta();
+        carta3.darVuelta();
+        columnaEsperada.push(carta2);
+        columnaEsperada.push(carta3);
+
+        Columna columnaRestanteEsperada = new ColumnaKlondike();
+        for (int i=13; i > 1; i--) {
+            //inserta cartas intercaladas
+            if (i % 2 == 0) {
+                Carta cartaNegra = new Carta(i, Palos.TREBOLES);
+                cartaNegra.darVuelta();
+                columnaRestanteEsperada.push(cartaNegra);
+            } else {
+                Carta cartaRoja = new Carta(i, Palos.CORAZONES);
+                cartaRoja.darVuelta();
+                columnaRestanteEsperada.push(cartaRoja);
+            }
+        }
+
+        assertFalse(columnaCompleta.isEmpty());
+        assertFalse(columna2.isEmpty());
+        assertFalse(segmentoExtraido.isEmpty());
+        assertFalse(columnaRestanteEsperada.isEmpty());
+        assertTrue(seInserto);
+
+        assertEquals(12, columnaCompleta.size(),0);
+        assertEquals(12, columnaRestanteEsperada.size(),0);
+        assertEquals(2, columna2.size(),0);
+        assertEquals(2, columnaEsperada.size(),0);
+        assertEquals(1, segmentoExtraido.size(),0);
+
+        assertEquals(columnaRestanteEsperada, columnaCompleta);
+        assertEquals(columnaEsperada, columna2);
+    }
+
+    @Test
+    public void TestInsertarSegmentoValidoSobreColumnaVacia() {
+        Columna columnaCompleta = generarColumna();
+        Columna columnaVacia = new ColumnaKlondike();
+        Columna segmentoExtraido = columnaCompleta.obtenerSegmento(12);
+        boolean seInserto = columnaVacia.insertarSegmento(segmentoExtraido);
+
+        assertTrue(seInserto);
+        assertEquals(new ColumnaKlondike(), columnaCompleta);
+        assertEquals(generarColumna(), columnaVacia);
+    }
+
+    @Test
+    public void TestInsertarSegmentoInvalidoSobreColumnaVacia() {
+        Columna columna = new ColumnaKlondike();
+        Carta carta = new Carta(4, Palos.CORAZONES); //No es un 13
+        carta.darVuelta();
+        columna.push(carta);
+
+        Columna columnaVacia = new ColumnaKlondike();
+
+        Columna segmentoExtraido = columna.obtenerSegmento(0);
+
+        boolean seInserto = columnaVacia.insertarSegmento(segmentoExtraido);
+
+        assertFalse(seInserto);
+        assertEquals(new ColumnaKlondike(), columna);
+        assertEquals(new ColumnaKlondike(), columnaVacia);
+    }
+
+    @Test
+    public void TestInsertarSegmentoVacio() {
+        Columna columna = new ColumnaKlondike();
+        Carta carta = new Carta(4, Palos.CORAZONES);
+        carta.darVuelta();
+        columna.push(carta);
+
+        Columna segmentoVacio = new ColumnaKlondike();
+
+        boolean seInserto = columna.insertarSegmento(segmentoVacio);
+
+        assertFalse(seInserto);
+        assertEquals(new ColumnaKlondike(), columna);
+    }
+
+    @Test
+    public void TestInsertarSegmentoVacioSobreColumnaVacia() {
+        Columna columnaVacia = new ColumnaKlondike();
+
+        Columna segmentoVacio = new ColumnaKlondike();
+
+        boolean seInserto = columnaVacia.insertarSegmento(segmentoVacio);
+
+        assertFalse(seInserto);
+        assertEquals(new ColumnaKlondike(), columnaVacia);
+    }
+
+    @Test
+    public void TestInsertarSegmentoSobreCartaNoVisible() {
+        //Simula escenario donde se debe volver a colocar un segmento extraido en la columna de la que se sacó, antes de hacer visible la carta tope invisible
+        Columna columna = new ColumnaKlondike();
+        Carta cartaNoVisible = new Carta(3, Palos.CORAZONES);
+        Carta cartaVisible = new Carta(2, Palos.TREBOLES);
+        cartaVisible.darVuelta();
+        columna.push(cartaNoVisible);
+        columna.push(cartaVisible);
+
+        Columna segmentoExtraido = columna.obtenerSegmento(0);
+        boolean seInserto = columna.insertarSegmento(segmentoExtraido);
+
+        Columna columnaEsperada = new ColumnaKlondike();
+        Carta carta1 = new Carta(3, Palos.CORAZONES);
+        Carta carta2 = new Carta(2, Palos.TREBOLES);
+        carta2.darVuelta();
+        columnaEsperada.push(carta1);
+        columnaEsperada.push(carta2);
+
+        assertTrue(seInserto);
+        assertEquals(2, columna.size(), 0);
+        assertEquals(columnaEsperada, columna);
+    }
+
 }
