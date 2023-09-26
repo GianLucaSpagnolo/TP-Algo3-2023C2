@@ -1,7 +1,6 @@
 package Solitario;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public abstract class Columna extends ArrayList<Carta> {
     protected final ArrayList<Carta> cartas;

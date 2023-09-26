@@ -4,29 +4,34 @@ import Solitario.*;
 import java.util.ArrayList;
 
 public class Klondike implements Reglas {
-    private Mesa mesa;
+    private final Mesa mesa;
 
-    public Klondike(String semilla) {
-        ArrayList<Palos> palos = new ArrayList<>();
-        palos.add(Palos.PICAS);
-        palos.add(Palos.TREBOLES);
-        palos.add(Palos.CORAZONES);
-        palos.add(Palos.DIAMANTES);
-        Mazo mazo = new Mazo();
-        if (semilla == null) {
-            semilla = mazo.generarSemilla(52, palos);
+    public Klondike(String semilla, Mesa mesa) {
+        if (mesa == null) {
+            ArrayList<Palos> palos = new ArrayList<>();
+            palos.add(Palos.PICAS);
+            palos.add(Palos.TREBOLES);
+            palos.add(Palos.CORAZONES);
+            palos.add(Palos.DIAMANTES);
+            Mazo mazo = new Mazo();
+            if (semilla == null) {
+                semilla = mazo.generarSemilla(52, palos);
+            }
+            mazo.generarBaraja(semilla, palos);
+
+            Mesa nuevaMesa = new Mesa(mazo);
+            for (int i = 0; i < 7; i++)
+                nuevaMesa.columnasMesa.add(new ColumnaKlondike());
+            for (int j = 0; j < 4; j++)
+                nuevaMesa.columnasFinales.add(new ColumnaKlondike());
+            nuevaMesa.crearBarajaDescarte();
+            mesa = nuevaMesa;
         }
-        mazo.generarBaraja(semilla, palos);
-
-        Mesa nuevaMesa = new Mesa(mazo);
-        nuevaMesa.inicializarColumnasMesa(7, new ColumnaKlondike());
-        nuevaMesa.inicializarColumnasFinales(4, new ColumnaKlondike());
-        nuevaMesa.crearBarajaDescarte();
-        this.mesa = nuevaMesa;
+        this.mesa = mesa;
     }
 
-    public void setMesaParticular(Mesa mesa) {
-        this.mesa = mesa;
+    public Mesa getEstadoMesa() {
+        return this.mesa;
     }
 
     public void repartirCartasInicio() {
