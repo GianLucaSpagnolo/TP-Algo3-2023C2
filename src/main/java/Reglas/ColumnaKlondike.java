@@ -38,26 +38,26 @@ public class ColumnaKlondike extends Columna {
     }
 
     public boolean insertarSegmento(Columna segmento) {
-        Carta ultimaCarta = segmento.getCartas().get(cartas.size()-1);
+        Carta ultimaCarta = segmento.getCartas().get(segmento.size()-1);
         if ((peek().getNumero() == ultimaCarta.getNumero()+1) && (peek().getColor() != ultimaCarta.getColor())) {
-            cartas.addAll(0, segmento);
+            cartas.addAll(0, segmento.getCartas());
             return true;
         }
         if ((isEmpty() && ultimaCarta.getNumero() == 13) || !peek().esVisible()) {
-            cartas.addAll(0, segmento);
+            cartas.addAll(0, segmento.getCartas());
             return true;
         }
         return false;
     }
 
     public boolean insertarSegmentoColumnaFinal(Columna segmento) {
-        Carta ultimaCarta = segmento.getCartas().get(cartas.size()-1);
+        Carta ultimaCarta = segmento.getCartas().get(segmento.size()-1);
         if ((this.isEmpty() && ultimaCarta.getNumero() == 1)) {
-            cartas.addAll(0, segmento);
+            cartas.addAll(0, segmento.getCartas());
             return true;
         }
         if ((peek().getNumero() == ultimaCarta.getNumero()-1) && (peek().getColor() == ultimaCarta.getColor())) {
-            cartas.addAll(0, segmento);
+            cartas.addAll(0, segmento.getCartas());
             return true;
         }
 
