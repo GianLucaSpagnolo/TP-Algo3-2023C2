@@ -13,7 +13,7 @@ public class KlondikeTest {
         Mesa mesa = klondike.getEstadoMesa();
         assertNull(mesa.sacarCartaDescarte());
         for (int i = 0; i < 52; i++)
-            klondike.sacarDelMazo();
+            assertTrue(klondike.sacarDelMazo());
         Mesa nuevaMesa = klondike.getEstadoMesa();
         assertNull(nuevaMesa.sacarCartaMazo());
     }
@@ -22,12 +22,12 @@ public class KlondikeTest {
     public void inicioColumnasKlondike() {
         Klondike klondike = new Klondike(null, null);
         Mesa mesa = klondike.getEstadoMesa();
-        assertEquals(7, mesa.columnasMesa.size(), 0);
+        assertEquals(7, mesa.sizeColumnaMesa(), 0);
         for (int i = 0; i < 7; i++)
-            assertTrue(mesa.columnasMesa.get(i).isEmpty());
-        assertEquals(4, mesa.columnasFinales.size(), 0);
+            assertTrue(mesa.columnaMesaEnPosicion(i).isEmpty());
+        assertEquals(4, mesa.sizeColumnaFinal(), 0);
         for (int i = 0; i < 4; i++)
-            assertTrue(mesa.columnasFinales.get(i).isEmpty());
+            assertTrue(mesa.columnaFinalEnPosicion(i).isEmpty());
     }
 
     @Test
@@ -36,12 +36,12 @@ public class KlondikeTest {
         klondike.repartirCartasInicio();
         Mesa mesa = klondike.getEstadoMesa();
         for (int i = 0; i < 7; i++)
-            assertEquals(i + 1, mesa.columnasMesa.get(i).size(), 0);
+            assertEquals(i + 1, mesa.columnaMesaEnPosicion(i).size(), 0);
         for (int i = 0; i < 4; i++)
-            assertTrue(mesa.columnasFinales.get(i).isEmpty());
+            assertTrue(mesa.columnaFinalEnPosicion(i).isEmpty());
 
         for (int i = 0; i < 24; i++)
-            klondike.sacarDelMazo();
+            assertTrue(klondike.sacarDelMazo());
         Mesa nuevaMesa = klondike.getEstadoMesa();
         assertNull(nuevaMesa.sacarCartaMazo());
     }

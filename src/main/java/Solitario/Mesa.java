@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class Mesa {
     private final Mazo baraja;
     private Mazo barajaDescarte;
-    public ArrayList<Columna> columnasMesa;
-    public ArrayList<Columna> columnasFinales;
+    private final ArrayList<Columna> columnasMesa;
+    private final ArrayList<Columna> columnasFinales;
 
     public Mesa(Mazo baraja) {
         this.baraja = baraja;
@@ -18,17 +18,31 @@ public class Mesa {
         this.barajaDescarte = new Mazo();
     }
 
-    public void inicializarColumnasMesa(Integer cantidadColumnasMesa, Columna columna) {
-        for (int i=0; i < cantidadColumnasMesa; i++) {
-            columnasMesa.add(columna);
-        }
+
+    public void inicializarColumnaMesa(Columna columna) {
+        columnasMesa.add(columna);
     }
 
-    public void inicializarColumnasFinales(Integer cantidadColumnasFinales, Columna columna) {
-        for (int i=0; i < cantidadColumnasFinales; i++) {
-            columnasFinales.add(columna);
-        }
+    public void inicializarColumnaFinal(Columna columna) {
+        columnasFinales.add(columna);
     }
+
+    public Columna columnaMesaEnPosicion(Integer indice) {
+        return columnasMesa.get(indice);
+    }
+
+    public Columna columnaFinalEnPosicion(Integer indice) {
+        return columnasFinales.get(indice);
+    }
+
+    public Integer sizeColumnaMesa() {
+        return columnasMesa.size();
+    }
+
+    public Integer sizeColumnaFinal() {
+        return columnasFinales.size();
+    }
+
 
     public Carta sacarCartaMazo() {
         if (baraja.estaVacio()) {
