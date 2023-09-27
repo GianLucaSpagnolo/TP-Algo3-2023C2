@@ -67,13 +67,13 @@ public class Klondike implements Reglas {
     }
 
     public boolean moverCartaColumnaFinal(Integer origen, Integer destino) {
-        Columna carta = mesa.columnaMesaEnPosicion(origen).obtenerSegmento(0);
+        Carta carta = mesa.columnaMesaEnPosicion(origen).pop();
         if (carta == null) {
             return false;
         }
-        boolean seInserto = mesa.columnaFinalEnPosicion(destino).insertarSegmentoColumnaFinal(carta);
+        boolean seInserto = mesa.columnaFinalEnPosicion(destino).insertarCartaColumnaFinal(carta);
         if (!seInserto) {
-            mesa.columnaMesaEnPosicion(origen).insertarSegmento(carta);
+            mesa.columnaMesaEnPosicion(origen).push(carta);
             return false;
         }
         if (!mesa.columnaMesaEnPosicion(origen).peek().esVisible()) {
@@ -133,9 +133,7 @@ public class Klondike implements Reglas {
         if (carta == null) {
             return false;
         }
-        Columna columnaCarta = new ColumnaKlondike();
-        columnaCarta.push(carta);
-        boolean seInserto = mesa.columnaMesaEnPosicion(destino).insertarSegmentoColumnaFinal(columnaCarta);
+        boolean seInserto = mesa.columnaMesaEnPosicion(destino).insertarCartaColumnaFinal(carta);
         if (!seInserto) {
             mesa.insertarCartaDescarte(carta);
             return false;
@@ -150,7 +148,7 @@ public class Klondike implements Reglas {
         }
         boolean seInserto = mesa.columnaMesaEnPosicion(destino).insertarSegmento(carta);
         if (!seInserto) {
-            mesa.columnaFinalEnPosicion(origen).insertarSegmentoColumnaFinal(carta);
+            mesa.columnaFinalEnPosicion(origen).insertarCartaColumnaFinal(carta.pop());
             return false;
         }
         return true;

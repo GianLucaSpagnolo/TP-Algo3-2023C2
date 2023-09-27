@@ -47,14 +47,13 @@ public class ColumnaKlondike extends Columna {
         return false;
     }
 
-    public boolean insertarSegmentoColumnaFinal(Columna segmento) {
-        if (segmento == null || segmento.isEmpty()) {
+    public boolean insertarCartaColumnaFinal(Carta carta) {
+        if (carta== null) {
             return false;
         }
-        Carta ultimaCarta = segmento.getCartas().get(segmento.size()-1);
-        Carta cartaColumnaFinal = peek();
-        if (sonCompatiblesColumnaFinal(ultimaCarta, cartaColumnaFinal)) {
-            cartas.addAll(0, segmento.getCartas());
+        Carta topeColumnaFinal = peek();
+        if (sonCompatiblesColumnaFinal(carta, topeColumnaFinal)) {
+            cartas.add(0, carta);
             return true;
         }
         return false;
