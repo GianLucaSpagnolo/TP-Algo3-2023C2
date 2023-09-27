@@ -42,6 +42,8 @@ public class Klondike implements Reglas {
         for (int i=1; i <= 7; i++) {
             for (int j=0; j < i; j++) {
                 Carta carta = mesa.sacarCartaMazo();
+                if (carta == null)
+                    break;
                 if (j == i-1) {
                     carta.darVuelta();
                 }
@@ -57,10 +59,10 @@ public class Klondike implements Reglas {
         }
         boolean seInserto = mesa.columnaMesaEnPosicion(destino).insertarSegmento(segmento);
         if (!seInserto) {
-            mesa.columnaMesaEnPosicion(origen).insertarSegmento(segmento);
+            mesa.columnaMesaEnPosicion(origen).insertarSegmentoDevuelta(segmento);
             return false;
         }
-        if (!mesa.columnaMesaEnPosicion(origen).peek().esVisible()) {
+        if ((mesa.columnaMesaEnPosicion(origen).peek() != null) && (!mesa.columnaMesaEnPosicion(origen).peek().esVisible())) {
             mesa.columnaMesaEnPosicion(origen).peek().darVuelta();
         }
         return true;
@@ -76,7 +78,7 @@ public class Klondike implements Reglas {
             mesa.columnaMesaEnPosicion(origen).push(carta);
             return false;
         }
-        if (!mesa.columnaMesaEnPosicion(origen).peek().esVisible()) {
+        if ((mesa.columnaMesaEnPosicion(origen).peek() != null) && (!mesa.columnaMesaEnPosicion(origen).peek().esVisible())) {
             mesa.columnaMesaEnPosicion(origen).peek().darVuelta();
         }
         return true;
@@ -133,7 +135,7 @@ public class Klondike implements Reglas {
         if (carta == null) {
             return false;
         }
-        boolean seInserto = mesa.columnaMesaEnPosicion(destino).insertarCartaColumnaFinal(carta);
+        boolean seInserto = mesa.columnaFinalEnPosicion(destino).insertarCartaColumnaFinal(carta);
         if (!seInserto) {
             mesa.insertarCartaDescarte(carta);
             return false;

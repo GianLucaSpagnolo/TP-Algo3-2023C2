@@ -47,8 +47,15 @@ public class ColumnaKlondike extends Columna {
         return false;
     }
 
+    public void insertarSegmentoDevuelta(Columna segmento) {
+        if (segmento == null || segmento.isEmpty()) {
+            return;
+        }
+        cartas.addAll(0, segmento.getCartas());
+    }
+
     public boolean insertarCartaColumnaFinal(Carta carta) {
-        if (carta== null) {
+        if (carta == null) {
             return false;
         }
         Carta topeColumnaFinal = peek();
