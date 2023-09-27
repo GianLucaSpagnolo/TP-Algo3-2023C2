@@ -527,4 +527,140 @@ public class ColumnaKlondikeTest {
         assertEquals(columnaEsperada, columna);
     }
 
+    @Test
+    public void InsertarCartaValidaEnColumnaFinal() {
+        Columna columnaFinal = new ColumnaKlondike();
+        Carta carta1 = new Carta(1, Palos.PICAS);
+        carta1.darVuelta();
+        columnaFinal.push(carta1);
+
+        Carta cartaAInsertar = new Carta(2, Palos.PICAS);
+        cartaAInsertar.darVuelta();
+
+        boolean seInserto = columnaFinal.insertarCartaColumnaFinal(cartaAInsertar);
+
+        assertTrue(seInserto);
+        assertEquals(2, columnaFinal.size());
+        assertEquals(cartaAInsertar, columnaFinal.peek());
+    }
+
+    @Test
+    public void InsertarCartaNumeroInvalidoEnColumnaFinal() {
+        Columna columnaFinal = new ColumnaKlondike();
+        Carta carta1 = new Carta(1, Palos.PICAS);
+        carta1.darVuelta();
+        columnaFinal.push(carta1);
+
+        Carta cartaAInsertar = new Carta(3, Palos.PICAS);
+        cartaAInsertar.darVuelta();
+
+        boolean seInserto = columnaFinal.insertarCartaColumnaFinal(cartaAInsertar);
+
+        assertFalse(seInserto);
+        assertEquals(1, columnaFinal.size());
+        assertEquals(carta1, columnaFinal.peek());
+    }
+
+    @Test
+    public void InsertarCartaPaloInvalidoEnColumnaFinal() {
+        Columna columnaFinal = new ColumnaKlondike();
+        Carta carta1 = new Carta(1, Palos.PICAS);
+        carta1.darVuelta();
+        columnaFinal.push(carta1);
+
+        Carta cartaAInsertar = new Carta(2, Palos.CORAZONES);
+        cartaAInsertar.darVuelta();
+
+        boolean seInserto = columnaFinal.insertarCartaColumnaFinal(cartaAInsertar);
+
+        assertFalse(seInserto);
+        assertEquals(1, columnaFinal.size());
+        assertEquals(carta1, columnaFinal.peek());
+    }
+
+    @Test
+    public void InsertarCartaValidaEnColumnaFinalVacia() {
+        Columna columnaFinal = new ColumnaKlondike();
+
+        Carta cartaAInsertar = new Carta(1, Palos.CORAZONES);
+        cartaAInsertar.darVuelta();
+
+        boolean seInserto = columnaFinal.insertarCartaColumnaFinal(cartaAInsertar);
+
+        assertTrue(seInserto);
+        assertEquals(1, columnaFinal.size());
+        assertEquals(cartaAInsertar, columnaFinal.peek());
+    }
+
+    @Test
+    public void InsertarCartaNullEnColumnaFinal() {
+        Columna columnaFinal = new ColumnaKlondike();
+        Carta carta1 = new Carta(1, Palos.PICAS);
+        carta1.darVuelta();
+        columnaFinal.push(carta1);
+
+        Carta cartaAInsertar = null;
+
+        boolean seInserto = columnaFinal.insertarCartaColumnaFinal(cartaAInsertar);
+
+        assertFalse(seInserto);
+        assertEquals(1, columnaFinal.size());
+        assertEquals(carta1, columnaFinal.peek());
+    }
+
+    @Test
+    public void InsertarSegmentoDevuelta() {
+        // Simula un escenario donde se extrajo un segmento de una columna, se lo quiso insertar a otra y es invalido. El segmento DEBE VOLVER
+        // A LA COLUMNA DE DONDE VINO --> SE LO DEBE INSERTAR DEVUELTA
+
+        Columna columna1 = generarColumna();
+
+        Columna columna2 = new ColumnaKlondike();
+        for (int i=13; i > 6; i--) {
+            //inserta cartas intercaladas
+            if (i % 2 == 0) {
+                Carta cartaNegra = new Carta(i, Palos.TREBOLES);
+                cartaNegra.darVuelta();
+                columna2.push(cartaNegra);
+            } else {
+                Carta cartaRoja = new Carta(i, Palos.CORAZONES);
+                cartaRoja.darVuelta();
+                columna2.push(cartaRoja);
+            }
+        }
+
+        Columna segmentoExtraido = columna1.obtenerSegmento(3);
+        boolean seInserto = columna2.insertarSegmento(segmentoExtraido);
+        boolean seReinserto = columna1.insertarSegmentoDevuelta(segmentoExtraido);
+
+        assertFalse(seInserto);
+        assertTrue(seReinserto);
+
+        assertEquals(13, columna1.size(), 0);
+        assertEquals(7, columna2.size(), 0);
+    }
+
+    @Test
+    public void ReinsertarSegmentoVacio() {
+        // Simula un escenario donde se extrajo un segmento nulo de una columna y se lo quiso insertar a otra
+
+        Columna columna1 = new ColumnaKlondike();
+
+        Columna columna2 = new ColumnaKlondike();
+        Carta carta = new Carta(3, Palos.TREBOLES);
+        carta.darVuelta();
+        columna2.push(carta);
+
+        Columna segmentoExtraido = columna1.obtenerSegmento(0);
+        assertNull(segmentoExtraido);
+
+        boolean seInserto = columna2.insertarSegmento(segmentoExtraido);
+        boolean seReinserto = columna1.insertarSegmentoDevuelta(segmentoExtraido);
+
+        assertFalse(seInserto);
+        assertFalse(seReinserto);
+
+        assertEquals(0, columna1.size(), 0);
+        assertEquals(1, columna2.size(), 0);
+    }
 }

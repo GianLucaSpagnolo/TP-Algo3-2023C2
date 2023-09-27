@@ -48,7 +48,7 @@ public abstract class Columna extends ArrayList<Carta> {
 
     public abstract boolean insertarSegmento(Columna segmento);
 
-    public abstract void insertarSegmentoDevuelta(Columna segmento);
+    public abstract boolean insertarSegmentoDevuelta(Columna segmento);
 
     public abstract boolean insertarCartaColumnaFinal(Carta carta);
 }
