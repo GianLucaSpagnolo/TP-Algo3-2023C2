@@ -2,7 +2,7 @@ package Reglas;
 
 import Solitario.*;
 
-public interface Reglas {
+public interface Solitario {
     Mesa getEstadoMesa();
     boolean moverCartas(Integer origen, Integer destino, Integer carta);
     boolean moverCartaColumnaFinal(Integer origen, Integer destino);

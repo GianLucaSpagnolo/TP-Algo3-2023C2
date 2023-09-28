@@ -3,7 +3,7 @@ package Reglas;
 import Solitario.*;
 import java.util.ArrayList;
 
-public class Klondike implements Reglas {
+public class Klondike implements Solitario {
     private final Mesa mesa;
 
     public Klondike(String semilla, Mesa mesa) {

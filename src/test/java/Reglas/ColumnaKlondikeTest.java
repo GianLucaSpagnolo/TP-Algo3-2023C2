@@ -663,4 +663,6 @@ public class ColumnaKlondikeTest {
         assertEquals(0, columna1.size(), 0);
         assertEquals(1, columna2.size(), 0);
     }
+
+    //Prueba mover a columna final carta del mismo color pero diferente palo
 }
