@@ -1,10 +1,9 @@
 package Reglas;
 
-import Solitario.Carta;
-import Solitario.Columna;
-
+import Solitario.*;
 
 public interface Reglas {
+    Mesa getEstadoMesa();
     boolean moverCartas(Integer origen, Integer destino, Integer carta);
     boolean moverCartaColumnaFinal(Integer origen, Integer destino);
     void repartirCartasInicio();
