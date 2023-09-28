@@ -88,7 +88,7 @@ public class Klondike implements Reglas {
     public boolean estaGanado() {
         for (int i = 0; i < 4; i++) {
             Columna columnaFinal = mesa.columnaFinalEnPosicion(i);
-            if (columnaFinal.peek().getNumero() != 13) {
+            if ((columnaFinal.isEmpty()) || (columnaFinal.peek().getNumero() != 13)) {
                 return false;
             }
         }

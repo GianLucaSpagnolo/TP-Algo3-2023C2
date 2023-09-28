@@ -84,7 +84,7 @@ public class ColumnaKlondike extends Columna {
         if (cartaColumnaFinal == null) {
             return carta.getNumero() == 1;
         }
-        return (cartaColumnaFinal.getNumero() == carta.getNumero() - 1) && (cartaColumnaFinal.getColor() == carta.getColor());
+        return (cartaColumnaFinal.getNumero() == carta.getNumero() - 1) && (cartaColumnaFinal.getPalo() == carta.getPalo());
     }
 
 }
