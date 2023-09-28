@@ -664,5 +664,21 @@ public class ColumnaKlondikeTest {
         assertEquals(1, columna2.size(), 0);
     }
 
-    //Prueba mover a columna final carta del mismo color pero diferente palo
+    @Test
+    public void MoverAColumnaFinalMismoColorDiferentePalo() {
+        Columna columnaFinal = new ColumnaKlondike();
+        Carta carta1 = new Carta(1, Palos.PICAS);
+        carta1.darVuelta();
+        columnaFinal.push(carta1);
+
+        Carta cartaAInsertar = new Carta(2, Palos.TREBOLES);
+        cartaAInsertar.darVuelta();
+
+        boolean seInserto = columnaFinal.insertarCartaColumnaFinal(cartaAInsertar);
+
+        assertFalse(seInserto);
+        assertEquals(1, columnaFinal.size());
+        assertEquals(carta1, columnaFinal.peek());
+    }
+
 }
