@@ -519,6 +519,131 @@ public class KlondikeTest {
         Klondike klondike = new Klondike("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2", null);
         klondike.repartirCartasInicio();
 
+        assertTrue(klondike.moverCartas(3, 2, 0));
+        assertTrue(klondike.moverCartas(0, 3, 0));
+        for (int i = 0; i < 3; i++)
+            klondike.sacarDelMazo();
+        assertTrue(klondike.moverCartaDescarteAColumnaMesa(1));
+        klondike.sacarDelMazo();
+        assertTrue(klondike.moverCartaDescarteAColumnaMesa(6));
+        klondike.sacarDelMazo();
+        klondike.sacarDelMazo();
+        assertTrue(klondike.moverCartaDescarteAColumnaMesa(5));
+        klondike.sacarDelMazo();
+        assertTrue(klondike.moverCartaDescarteAColumnaMesa(2));
+        assertTrue(klondike.moverCartas(4, 2, 0));
+        klondike.sacarDelMazo();
+        assertTrue(klondike.moverCartaDescarteAColumnaMesa(4));
+
+        assertFalse(klondike.moverCartas(3, 0, 0));
+        assertFalse(klondike.moverCartaDescarteAColumnaMesa(0));
+        Mesa mesa1 = klondike.getEstadoMesa();
+        assertEquals(0, mesa1.columnaMesaEnPosicion(0).size(), 0);
+        assertEquals(5, mesa1.columnaMesaEnPosicion(3).peek().getNumero(), 0);
+        assertEquals(Palos.CORAZONES, mesa1.columnaMesaEnPosicion(3).peek().getPalo());
+        assertEquals(4, mesa1.columnaMesaEnPosicion(3).size(), 0);
+        mesa1.sacarCartaDescarte();
+        Carta carta1 = mesa1.sacarCartaDescarte();
+        assertEquals(12, carta1.getNumero(), 0);
+        assertEquals(Palos.PICAS, carta1.getPalo());
+
+        assertFalse(klondike.moverCartas(1, 5, 1));
+        Mesa mesa2 = klondike.getEstadoMesa();
+        assertEquals(3, mesa2.columnaMesaEnPosicion(1).size(), 0);
+        assertEquals(7, mesa2.columnaMesaEnPosicion(1).peek().getNumero(), 0);
+        assertEquals(Palos.TREBOLES, mesa2.columnaMesaEnPosicion(1).peek().getPalo());
+        assertEquals(7, mesa2.columnaMesaEnPosicion(5).size());
+        assertEquals(11, mesa2.columnaMesaEnPosicion(5).peek().getNumero(), 0);
+        assertEquals(Palos.PICAS, mesa2.columnaMesaEnPosicion(5).peek().getPalo());
+
+        assertFalse(klondike.moverCartas(5, 4, 1));
+        Mesa mesa3 = klondike.getEstadoMesa();
+        assertEquals(7, mesa3.columnaMesaEnPosicion(5).size(), 0);
+        assertEquals(11, mesa3.columnaMesaEnPosicion(5).peek().getNumero(), 0);
+        assertEquals(Palos.PICAS, mesa3.columnaMesaEnPosicion(5).peek().getPalo());
+        assertEquals(5, mesa3.columnaMesaEnPosicion(4).size());
+        assertEquals(5, mesa3.columnaMesaEnPosicion(4).peek().getNumero(), 0);
+        assertEquals(Palos.TREBOLES, mesa3.columnaMesaEnPosicion(4).peek().getPalo());
+
+        assertFalse(klondike.moverCartas(1, 6, 1));
+        Mesa mesa4 = klondike.getEstadoMesa();
+        assertEquals(3, mesa4.columnaMesaEnPosicion(1).size(), 0);
+        assertEquals(7, mesa4.columnaMesaEnPosicion(1).peek().getNumero(), 0);
+        assertEquals(Palos.TREBOLES, mesa4.columnaMesaEnPosicion(1).peek().getPalo());
+        assertEquals(8, mesa4.columnaMesaEnPosicion(6).size());
+        assertEquals(9, mesa4.columnaMesaEnPosicion(6).peek().getNumero(), 0);
+        assertEquals(Palos.DIAMANTES, mesa4.columnaMesaEnPosicion(6).peek().getPalo());
+
+        assertTrue(klondike.moverCartas(2, 4, 3));
+        Mesa mesa5 = klondike.getEstadoMesa();
+        assertEquals(2, mesa5.columnaMesaEnPosicion(2).size(), 0);
+        assertEquals(7, mesa5.columnaMesaEnPosicion(2).peek().getNumero(), 0);
+        assertEquals(Palos.DIAMANTES, mesa5.columnaMesaEnPosicion(2).peek().getPalo());
+        assertEquals(9, mesa5.columnaMesaEnPosicion(4).size());
+        assertEquals(1, mesa5.columnaMesaEnPosicion(4).peek().getNumero(), 0);
+        assertEquals(Palos.TREBOLES, mesa5.columnaMesaEnPosicion(4).peek().getPalo());
+
+        assertTrue(klondike.moverCartas(4, 1, 5));
+        Mesa mesa6 = klondike.getEstadoMesa();
+        assertEquals(3, mesa6.columnaMesaEnPosicion(4).size(), 0);
+        assertEquals(9, mesa6.columnaMesaEnPosicion(4).peek().getNumero(), 0);
+        assertEquals(Palos.TREBOLES, mesa6.columnaMesaEnPosicion(4).peek().getPalo());
+        assertEquals(9, mesa6.columnaMesaEnPosicion(1).size());
+        assertEquals(1, mesa6.columnaMesaEnPosicion(1).peek().getNumero(), 0);
+        assertEquals(Palos.TREBOLES, mesa6.columnaMesaEnPosicion(1).peek().getPalo());
+
+        assertTrue(klondike.moverCartas(1, 4, 7));
+        Mesa mesa7 = klondike.getEstadoMesa();
+        assertEquals(1, mesa7.columnaMesaEnPosicion(1).size(), 0);
+        assertEquals(13, mesa7.columnaMesaEnPosicion(1).peek().getNumero(), 0);
+        assertEquals(Palos.PICAS, mesa7.columnaMesaEnPosicion(1).peek().getPalo());
+        assertEquals(11, mesa7.columnaMesaEnPosicion(4).size());
+        assertEquals(1, mesa7.columnaMesaEnPosicion(4).peek().getNumero(), 0);
+        assertEquals(Palos.TREBOLES, mesa7.columnaMesaEnPosicion(4).peek().getPalo());
+
+        assertTrue(klondike.moverCartas(1, 0, 0));
+        for (int i = 0; i < 6; i++)
+            klondike.sacarDelMazo();
+        assertTrue(klondike.moverCartaDescarteAColumnaMesa(1));
+        for (int i = 0; i < 4; i++)
+            klondike.sacarDelMazo();
+        assertTrue(klondike.moverCartaDescarteAColumnaMesa(5));
+        assertTrue(klondike.moverCartas(5, 0, 2));
+        Mesa mesa8 = klondike.getEstadoMesa();
+        assertEquals(5, mesa8.columnaMesaEnPosicion(5).size(), 0);
+        assertEquals(5, mesa8.columnaMesaEnPosicion(5).peek().getNumero(), 0);
+        assertEquals(Palos.PICAS, mesa8.columnaMesaEnPosicion(5).peek().getPalo());
+        assertEquals(4, mesa8.columnaMesaEnPosicion(0).size());
+        assertEquals(10, mesa8.columnaMesaEnPosicion(0).peek().getNumero(), 0);
+        assertEquals(Palos.CORAZONES, mesa8.columnaMesaEnPosicion(0).peek().getPalo());
+
+        assertTrue(klondike.moverCartas(4, 0, 8));
+        Mesa mesa9 = klondike.getEstadoMesa();
+        assertEquals(2, mesa9.columnaMesaEnPosicion(4).size(), 0);
+        assertEquals(2, mesa9.columnaMesaEnPosicion(4).peek().getNumero(), 0);
+        assertEquals(Palos.PICAS, mesa9.columnaMesaEnPosicion(4).peek().getPalo());
+        assertEquals(13, mesa9.columnaMesaEnPosicion(0).size());
+        assertEquals(1, mesa9.columnaMesaEnPosicion(0).peek().getNumero(), 0);
+        assertEquals(Palos.TREBOLES, mesa9.columnaMesaEnPosicion(0).peek().getPalo());
+        // Columna de mesa 0 llena de una escalera de cartas con palos intercalados (solitario working)
+
+        assertTrue(klondike.moverCartas(0, 5, 3));
+        Mesa mesa10 = klondike.getEstadoMesa();
+        assertEquals(9, mesa10.columnaMesaEnPosicion(0).size(), 0);
+        assertEquals(5, mesa10.columnaMesaEnPosicion(0).peek().getNumero(), 0);
+        assertEquals(Palos.TREBOLES, mesa10.columnaMesaEnPosicion(0).peek().getPalo());
+        assertEquals(9, mesa10.columnaMesaEnPosicion(5).size());
+        assertEquals(1, mesa10.columnaMesaEnPosicion(5).peek().getNumero(), 0);
+        assertEquals(Palos.TREBOLES, mesa10.columnaMesaEnPosicion(5).peek().getPalo());
+
+        assertFalse(klondike.moverCartas(0, 6, 3));
+        Mesa mesa11 = klondike.getEstadoMesa();
+        assertEquals(9, mesa11.columnaMesaEnPosicion(0).size(), 0);
+        assertEquals(5, mesa11.columnaMesaEnPosicion(0).peek().getNumero(), 0);
+        assertEquals(Palos.TREBOLES, mesa11.columnaMesaEnPosicion(0).peek().getPalo());
+        assertEquals(8, mesa11.columnaMesaEnPosicion(6).size());
+        assertEquals(9, mesa11.columnaMesaEnPosicion(6).peek().getNumero(), 0);
+        assertEquals(Palos.DIAMANTES, mesa11.columnaMesaEnPosicion(6).peek().getPalo());
     }
 
     @Test
@@ -554,5 +679,70 @@ public class KlondikeTest {
     // Tests Klondike en estado particular
     @Test
     public void manipulacionDeEstadosParticulares() {
+        Klondike klondike1 = new Klondike("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2", null);
+        klondike1.repartirCartasInicio();
+
+        klondike1.moverCartas(3, 2, 0);
+        klondike1.moverCartaColumnaFinal(4, 1);
+        for (int i = 0; i < 3; i++) {
+            klondike1.sacarDelMazo();
+        }
+        Mesa estado1 = klondike1.getEstadoMesa();
+        Carta carta1 = estado1.sacarCartaDescarte();
+        assertEquals(7, carta1.getNumero(), 0);
+        assertEquals(Palos.TREBOLES, carta1.getPalo());
+        assertEquals(4, estado1.columnaMesaEnPosicion(2).size(), 0);
+        assertEquals(3, estado1.columnaMesaEnPosicion(2).peek().getNumero(), 0);
+        assertEquals(Palos.PICAS, estado1.columnaMesaEnPosicion(2).peek().getPalo());
+        assertEquals(1, estado1.columnaFinalEnPosicion(1).size(), 0);
+        assertEquals(1, estado1.columnaFinalEnPosicion(1).peek().getNumero(), 0);
+        assertEquals(Palos.TREBOLES, estado1.columnaFinalEnPosicion(1).peek().getPalo());
+        estado1.insertarCartaDescarte(carta1);
+
+        Klondike klondike2 = new Klondike(null, estado1);
+        klondike2.moverCartaDescarteAColumnaMesa(1);
+        klondike2.sacarDelMazo();
+        klondike2.moverCartaDescarteAColumnaMesa(6);
+        klondike2.sacarDelMazo();
+        klondike2.moverCartaDescarteAColumnaMesa(3);
+        klondike2.sacarDelMazo();
+        klondike2.moverCartaDescarteAColumnaMesa(5);
+        klondike2.sacarDelMazo();
+        Mesa estado2 = klondike2.getEstadoMesa();
+        Carta carta2 = estado2.sacarCartaDescarte();
+        assertEquals(2, carta2.getNumero(), 0);
+        assertEquals(Palos.DIAMANTES, carta2.getPalo());
+        assertEquals(3, estado2.columnaMesaEnPosicion(1).size(), 0);
+        assertEquals(7, estado2.columnaMesaEnPosicion(1).peek().getNumero(), 0);
+        assertEquals(Palos.TREBOLES, estado2.columnaMesaEnPosicion(1).peek().getPalo());
+        assertEquals(8, estado2.columnaMesaEnPosicion(6).size(), 0);
+        assertEquals(9, estado2.columnaMesaEnPosicion(6).peek().getNumero(), 0);
+        assertEquals(Palos.DIAMANTES, estado2.columnaMesaEnPosicion(6).peek().getPalo());
+        assertEquals(4, estado2.columnaMesaEnPosicion(3).size(), 0);
+        assertEquals(5, estado2.columnaMesaEnPosicion(3).peek().getNumero(), 0);
+        assertEquals(Palos.DIAMANTES, estado2.columnaMesaEnPosicion(3).peek().getPalo());
+        assertEquals(7, estado2.columnaMesaEnPosicion(5).size(), 0);
+        assertEquals(11, estado2.columnaMesaEnPosicion(5).peek().getNumero(), 0);
+        assertEquals(Palos.PICAS, estado2.columnaMesaEnPosicion(5).peek().getPalo());
+        estado2.insertarCartaDescarte(carta2);
+
+        Klondike klondike3 = new Klondike("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2", estado2);
+        klondike3.moverCartas(4, 1, 0);
+        klondike3.sacarDelMazo();
+        klondike3.moverCartaDescarteAColumnaMesa(1);
+        klondike3.moverCartas(2, 1, 1);
+        klondike3.moverCartaDescarteAColumnaMesa(1);
+        klondike3.moverCartaColumnaFinalAColumnaMesa(1, 1);
+        for (int i = 0; i < 6; i++) {
+            klondike1.sacarDelMazo();
+        }
+        Mesa estado3 = klondike3.getEstadoMesa();
+        Carta carta3 = estado3.sacarCartaDescarte();
+        assertEquals(13, carta3.getNumero(), 0);
+        assertEquals(Palos.DIAMANTES, carta3.getPalo());
+        assertEquals(9, estado3.columnaMesaEnPosicion(1).size(), 0);
+        assertEquals(1, estado3.columnaMesaEnPosicion(1).peek().getNumero(), 0);
+        assertEquals(Palos.TREBOLES, estado3.columnaMesaEnPosicion(1).peek().getPalo());
+        assertTrue(estado3.columnaFinalEnPosicion(1).isEmpty());
     }
 }
