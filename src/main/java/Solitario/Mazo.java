@@ -11,6 +11,7 @@ public class Mazo {
         this.baraja = new Stack<>();
     }
 
+    
     public void generarBaraja(String semilla, List<Palos> palos) {
         if (semilla.isEmpty())
             return;
