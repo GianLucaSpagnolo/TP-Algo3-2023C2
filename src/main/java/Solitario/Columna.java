@@ -3,43 +3,29 @@ package Solitario;
 import java.util.ArrayList;
 
 public abstract class Columna extends ArrayList<Carta> {
-    protected final ArrayList<Carta> cartas;
-
     public Columna() {
-        this.cartas = new ArrayList<>();
+        super();
     }
 
     public Carta peek() {
-        if (cartas.isEmpty()) {
+        if (this.isEmpty()) {
             return null;
         }
-        return cartas.get(0);
+        return this.get(0);
     }
-    public void push(Carta carta) {
-        cartas.add(0, carta);
-    }
+    public void push(Carta carta) { this.add(0, carta); }
 
     public Carta pop() {
-        if (cartas.isEmpty()) {
+        if (this.isEmpty()) {
             return null;
         }
-        Carta carta = cartas.get(0);
-        cartas.remove(0);
+        Carta carta = this.get(0);
+        this.remove(0);
         return carta;
     }
 
     public ArrayList<Carta> getCartas() {
-        return cartas;
-    }
-
-    @Override
-    public int size() {
-        return cartas.size();
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return cartas.isEmpty();
+        return this;
     }
 
     public abstract boolean esCadena(Integer indice);
