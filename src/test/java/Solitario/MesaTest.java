@@ -12,7 +12,8 @@ public class MesaTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.CORAZONES);
         Mazo mazo = new Mazo();
-        mazo.generarBaraja("A0", palos);
+        Semilla semilla = new Semilla("A0");
+        mazo.generarBaraja(semilla, palos);
 
         Mesa mesa = new Mesa(mazo);
         mesa.crearBarajaDescarte();
@@ -31,7 +32,7 @@ public class MesaTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.PICAS);
         Mazo mazo = new Mazo();
-        String semilla = mazo.generarSemilla(52, palos);
+        Semilla semilla = new Semilla(52, palos);
         mazo.generarBaraja(semilla, palos);
         Mesa mesa = new Mesa(mazo);
 
@@ -50,7 +51,7 @@ public class MesaTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.DIAMANTES);
         Mazo mazo = new Mazo();
-        String semilla = mazo.generarSemilla(52, palos);
+        Semilla semilla = new Semilla(52, palos);
         mazo.generarBaraja(semilla, palos);
         Mesa mesa = new Mesa(mazo);
 
@@ -69,7 +70,7 @@ public class MesaTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.DIAMANTES);
         Mazo mazo = new Mazo();
-        String semilla = mazo.generarSemilla(5, palos);
+        Semilla semilla = new Semilla(5, palos);
         mazo.generarBaraja(semilla, palos);
         Mesa mesa = new Mesa(mazo);
         mesa.crearBarajaDescarte();
@@ -91,13 +92,17 @@ public class MesaTest {
 
     @Test
     public void generarMesaKlondike() {
+        /*
+         * Genera una mesa con todas las caracteristicas propias de un Solitario Klondike.
+         * Utiliza un mazo compuesto por 52 cartas de 4 palos diferentes.
+         */
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.PICAS);
         palos.add(Palos.DIAMANTES);
         palos.add(Palos.CORAZONES);
         palos.add(Palos.TREBOLES);
         Mazo mazo = new Mazo();
-        String semilla = mazo.generarSemilla(52, palos);
+        Semilla semilla = new Semilla(52, palos);
         mazo.generarBaraja(semilla, palos);
 
         Mesa mesa = new Mesa(mazo);
@@ -120,11 +125,15 @@ public class MesaTest {
     }
 
     @Test
-    public void generarMesaMazoSimple() { // Spider
+    public void generarMesaMazoSimple() {
+        /*
+         * Genera una mesa con todas las caracteristicas propias de un solitario Spider.
+         * Utiliza un mazo simple con cartas de un mismo palo.
+         */
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.PICAS);
         Mazo mazo = new Mazo();
-        String semilla = mazo.generarSemilla(104, palos);
+        Semilla semilla = new Semilla(104, palos);
         mazo.generarBaraja(semilla, palos);
 
         Mesa mesa = new Mesa(mazo);

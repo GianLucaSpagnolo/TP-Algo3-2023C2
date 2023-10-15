@@ -152,8 +152,18 @@ public class ColumnaKlondikeTest {
 
         assertTrue(segmentoEsperado.esCadena(5));
         assertTrue(segmento.esCadena(5));
-        assertEquals(segmentoEsperado, segmento);
-        assertEquals(columnaRestante, columna);
+        for (int i = 0; i < 6; i++) {
+            Carta cartaEsperada = segmentoEsperado.pop();
+            Carta cartaSegmento = segmento.pop();
+            assertEquals(cartaEsperada.getPalo(), cartaSegmento.getPalo());
+            assertEquals(cartaEsperada.getNumero(), cartaSegmento.getNumero());
+        }
+        for (int j = 0; j < 7; j++) {
+            Carta cartaRestante = columnaRestante.pop();
+            Carta cartaColumna = columna.pop();
+            assertEquals(cartaRestante.getPalo(), cartaColumna.getPalo());
+            assertEquals(cartaRestante.getNumero(), cartaColumna.getNumero());
+        }
     }
 
 
@@ -163,21 +173,23 @@ public class ColumnaKlondikeTest {
         Columna columna = generarColumna();
         Columna segmento = columna.obtenerSegmento(12);
         Columna segmentoEsperado = generarColumna();
-        Columna segmentoRestante = new ColumnaKlondike();
 
         assertTrue(columna.isEmpty());
         assertFalse(segmento.isEmpty());
         assertFalse(segmentoEsperado.isEmpty());
-        assertTrue(segmentoRestante.isEmpty());
 
         assertEquals(13, segmentoEsperado.size(),0);
         assertEquals(13, segmento.size(),0);
-        assertEquals(0, segmentoRestante.size(),0);
+        assertEquals(0, columna.size(), 0);
 
         assertTrue(segmentoEsperado.esCadena(12));
         assertTrue(segmento.esCadena(12));
-        assertEquals(segmentoEsperado, segmento);
-        assertEquals(segmentoRestante, columna);
+        for (int i = 0; i < 13; i++) {
+            Carta cartaEsperada = segmentoEsperado.pop();
+            Carta cartaSegmento = segmento.pop();
+            assertEquals(cartaEsperada.getPalo(), cartaSegmento.getPalo());
+            assertEquals(cartaEsperada.getNumero(), cartaSegmento.getNumero());
+        }
     }
 
     @Test
@@ -307,9 +319,25 @@ public class ColumnaKlondikeTest {
         assertEquals(6, segmentoExtraidoEsperado.size(),0);
 
         assertTrue(seInserto);
-        assertEquals(columnaRestanteEsperada, columna1);
-        assertEquals(segmentoExtraidoEsperado, segmentoExtraido);
-        assertEquals(generarColumna(), columna2);
+        for (int i = 0; i < 7; i++) {
+            Carta cartaRestante = columnaRestanteEsperada.pop();
+            Carta cartaColumna1 = columna1.pop();
+            assertEquals(cartaRestante.getPalo(), cartaColumna1.getPalo());
+            assertEquals(cartaRestante.getNumero(), cartaColumna1.getNumero());
+        }
+        for (int j = 0; j < 6; j++) {
+            Carta cartaEsperada = segmentoExtraidoEsperado.pop();
+            Carta cartaExtraida = segmentoExtraido.pop();
+            assertEquals(cartaEsperada.getPalo(), cartaExtraida.getPalo());
+            assertEquals(cartaEsperada.getNumero(), cartaExtraida.getNumero());
+        }
+        Columna columna3 = generarColumna();
+        for (int k = 0; k < 13; k++) {
+            Carta cartaEsperada = columna3.pop();
+            Carta cartaMovida = columna2.pop();
+            assertEquals(cartaEsperada.getPalo(), cartaMovida.getPalo());
+            assertEquals(cartaEsperada.getNumero(), cartaMovida.getNumero());
+        }
     }
 
     @Test
@@ -390,9 +418,24 @@ public class ColumnaKlondikeTest {
         assertEquals(4, segmentoExtraido.size(),0);
         assertEquals(4, segmentoExtraidoEsperado.size(),0);
 
-        assertEquals(columnaRestanteEsperada, columna1);
-        assertEquals(segmentoExtraidoEsperado, segmentoExtraido);
-        assertEquals(columnaResultado, columna2);
+        for (int i = 0; i < 9; i++) {
+            Carta cartaRestante = columnaRestanteEsperada.pop();
+            Carta cartaColumna = columna1.pop();
+            assertEquals(cartaRestante.getPalo(), cartaColumna.getPalo());
+            assertEquals(cartaRestante.getNumero(), cartaColumna.getNumero());
+        }
+        for (int j = 0; j < 7; j++) {
+            Carta cartaResultado = columnaResultado.pop();
+            Carta cartaColumna = columna2.pop();
+            assertEquals(cartaResultado.getPalo(), cartaColumna.getPalo());
+            assertEquals(cartaResultado.getNumero(), cartaColumna.getNumero());
+        }
+        for (int k = 0; k < 4; k++) {
+            Carta cartaExtraida = segmentoExtraidoEsperado.pop();
+            Carta cartaSegmento = segmentoExtraido.pop();
+            assertEquals(cartaExtraida.getPalo(), cartaSegmento.getPalo());
+            assertEquals(cartaExtraida.getNumero(), cartaSegmento.getNumero());
+        }
     }
 
     @Test
@@ -441,8 +484,21 @@ public class ColumnaKlondikeTest {
         assertEquals(2, columnaEsperada.size(),0);
         assertEquals(1, segmentoExtraido.size(),0);
 
-        assertEquals(columnaRestanteEsperada, columnaCompleta);
-        assertEquals(columnaEsperada, columna2);
+        for (int i = 0; i < 12; i++) {
+            Carta cartaRestante = columnaRestanteEsperada.pop();
+            Carta cartaColumna = columnaCompleta.pop();
+            assertEquals(cartaRestante.getPalo(), cartaColumna.getPalo());
+            assertEquals(cartaRestante.getNumero(), cartaColumna.getNumero());
+        }
+        for (int j = 0; j < 2; j++) {
+            Carta cartaEsperada = columnaEsperada.pop();
+            Carta cartaColumna = columna2.pop();
+            assertEquals(cartaEsperada.getPalo(), cartaColumna.getPalo());
+            assertEquals(cartaEsperada.getNumero(), cartaColumna.getNumero());
+        }
+        Carta cartaSegmento = segmentoExtraido.pop();
+        assertEquals(Palos.CORAZONES, cartaSegmento.getPalo());
+        assertEquals(1, cartaSegmento.getNumero(), 0);
     }
 
     @Test
@@ -453,8 +509,14 @@ public class ColumnaKlondikeTest {
         boolean seInserto = columnaVacia.insertarSegmento(segmentoExtraido);
 
         assertTrue(seInserto);
-        assertEquals(new ColumnaKlondike(), columnaCompleta);
-        assertEquals(generarColumna(), columnaVacia);
+        assertTrue(columnaCompleta.isEmpty());
+        Columna columnaLlena = generarColumna();
+        for (int i = 0; i < 13; i++) {
+            Carta cartaReferencia = columnaLlena.pop();
+            Carta cartaColumna = columnaVacia.pop();
+            assertEquals(cartaReferencia.getPalo(), cartaColumna.getPalo());
+            assertEquals(cartaReferencia.getNumero(), cartaColumna.getNumero());
+        }
     }
 
     @Test
@@ -487,7 +549,10 @@ public class ColumnaKlondikeTest {
         boolean seInserto = columna.insertarSegmento(segmentoVacio);
 
         assertFalse(seInserto);
-        assertEquals(new ColumnaKlondike(), columna);
+        assertEquals(1, columna.size(), 0);
+        Carta cartaColumna = columna.pop();
+        assertEquals(Palos.CORAZONES, cartaColumna.getPalo());
+        assertEquals(4, cartaColumna.getNumero(), 0);
     }
 
     @Test
@@ -524,7 +589,17 @@ public class ColumnaKlondikeTest {
 
         assertTrue(seInserto);
         assertEquals(2, columna.size(), 0);
-        assertEquals(columnaEsperada, columna);
+        assertEquals(2, columnaEsperada.size(), 0);
+        for (int i = 0; i < 2; i++) {
+            Carta cartaEsperada = columnaEsperada.pop();
+            if (!cartaEsperada.esVisible())
+                cartaEsperada.darVuelta();
+            Carta cartaColumna = columna.pop();
+            if (!cartaColumna.esVisible())
+                cartaColumna.darVuelta();
+            assertEquals(cartaEsperada.getPalo(), cartaColumna.getPalo());
+            assertEquals(cartaEsperada.getNumero(), cartaColumna.getNumero(), 0);
+        }
     }
 
     @Test
