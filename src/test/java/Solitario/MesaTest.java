@@ -3,6 +3,8 @@ package Solitario;
 import Reglas.ColumnaKlondike;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
+import java.io.*;
 import java.util.ArrayList;
 
 public class MesaTest {
@@ -153,5 +155,99 @@ public class MesaTest {
         }
         assertEquals(10, mesa.sizeColumnaMesa(), 0);
         assertEquals(10, mesa.sizeColumnaFinal(), 0);
+    }
+
+    @Test
+    public void testSerializarMesaSimple() {
+        ArrayList<Palos> palos = new ArrayList<>();
+        palos.add(Palos.DIAMANTES);
+        Mazo mazo = new Mazo();
+        Semilla semilla = new Semilla("M0L0K0J0I0H0G0F0E0D0C0B0A0");
+        mazo.generarBaraja(semilla, palos);
+        Mesa mesa = new Mesa(mazo);
+        for (int i = 0; i < 7; i++) {
+            Columna columnaMesa = new ColumnaKlondike();
+            mesa.inicializarColumnaMesa(columnaMesa);
+        }
+        for (int i = 0; i < 4; i++) {
+            Columna columnaFinal = new ColumnaKlondike();
+            mesa.inicializarColumnaFinal(columnaFinal);
+        }
+
+        boolean seGrabo = false;
+        try {
+            ObjectOutputStream destino = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("src/main/resources/mesa.txt")));
+            seGrabo = mesa.serializar(destino);
+            assertTrue(seGrabo);
+        } catch (IOException ex) {
+            assertFalse(seGrabo);
+        }
+    }
+
+    @Test
+    public void testDeserializarMesaSimple() {
+        Mesa nuevaMesa = null;
+        try {
+            ObjectInputStream origen = new ObjectInputStream(new BufferedInputStream(new FileInputStream("src/main/resources/mesa.txt")));
+            nuevaMesa = Mesa.deserializar(origen);
+        } catch (IOException ex) {
+            assertNull(nuevaMesa);
+        }
+
+        if (nuevaMesa != null) {
+            assertEquals(7, nuevaMesa.sizeColumnaMesa(), 0);
+            assertEquals(4, nuevaMesa.sizeColumnaFinal(), 0);
+            for (int i = 0; i < 13; i++) {
+                Carta carta = nuevaMesa.sacarCartaMazo();
+                assertEquals(Palos.DIAMANTES, carta.getPalo());
+                assertEquals(i, carta.getNumero(), 0);
+            }
+        }
+    }
+
+    @Test
+    public void testSerializarYDeserializar() {
+        ArrayList<Palos> palos = new ArrayList<>();
+        palos.add(Palos.CORAZONES);
+        Mazo mazo = new Mazo();
+        Semilla semilla = new Semilla("A0B0C0D0E0F0G0H0I0J0K0L0M0");
+        mazo.generarBaraja(semilla, palos);
+        Mesa mesa = new Mesa(mazo);
+        for (int i = 0; i < 6; i++) {
+            Columna columnaMesa = new ColumnaKlondike();
+            mesa.inicializarColumnaMesa(columnaMesa);
+        }
+        for (int i = 0; i < 2; i++) {
+            Columna columnaFinal = new ColumnaKlondike();
+            mesa.inicializarColumnaFinal(columnaFinal);
+        }
+
+        boolean seGrabo = false;
+        try {
+            ObjectOutputStream destino = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("src/main/resources/mesa.txt")));
+            seGrabo = mesa.serializar(destino);
+            assertTrue(seGrabo);
+        } catch (IOException ex) {
+            assertFalse(seGrabo);
+        }
+
+        Mesa nuevaMesa = null;
+        try {
+            ObjectInputStream origen = new ObjectInputStream(new BufferedInputStream(new FileInputStream("src/main/resources/mesa.txt")));
+            nuevaMesa = Mesa.deserializar(origen);
+        } catch (IOException ex) {
+            assertNull(nuevaMesa);
+        }
+
+        if (nuevaMesa != null) {
+            assertEquals(mesa.sizeColumnaMesa(), nuevaMesa.sizeColumnaMesa());
+            assertEquals(mesa.sizeColumnaFinal(), nuevaMesa.sizeColumnaFinal());
+            for (int i = 13; i > 0; i--) {
+                Carta carta1 = mesa.sacarCartaMazo();
+                Carta carta2 = nuevaMesa.sacarCartaMazo();
+                assertEquals(carta1.getPalo(), carta2.getPalo());
+                assertEquals(carta1.getNumero(), carta2.getNumero(), 0);
+            }
+        }
     }
 }

@@ -1,9 +1,10 @@
 package Solitario;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Stack;
 
-public class Mazo {
+public class Mazo implements Serializable {
     private final Stack<Carta> baraja;
 
     public Mazo() {

@@ -1,8 +1,9 @@
 package Solitario;
 
+import java.io.*;
 import java.util.ArrayList;
 
-public class Mesa {
+public class Mesa implements Serializable{
     private final Mazo baraja;
     private Mazo barajaDescarte;
     private final ArrayList<Columna> columnasMesa;
@@ -64,5 +65,25 @@ public class Mesa {
             return null;
         }
         return barajaDescarte.sacarCarta();
+    }
+
+
+    public boolean serializar(ObjectOutputStream os) {
+        try {
+            os.writeObject(this);
+            os.flush();
+            return true;
+        } catch (IOException ex) {
+            return false;
+        }
+    }
+
+    public static Mesa deserializar(ObjectInputStream is) {
+        try {
+            ObjectInputStream objectInStream = new ObjectInputStream(is);
+            return (Mesa) objectInStream.readObject();
+        } catch (Exception ex) {
+            return null;
+        }
     }
 }

@@ -1,8 +1,9 @@
 package Solitario;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Columna extends ArrayList<Carta> {
+public abstract class Columna extends ArrayList<Carta> implements Serializable {
     public Columna() {
         super();
     }
