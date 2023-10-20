@@ -37,5 +37,5 @@ public abstract class Columna extends ArrayList<Carta> implements Serializable {
 
     public abstract boolean insertarSegmentoDevuelta(Columna segmento);
 
-    public abstract boolean insertarCartaColumnaFinal(Carta carta);
+    public abstract boolean insertarColumnaFinal(Columna segmento);
 }

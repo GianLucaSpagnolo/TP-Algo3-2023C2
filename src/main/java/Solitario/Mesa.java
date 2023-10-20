@@ -19,7 +19,6 @@ public class Mesa implements Serializable{
         this.barajaDescarte = new Mazo();
     }
 
-
     public void inicializarColumnaMesa(Columna columna) {
         columnasMesa.add(columna);
     }

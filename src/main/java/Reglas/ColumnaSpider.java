@@ -2,15 +2,14 @@ package Reglas;
 
 import Solitario.Carta;
 import Solitario.Columna;
-
-public class ColumnaKlondike extends Columna {
-    public ColumnaKlondike() {
+public class ColumnaSpider extends Columna {
+    public ColumnaSpider() {
         super();
     }
 
     /**
      Verifica si las cartas de la columna, hasta un determinado indice, es una cadena correcta en base a las
-     reglas de un Solitario Klondike
+     reglas de un Solitario Spider
      */
     public boolean esCadena(Integer indice) {
         for (int i = 0; i < indice; i++) {
@@ -73,26 +72,20 @@ public class ColumnaKlondike extends Columna {
     }
 
     /**
-     * Inserta una carta hacia una columna final, en base a la compatibilidad determinada por las reglas del
-     * Solitario Klondike.
+     * Inserta en una columna final un segmento de cartas desde A hasta K
      */
     public boolean insertarColumnaFinal(Columna segmento) {
         if (segmento == null) {
             return false;
         }
-        Carta topeColumnaFinal = peek();
-        Carta carta = segmento.pop();
-        if (sonCompatiblesColumnaFinal(carta, topeColumnaFinal)) {
-            this.add(0, carta);
-            return true;
-        }
-        return false;
+        this.addAll(0, segmento.getCartas());
+        return true;
     }
 
     /**
-     * Verifica la compatibilidad entre dos cartas, en base a las reglas del Solitario Klondike:
-     * Unicamente se puede mover una carta de numero N en una columna cuya carta en el tope sea de color opuesto
-     * y con numero N + 1. Tambien se puede realizar el movimiento si la columna destino se encuentra vacia y
+     * Verifica la compatibilidad entre dos cartas, en base a las reglas del Solitario Spider:
+     * Unicamente se puede mover una carta de numero N en una columna cuya carta en el tope tenga
+     * numero N + 1. Tambien se puede realizar el movimiento si la columna destino se encuentra vacia y
      * la carta a mover es de numero 13 (K).
      */
     private boolean sonCompatibles(Carta carta1, Carta carta2) {
@@ -105,20 +98,8 @@ public class ColumnaKlondike extends Columna {
         if (!carta2.esVisible()) {
             return true;
         }
-        return (carta1.getNumero() == (carta2.getNumero() - 1)) && (carta1.getColor() != carta2.getColor());
+        return (carta1.getNumero() == (carta2.getNumero() - 1));
     }
 
-    /**
-     * Verifica la compatibilidad entre dos cartas, en base a las reglas del Solitario Klondike:
-     * Unicamente se puede mover una carta de numero N hacia una columna final cuya carta en el tope sea del mismo
-     * color y de numero N - 1. Tambien se puede realizar el movimiento si la columna final destino se encuentra
-     * vacia y la carta a mover es de numero 1 (A).
-     */
-    private boolean sonCompatiblesColumnaFinal(Carta carta, Carta cartaColumnaFinal) {
-        if (cartaColumnaFinal == null) {
-            return carta.getNumero() == 1;
-        }
-        return (cartaColumnaFinal.getNumero() == carta.getNumero() - 1) && (cartaColumnaFinal.getPalo() == carta.getPalo());
-    }
 
 }

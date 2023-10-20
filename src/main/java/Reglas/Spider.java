@@ -2,42 +2,28 @@ package Reglas;
 
 import Solitario.*;
 import java.util.ArrayList;
-
-public class Klondike implements Solitario {
+public class Spider implements Solitario {
     private final Mesa mesa;
 
-    /**
-     * Genera una instancia del juego Solitario, en base a las reglas y a la disposicion de las columnas y del mazo
-     * propias de Klondike. Este posee una mesa con una baraja de 52 cartas de 4 palos distintos, una baraja
-     * descarte donde van las cartas que se sacan del mazo, 7 columnas de mesa para realizar movimientos del juego
-     * y 4 columnas finales las cuales determinan si el juego eventualmente esta completado.
-     * Puede recibir una semilla previamente creada para crear la baraja a partir de ella, y tambien puede recibir
-     * una instancia de una mesa (que debe ser configurada con formato Klondike) la cual puede inicializar un
-     * estado de juego previamente determinado.
-     */
-    public Klondike(GeneradorSemillas semilla, Mesa mesa) {
+    public Spider(GeneradorSemillas semilla, Mesa mesa) {
         if (mesa == null) {
             ArrayList<Palos> palos = new ArrayList<>();
             palos.add(Palos.PICAS);
-            palos.add(Palos.TREBOLES);
-            palos.add(Palos.CORAZONES);
-            palos.add(Palos.DIAMANTES);
             Mazo mazo = new Mazo();
             if (semilla == null) {
-                semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(52, palos);
+                semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(104, palos);
             }
             mazo.generarBaraja(semilla, palos);
 
             Mesa nuevaMesa = new Mesa(mazo);
-            for (int i = 0; i < 7; i++) {
-                Columna columnaMesa = new ColumnaKlondike();
+            for (int i = 0; i < 10; i++) {
+                Columna columnaMesa = new ColumnaSpider();
                 nuevaMesa.inicializarColumnaMesa(columnaMesa);
             }
-            for (int j = 0; j < 4; j++) {
-                Columna columnaFinal = new ColumnaKlondike();
+            for (int j = 0; j < 8; j++) {
+                Columna columnaFinal = new ColumnaSpider();
                 nuevaMesa.inicializarColumnaFinal(columnaFinal);
             }
-            nuevaMesa.crearBarajaDescarte();
             mesa = nuevaMesa;
         }
         this.mesa = mesa;
@@ -48,19 +34,31 @@ public class Klondike implements Solitario {
     }
 
     /**
-     * Reparte las cartas de la baraja creada entre las 7 columnas de la mesa, de acuerdo a las reglas del
-     * Solitario Klondike.
+     * Reparte las cartas de la baraja creada entre las 10 columnas de la mesa, de acuerdo a las reglas del
+     * Solitario Spider.
      */
     public void repartirCartasInicio() {
-        for (int i=1; i <= 7; i++) {
-            for (int j=0; j < i; j++) {
-                Carta carta = mesa.sacarCartaMazo();
-                if (carta == null)
-                    break;
-                if (j == i-1) {
-                    carta.darVuelta();
+        for (int i=1; i <= 10; i++) {
+            if (i <= 4) {
+                for (int j=0; j < 6; j++) {
+                    Carta carta = mesa.sacarCartaMazo();
+                    if (carta == null)
+                        break;
+                    if (j == 5) {
+                        carta.darVuelta();
+                    }
+                    mesa.columnaMesaEnPosicion(i-1).push(carta);
                 }
-                mesa.columnaMesaEnPosicion(i-1).push(carta);
+            } else {
+                for (int j=0; j < 5; j++) {
+                    Carta carta = mesa.sacarCartaMazo();
+                    if (carta == null)
+                        break;
+                    if (j == 4) {
+                        carta.darVuelta();
+                    }
+                    mesa.columnaMesaEnPosicion(i - 1).push(carta);
+                }
             }
         }
     }
@@ -197,3 +195,5 @@ public class Klondike implements Solitario {
         return true;
     }
 }
+
+

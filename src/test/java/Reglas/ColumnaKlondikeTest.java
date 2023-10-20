@@ -635,8 +635,10 @@ public class ColumnaKlondikeTest {
 
         Carta cartaAInsertar = new Carta(2, Palos.PICAS);
         cartaAInsertar.darVuelta();
+        Columna segmento = new ColumnaKlondike();
+        segmento.push(cartaAInsertar);
 
-        boolean seInserto = columnaFinal.insertarCartaColumnaFinal(cartaAInsertar);
+        boolean seInserto = columnaFinal.insertarColumnaFinal(segmento);
 
         assertTrue(seInserto);
         assertEquals(2, columnaFinal.size());
@@ -652,8 +654,10 @@ public class ColumnaKlondikeTest {
 
         Carta cartaAInsertar = new Carta(3, Palos.PICAS);
         cartaAInsertar.darVuelta();
+        Columna segmento = new ColumnaKlondike();
+        segmento.push(cartaAInsertar);
 
-        boolean seInserto = columnaFinal.insertarCartaColumnaFinal(cartaAInsertar);
+        boolean seInserto = columnaFinal.insertarColumnaFinal(segmento);
 
         assertFalse(seInserto);
         assertEquals(1, columnaFinal.size());
@@ -669,8 +673,10 @@ public class ColumnaKlondikeTest {
 
         Carta cartaAInsertar = new Carta(2, Palos.CORAZONES);
         cartaAInsertar.darVuelta();
+        Columna segmento = new ColumnaKlondike();
+        segmento.push(cartaAInsertar);
 
-        boolean seInserto = columnaFinal.insertarCartaColumnaFinal(cartaAInsertar);
+        boolean seInserto = columnaFinal.insertarColumnaFinal(segmento);
 
         assertFalse(seInserto);
         assertEquals(1, columnaFinal.size());
@@ -683,8 +689,10 @@ public class ColumnaKlondikeTest {
 
         Carta cartaAInsertar = new Carta(1, Palos.CORAZONES);
         cartaAInsertar.darVuelta();
+        Columna segmento = new ColumnaKlondike();
+        segmento.push(cartaAInsertar);
 
-        boolean seInserto = columnaFinal.insertarCartaColumnaFinal(cartaAInsertar);
+        boolean seInserto = columnaFinal.insertarColumnaFinal(segmento);
 
         assertTrue(seInserto);
         assertEquals(1, columnaFinal.size());
@@ -692,15 +700,13 @@ public class ColumnaKlondikeTest {
     }
 
     @Test
-    public void InsertarCartaNullEnColumnaFinal() {
+    public void InsertarSegmentoNullEnColumnaFinal() {
         Columna columnaFinal = new ColumnaKlondike();
         Carta carta1 = new Carta(1, Palos.PICAS);
         carta1.darVuelta();
         columnaFinal.push(carta1);
 
-        Carta cartaAInsertar = null;
-
-        boolean seInserto = columnaFinal.insertarCartaColumnaFinal(cartaAInsertar);
+        boolean seInserto = columnaFinal.insertarColumnaFinal(null);
 
         assertFalse(seInserto);
         assertEquals(1, columnaFinal.size());
@@ -776,7 +782,10 @@ public class ColumnaKlondikeTest {
         Carta cartaAInsertar = new Carta(2, Palos.TREBOLES);
         cartaAInsertar.darVuelta();
 
-        boolean seInserto = columnaFinal.insertarCartaColumnaFinal(cartaAInsertar);
+        Columna segmento = new ColumnaKlondike();
+        segmento.push(cartaAInsertar);
+
+        boolean seInserto = columnaFinal.insertarColumnaFinal(segmento);
 
         assertFalse(seInserto);
         assertEquals(1, columnaFinal.size());
