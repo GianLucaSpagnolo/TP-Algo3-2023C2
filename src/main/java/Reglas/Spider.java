@@ -4,6 +4,7 @@ import Solitario.*;
 import java.util.ArrayList;
 public class Spider implements Solitario {
     private final Mesa mesa;
+    private Integer posicionColumnaFinal = 0;
 
     public Spider(GeneradorSemillas semilla, Mesa mesa) {
         if (mesa == null) {
@@ -79,22 +80,22 @@ public class Spider implements Solitario {
         if ((mesa.columnaMesaEnPosicion(origen).peek() != null) && (!mesa.columnaMesaEnPosicion(origen).peek().esVisible())) {
             mesa.columnaMesaEnPosicion(origen).peek().darVuelta();
         }
+        boolean seMovio = moverCartasColumnaFinal(destino, posicionColumnaFinal);
+        if (seMovio) {
+            posicionColumnaFinal++;
+        }
         return true;
     }
 
     /**
-     * Mueve una carta de una columna mesa a una columna final.
+     * Mueve un segmento de 13 cartas a una columna final.
      */
-    public boolean moverCartaColumnaFinal(Integer origen, Integer destino) {
-        Columna segmento = mesa.columnaMesaEnPosicion(origen).obtenerSegmento(0);
+    private boolean moverCartasColumnaFinal(Integer origen, Integer destino) {
+        Columna segmento = mesa.columnaMesaEnPosicion(origen).obtenerSegmento(12);
         if (segmento == null) {
             return false;
         }
-        boolean seInserto = mesa.columnaFinalEnPosicion(destino).insertarColumnaFinal(segmento);
-        if (!seInserto) {
-            mesa.columnaMesaEnPosicion(origen).insertarSegmentoDevuelta(segmento);
-            return false;
-        }
+        mesa.columnaFinalEnPosicion(destino).insertarColumnaFinal(segmento);
         if ((mesa.columnaMesaEnPosicion(origen).peek() != null) && (!mesa.columnaMesaEnPosicion(origen).peek().esVisible())) {
             mesa.columnaMesaEnPosicion(origen).peek().darVuelta();
         }
@@ -103,97 +104,34 @@ public class Spider implements Solitario {
 
 
     /**
-     * Verifica si el juego llego a un estado de victoria, y para ello verifica que los valores de las cartas al
-     * tope de cada columna final tengan numero 13 (K).
+     * Verifica si el juego llego a un estado de victoria
      */
     public boolean estaGanado() {
-        for (int i = 0; i < 4; i++) {
-            Columna columnaFinal = mesa.columnaFinalEnPosicion(i);
-            if ((columnaFinal.isEmpty()) || (columnaFinal.peek().getNumero() != 13)) {
-                return false;
-            }
-        }
-        return true;
+        return posicionColumnaFinal == 8;
     }
 
     /**
-     * Mueve una carta de la baraja principal a la baraja descarte.
+     * Reparte una carta a cada columna de la mesa.
      */
     public boolean sacarDelMazo() {
         Carta carta = mesa.sacarCartaMazo();
-        if (carta == null) {
-            reiniciarBaraja();
+        if (carta==null) {
             return false;
         }
-        carta.darVuelta();
-        mesa.insertarCartaDescarte(carta);
-        return true;
-    }
-
-    /**
-     * Una vez se agotan las cartas en la baraja principal, mueve todas las cartas de la baraja descarte a la
-     * baraja principal realizando pop() y push().
-     */
-    private void reiniciarBaraja() {
-        Carta carta = mesa.sacarCartaDescarte();
-        while (carta != null) {
+        for (int i = 0; i < 10; i++) {
+            if (mesa.columnaMesaEnPosicion(i).isEmpty()) {
+                return false;
+            }
+        }
+        mesa.insertarCartaMazo(carta);
+        for (int i = 0; i < 10; i++) {
+            carta = mesa.sacarCartaMazo();
             carta.darVuelta();
-            mesa.insertarCartaMazo(carta);
-            carta = mesa.sacarCartaDescarte();
-        }
-    }
-
-    /**
-     * Mueve una carta de la baraja descarte a una columna mesa.
-     */
-    public boolean moverCartaDescarteAColumnaMesa(Integer destino) {
-        Carta carta = mesa.sacarCartaDescarte();
-        if (carta == null) {
-            return false;
-        }
-        Columna columnaCarta = new ColumnaKlondike();
-        columnaCarta.push(carta);
-        boolean seInserto = mesa.columnaMesaEnPosicion(destino).insertarSegmento(columnaCarta);
-        if (!seInserto) {
-            mesa.insertarCartaDescarte(carta);
-            return false;
+            mesa.columnaMesaEnPosicion(i).push(carta);
         }
         return true;
     }
 
-    /**
-     * Mueve una carta de la baraja descarte a una columna final.
-     */
-    public boolean moverCartaDescarteAColumnaFinal(Integer destino) {
-        Carta carta = mesa.sacarCartaDescarte();
-        if (carta == null) {
-            return false;
-        }
-        Columna segmento = new ColumnaKlondike();
-        segmento.push(carta);
-        boolean seInserto = mesa.columnaFinalEnPosicion(destino).insertarColumnaFinal(segmento);
-        if (!seInserto) {
-            mesa.insertarCartaDescarte(carta);
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Mueve una carta de una columna final a una columna mesa.
-     */
-    public boolean moverCartaColumnaFinalAColumnaMesa(Integer origen, Integer destino) {
-        Columna carta = mesa.columnaFinalEnPosicion(origen).obtenerSegmento(0);
-        if (carta == null) {
-            return false;
-        }
-        boolean seInserto = mesa.columnaMesaEnPosicion(destino).insertarSegmento(carta);
-        if (!seInserto) {
-            mesa.columnaFinalEnPosicion(origen).insertarColumnaFinal(carta);
-            return false;
-        }
-        return true;
-    }
 }
 
 

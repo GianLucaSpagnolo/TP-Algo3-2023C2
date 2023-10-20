@@ -93,9 +93,6 @@ public class ColumnaSpider extends Columna {
             return false;
         }
         if (carta2 == null) {
-            return carta1.getNumero() == 13;
-        }
-        if (!carta2.esVisible()) {
             return true;
         }
         return (carta1.getNumero() == (carta2.getNumero() - 1));

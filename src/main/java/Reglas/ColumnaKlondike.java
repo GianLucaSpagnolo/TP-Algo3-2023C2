@@ -81,7 +81,7 @@ public class ColumnaKlondike extends Columna {
             return false;
         }
         Carta topeColumnaFinal = peek();
-        Carta carta = segmento.pop();
+        Carta carta = segmento.peek();
         if (sonCompatiblesColumnaFinal(carta, topeColumnaFinal)) {
             this.add(0, carta);
             return true;
