@@ -6,7 +6,9 @@ import static org.junit.Assert.*;
 
 public class KlondikeTest {
 
-    // Tests Klondike iniciado de cero
+    /**
+     * Tests Klondike iniciado de cero
+     */
     @Test
     public void inicioMazoKlondike() {
         Klondike klondike = new Klondike(null, null);
@@ -83,12 +85,13 @@ public class KlondikeTest {
     }
 
 
-
-    // Tests Klondike con semilla particular
-    // "L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2"
+    /**
+     * Tests Klondike con semilla particular
+     * "L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2"
+     */
     @Test
     public void klondikeSemillaVacia() {
-        Semilla semilla = new Semilla("");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString("");
         Klondike klondike = new Klondike(semilla, null);
         Mesa mesa1 = klondike.getEstadoMesa();
         assertNull(mesa1.sacarCartaMazo());
@@ -117,7 +120,8 @@ public class KlondikeTest {
 
     @Test
     public void testSemillaCompleta() {
-        Semilla semilla = new Semilla("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+                ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike = new Klondike(semilla, null);
         klondike.repartirCartasInicio();
         klondike.sacarDelMazo();
@@ -145,7 +149,8 @@ public class KlondikeTest {
 
     @Test
     public void moverUnaCartaEntreColumnas() {
-        Semilla semilla = new Semilla("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+                ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike = new Klondike(semilla, null);
         klondike.repartirCartasInicio();
 
@@ -195,7 +200,8 @@ public class KlondikeTest {
 
     @Test
     public void testMoverCartaDescarteAColumnaMesa() {
-        Semilla semilla = new Semilla("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+                ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike = new Klondike(semilla, null);
         klondike.repartirCartasInicio();
         assertFalse(klondike.moverCartaDescarteAColumnaMesa(4));
@@ -283,7 +289,8 @@ public class KlondikeTest {
 
     @Test
     public void testMoverCartaDescarteAColumnaFinal() {
-        Semilla semilla = new Semilla("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+                ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike = new Klondike(semilla, null);
         klondike.repartirCartasInicio();
         assertFalse(klondike.moverCartaDescarteAColumnaFinal(2));
@@ -361,7 +368,8 @@ public class KlondikeTest {
 
     @Test
     public void testMoverCartaColumnaFinal() {
-        Semilla semilla = new Semilla("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+                ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike = new Klondike(semilla, null);
         klondike.repartirCartasInicio();
 
@@ -446,7 +454,8 @@ public class KlondikeTest {
 
     @Test
     public void testMoverCartaColumnaFinalAColumnaMesa() {
-        Semilla semilla = new Semilla("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+                ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike = new Klondike(semilla, null);
         klondike.repartirCartasInicio();
 
@@ -523,7 +532,8 @@ public class KlondikeTest {
 
     @Test
     public void moverVariasCartasEntreColumnas() {
-        Semilla semilla = new Semilla("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+                ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike = new Klondike(semilla, null);
         klondike.repartirCartasInicio();
 
@@ -656,7 +666,8 @@ public class KlondikeTest {
 
     @Test
     public void verificarJuegoGanado() {
-        Semilla semilla = new Semilla("M3M1M2M0L3L1L2L0K3K1K2K0J3J1J2J0I3I1I2I0H3H1H2H0B1D0E2F2G0G1G3B2C3E0F0F3G2B0C1D3E3F1A3C2D1E1A1C0D2A2B3A0");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+                ("M3M1M2M0L3L1L2L0K3K1K2K0J3J1J2J0I3I1I2I0H3H1H2H0B1D0E2F2G0G1G3B2C3E0F0F3G2B0C1D3E3F1A3C2D1E1A1C0D2A2B3A0");
         Klondike klondike = new Klondike(semilla, null);
         // Semilla especial que al repartir permite tener las cartas en la baraja de manera ordenada que, al repartir, cada carta
         // queda en una posicion conveniente para enviarla directamente a una columna final correspondiente
@@ -686,11 +697,13 @@ public class KlondikeTest {
     }
 
 
-
-    // Tests Klondike en estado particular
+    /**
+     * Tests Klondike en estado particular
+     */
     @Test
     public void manipulacionDeEstadosParticulares() {
-        Semilla semilla = new Semilla("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+                ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike1 = new Klondike(semilla, null);
         klondike1.repartirCartasInicio();
 
@@ -738,7 +751,8 @@ public class KlondikeTest {
         assertEquals(Palos.PICAS, estado2.columnaMesaEnPosicion(5).peek().getPalo());
         estado2.insertarCartaDescarte(carta2);
 
-        Semilla nuevaSemilla = new Semilla("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
+        GeneradorSemillas nuevaSemilla = GeneradorSemillas.generarSemillaConString
+                ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike3 = new Klondike(nuevaSemilla, estado2);
         klondike3.moverCartas(4, 1, 0);
         klondike3.sacarDelMazo();

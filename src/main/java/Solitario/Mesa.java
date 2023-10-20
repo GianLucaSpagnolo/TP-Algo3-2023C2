@@ -68,6 +68,10 @@ public class Mesa implements Serializable{
     }
 
 
+    /**
+     * Guarda el estado de la Mesa (con todas sus columnas, cartas y mazos correspondientes)
+     * en el archivo indicado por el parametro. Devuelve true o false en caso de error.
+     */
     public boolean serializar(ObjectOutputStream os) {
         try {
             os.writeObject(this);
@@ -78,6 +82,10 @@ public class Mesa implements Serializable{
         }
     }
 
+    /**
+     * Copia el estado de la Mesa (con todas sus columnas, cartas y mazos correspondientes)
+     * desde el archivo indicado por parametro. Devuelve la instancia de la mesa leida, o null en caso de error.
+     */
     public static Mesa deserializar(ObjectInputStream is) {
         try {
             ObjectInputStream objectInStream = new ObjectInputStream(is);

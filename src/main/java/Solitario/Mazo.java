@@ -11,11 +11,11 @@ public class Mazo implements Serializable {
         this.baraja = new Stack<>();
     }
 
-    public void generarBaraja(Semilla semilla, List<Palos> palos) {
-        /*
-         * Genera una baraja del mazo a partir de una Semilla previamente instanciada cuyo string cumple un formato especifico.
-         * Recibe una lista de palos, la cual la semilla determinara, mediante la posicion de cada palo, de que palo es cada carta.
-         */
+    /**
+     * Genera una baraja del mazo a partir de una Semilla previamente instanciada cuyo string cumple un formato especifico.
+     * Recibe una lista de palos, la cual la semilla determinara, mediante la posicion de cada palo, de que palo es cada carta.
+     */
+    public void generarBaraja(GeneradorSemillas semilla, List<Palos> palos) {
         if (semilla.isEmpty())
             return;
         String numeros = "ABCDEFGHIJKLM";

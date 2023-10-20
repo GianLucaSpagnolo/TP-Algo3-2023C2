@@ -14,7 +14,7 @@ public class MesaTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.CORAZONES);
         Mazo mazo = new Mazo();
-        Semilla semilla = new Semilla("A0");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString("A0");
         mazo.generarBaraja(semilla, palos);
 
         Mesa mesa = new Mesa(mazo);
@@ -34,7 +34,7 @@ public class MesaTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.PICAS);
         Mazo mazo = new Mazo();
-        Semilla semilla = new Semilla(52, palos);
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(52, palos);
         mazo.generarBaraja(semilla, palos);
         Mesa mesa = new Mesa(mazo);
 
@@ -53,7 +53,7 @@ public class MesaTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.DIAMANTES);
         Mazo mazo = new Mazo();
-        Semilla semilla = new Semilla(52, palos);
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(52, palos);
         mazo.generarBaraja(semilla, palos);
         Mesa mesa = new Mesa(mazo);
 
@@ -72,7 +72,7 @@ public class MesaTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.DIAMANTES);
         Mazo mazo = new Mazo();
-        Semilla semilla = new Semilla(5, palos);
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(5, palos);
         mazo.generarBaraja(semilla, palos);
         Mesa mesa = new Mesa(mazo);
         mesa.crearBarajaDescarte();
@@ -93,18 +93,18 @@ public class MesaTest {
     }
 
     @Test
+    /**
+     * Genera una mesa con todas las caracteristicas propias de un Solitario Klondike.
+     * Utiliza un mazo compuesto por 52 cartas de 4 palos diferentes.
+     */
     public void generarMesaKlondike() {
-        /*
-         * Genera una mesa con todas las caracteristicas propias de un Solitario Klondike.
-         * Utiliza un mazo compuesto por 52 cartas de 4 palos diferentes.
-         */
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.PICAS);
         palos.add(Palos.DIAMANTES);
         palos.add(Palos.CORAZONES);
         palos.add(Palos.TREBOLES);
         Mazo mazo = new Mazo();
-        Semilla semilla = new Semilla(52, palos);
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(52, palos);
         mazo.generarBaraja(semilla, palos);
 
         Mesa mesa = new Mesa(mazo);
@@ -127,15 +127,15 @@ public class MesaTest {
     }
 
     @Test
+    /**
+     * Genera una mesa con todas las caracteristicas propias de un solitario Spider.
+     * Utiliza un mazo simple con cartas de un mismo palo.
+     */
     public void generarMesaMazoSimple() {
-        /*
-         * Genera una mesa con todas las caracteristicas propias de un solitario Spider.
-         * Utiliza un mazo simple con cartas de un mismo palo.
-         */
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.PICAS);
         Mazo mazo = new Mazo();
-        Semilla semilla = new Semilla(104, palos);
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(104, palos);
         mazo.generarBaraja(semilla, palos);
 
         Mesa mesa = new Mesa(mazo);
@@ -162,7 +162,7 @@ public class MesaTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.DIAMANTES);
         Mazo mazo = new Mazo();
-        Semilla semilla = new Semilla("M0L0K0J0I0H0G0F0E0D0C0B0A0");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString("M0L0K0J0I0H0G0F0E0D0C0B0A0");
         mazo.generarBaraja(semilla, palos);
         Mesa mesa = new Mesa(mazo);
         for (int i = 0; i < 7; i++) {
@@ -210,7 +210,7 @@ public class MesaTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.CORAZONES);
         Mazo mazo = new Mazo();
-        Semilla semilla = new Semilla("A0B0C0D0E0F0G0H0I0J0K0L0M0");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString("A0B0C0D0E0F0G0H0I0J0K0L0M0");
         mazo.generarBaraja(semilla, palos);
         Mesa mesa = new Mesa(mazo);
         for (int i = 0; i < 6; i++) {
@@ -250,4 +250,5 @@ public class MesaTest {
             }
         }
     }
+
 }

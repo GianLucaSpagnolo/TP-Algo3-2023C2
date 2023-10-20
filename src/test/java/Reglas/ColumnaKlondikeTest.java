@@ -34,8 +34,10 @@ public class ColumnaKlondikeTest {
     }
 
     @Test
+    /**
+     * Se introduce una carta y se la saca. Se comprueba que la columna se comporte como una columna vacía.
+     */
     public void TestVaciarColumna() {
-        //Se introduce una carta y se la saca. Se comprueba que la columna se comporte como una columna vacía.
         Columna columna = new ColumnaKlondike();
         Carta cartaInsertada = new Carta(5, Palos.TREBOLES);
         columna.push(cartaInsertada);
@@ -88,8 +90,10 @@ public class ColumnaKlondikeTest {
     }
 
 
+    /**
+     * Genera una columna completa de 13 cartas que es cadena
+     */
     private Columna generarColumna() {
-        //Genera una columna completa de 13 cartas QUE ES CADENA
         Columna columna = new ColumnaKlondike();
         for (int i=13; i > 0; i--) {
             //inserta cartas intercaladas
@@ -105,6 +109,7 @@ public class ColumnaKlondikeTest {
         }
         return columna;
     }
+
 
     @Test
     public void TestObtenerSegmento() {
@@ -126,6 +131,7 @@ public class ColumnaKlondikeTest {
         }
 
         Columna columnaRestante = new ColumnaKlondike();
+
         //Contruye lo que se espera que quede del segmento original, es decir, el segmento del que se extrajo el segmento
         for (int i=13; i > 6; i--) {
             //inserta cartas intercaladas
@@ -168,8 +174,10 @@ public class ColumnaKlondikeTest {
 
 
     @Test
+    /**
+     * Extrae como segmento una pila completa de 13 cartas y verifica que la restante se comporte como columna vacia
+     */
     public void TestObtenerSegmentoCompleto() {
-        //Extrae como segmento una pila completa de 13 cartas y verifica que la restante se comporte como columna vacia
         Columna columna = generarColumna();
         Columna segmento = columna.obtenerSegmento(12);
         Columna segmentoEsperado = generarColumna();
@@ -193,8 +201,10 @@ public class ColumnaKlondikeTest {
     }
 
     @Test
+    /**
+     * Se trata de extraer un segmento que no es cadena de una columna
+     */
     public void TestObtenerSegmentoInvalido() {
-        //Se trata de extraer un segmento que no es cadena de una columna
         Columna columna = new ColumnaKlondike();
         for (int i=5; i > 1; i--) {
             //inserta cartas intercaladas
@@ -208,7 +218,9 @@ public class ColumnaKlondikeTest {
                 columna.push(cartaRoja);
             }
         }
-        Carta carta = new Carta(1, Palos.TREBOLES); //Esta carta en el tope rompe la cadena e impide extraer un segmento de mas de 1 carta
+
+        //Esta carta en el tope rompe la cadena e impide extraer un segmento de mas de 1 carta
+        Carta carta = new Carta(1, Palos.TREBOLES);
         carta.darVuelta();
         columna.push(carta);
 
@@ -219,8 +231,10 @@ public class ColumnaKlondikeTest {
     }
 
     @Test
+    /**
+     * Se trata de extraer un segmento de una columna vacia
+     */
     public void TestObtenerSegmentoDeColumnaVacia() {
-        //Se trata de extraer un segmento de una columna vacia
         Columna columnaVacia = new ColumnaKlondike();
         Columna segmentoExtraido = columnaVacia.obtenerSegmento(0);
 
@@ -229,8 +243,10 @@ public class ColumnaKlondikeTest {
     }
 
     @Test
+    /**
+     * Se trata de extraer un segmento con un indice de una carta invisible
+     */
     public void TestObtenerSegmentoSobreCartasInvisibles() {
-        //Se trata de extraer un segmento con un indice de una carta invisible
         Columna columna = new ColumnaKlondike();
         for (int i=6; i > 2; i--) {
             //inserta cartas intercaladas no visibles
@@ -256,8 +272,10 @@ public class ColumnaKlondikeTest {
     }
 
     @Test
+    /**
+     * Extrae un segmento de una columna 1 (columna completa) y lo inserta en una columna 2 (Columna por la mitad)
+     */
     public void TestInsertarSegmentoSimpleValido() {
-        //Extrae un segmento de una columna 1 (columna completa) y lo inserta en una columna 2 (Columna por la mitad)
         Columna columna1 = generarColumna();
 
         Columna columna2 = new ColumnaKlondike();
@@ -341,8 +359,10 @@ public class ColumnaKlondikeTest {
     }
 
     @Test
+    /**
+     * Extrae un segmento de una columna 1 (columna completa) y lo trata de insertar en una columna 2, pero es invalido
+     */
     public void TestInsertarSegmentoSimpleInvalido() {
-        //Extrae un segmento de una columna 1 (columna completa) y lo trata de insertar en una columna 2, pero es invalido
         Columna columna1 = generarColumna();
 
         Columna columna2 = new ColumnaKlondike();
@@ -439,8 +459,10 @@ public class ColumnaKlondikeTest {
     }
 
     @Test
+    /**
+     * Inserta un segmento de una carta sola
+     */
     public void TestInsertarSegmentoValidoUnaCarta() {
-        //Inserta un segmento de una carta sola
         Columna columnaCompleta = generarColumna();
         Columna columna2 = new ColumnaKlondike();
         Carta carta1 = new Carta(2, Palos.TREBOLES);
@@ -568,8 +590,10 @@ public class ColumnaKlondikeTest {
     }
 
     @Test
+    /**
+     * Simula escenario donde se debe volver a colocar un segmento extraido en la columna de la que se sacó, antes de hacer visible la carta tope invisible
+     */
     public void TestInsertarSegmentoSobreCartaNoVisible() {
-        //Simula escenario donde se debe volver a colocar un segmento extraido en la columna de la que se sacó, antes de hacer visible la carta tope invisible
         Columna columna = new ColumnaKlondike();
         Carta cartaNoVisible = new Carta(3, Palos.CORAZONES);
         Carta cartaVisible = new Carta(2, Palos.TREBOLES);
@@ -684,10 +708,11 @@ public class ColumnaKlondikeTest {
     }
 
     @Test
+    /**
+     * Simula un escenario donde se extrajo un segmento de una columna, se lo quiso insertar a otra y es invalido.
+     * El segmento DEBE VOLVER A LA COLUMNA DE DONDE VINO --> SE LO DEBE INSERTAR DEVUELTA
+     */
     public void InsertarSegmentoDevuelta() {
-        // Simula un escenario donde se extrajo un segmento de una columna, se lo quiso insertar a otra y es invalido. El segmento DEBE VOLVER
-        // A LA COLUMNA DE DONDE VINO --> SE LO DEBE INSERTAR DEVUELTA
-
         Columna columna1 = generarColumna();
 
         Columna columna2 = new ColumnaKlondike();
@@ -716,8 +741,10 @@ public class ColumnaKlondikeTest {
     }
 
     @Test
+    /**
+     * Simula un escenario donde se extrajo un segmento nulo de una columna y se lo quiso insertar a otra
+     */
     public void ReinsertarSegmentoVacio() {
-        // Simula un escenario donde se extrajo un segmento nulo de una columna y se lo quiso insertar a otra
 
         Columna columna1 = new ColumnaKlondike();
 
