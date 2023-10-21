@@ -6,6 +6,15 @@ public class Spider implements Solitario {
     private final Mesa mesa;
     private Integer posicionColumnaFinal = 0;
 
+    /**
+     * Genera una instancia del juego Solitario, en base a las reglas y a la disposicion de las columnas y del mazo
+     * propias de Spider. Este posee una mesa con una baraja de 104 cartas todas del palo Picas, no posee una baraja
+     * descarte, 10 columnas de mesa para realizar movimientos del juego y 8 columnas finales imposibles de acceder
+     * para el usuario, las cuales determinan si el juego eventualmente esta completado.
+     * Puede recibir una semilla previamente creada para crear la baraja a partir de ella, y tambien puede recibir
+     * una instancia de una mesa (que debe ser configurada con formato Spider) la cual puede inicializar un estado de
+     * juego previamente determinado.
+     */
     public Spider(GeneradorSemillas semilla, Mesa mesa) {
         if (mesa == null) {
             ArrayList<Palos> palos = new ArrayList<>();
@@ -40,22 +49,12 @@ public class Spider implements Solitario {
      */
     public void repartirCartasInicio() {
         for (int i=1; i <= 10; i++) {
-            if (i <= 4) {
-                for (int j=0; j < 6; j++) {
+            for (int j=0; j < 6; j++) {
+                if ((i <= 4) || (j < 5)) {
                     Carta carta = mesa.sacarCartaMazo();
                     if (carta == null)
                         break;
-                    if (j == 5) {
-                        carta.darVuelta();
-                    }
-                    mesa.columnaMesaEnPosicion(i-1).push(carta);
-                }
-            } else {
-                for (int j=0; j < 5; j++) {
-                    Carta carta = mesa.sacarCartaMazo();
-                    if (carta == null)
-                        break;
-                    if (j == 4) {
+                    if ((i <= 4 && j == 5) || (i > 4 && j == 4)) {
                         carta.darVuelta();
                     }
                     mesa.columnaMesaEnPosicion(i - 1).push(carta);
@@ -104,14 +103,14 @@ public class Spider implements Solitario {
 
 
     /**
-     * Verifica si el juego llego a un estado de victoria
+     * Verifica si el juego llego a un estado de victoria.
      */
     public boolean estaGanado() {
         return posicionColumnaFinal == 8;
     }
 
     /**
-     * Reparte una carta a cada columna de la mesa.
+     * Reparte una carta a cada una de las 10 columnas mesa.
      */
     public boolean sacarDelMazo() {
         Carta carta = mesa.sacarCartaMazo();

@@ -59,9 +59,9 @@ public class ColumnaSpider extends Columna {
     }
 
     /**
-     * En caso de que no se haya realizado la accion se insertarSegmento() hacia una columna determinada, insertara
-     * el segmento en la columna a la cual pertenecia. Para este caso, no se realiza ninguna comparacion previa ya
-     * que el objetivo es dejar la columna origen tal como estaba antes de intentar hacer el movimiento.
+     * En caso de que no se haya realizado exitosamente la accion se insertarSegmento() hacia una columna determinada,
+     * insertara el segmento en la columna a la cual pertenecia. Para este caso, no se realiza ninguna comparacion
+     * previa ya que el objetivo es dejar la columna origen tal como estaba antes de intentar hacer el movimiento.
      */
     public boolean insertarSegmentoDevuelta(Columna segmento) {
         if (segmento == null || segmento.isEmpty()) {
@@ -72,7 +72,7 @@ public class ColumnaSpider extends Columna {
     }
 
     /**
-     * Inserta en una columna final un segmento de cartas desde A hasta K
+     * Inserta en una columna final un segmento de cartas completo de 13 cartas (desde A hasta K).
      */
     public boolean insertarColumnaFinal(Columna segmento) {
         if (segmento == null) {
@@ -85,8 +85,8 @@ public class ColumnaSpider extends Columna {
     /**
      * Verifica la compatibilidad entre dos cartas, en base a las reglas del Solitario Spider:
      * Unicamente se puede mover una carta de numero N en una columna cuya carta en el tope tenga
-     * numero N + 1. Tambien se puede realizar el movimiento si la columna destino se encuentra vacia y
-     * la carta a mover es de numero 13 (K).
+     * numero N + 1. Tambien se puede realizar el movimiento si la columna destino se encuentra vacia,
+     * en este caso no importa de que numero es la carta a mover.
      */
     private boolean sonCompatibles(Carta carta1, Carta carta2) {
         if (!carta1.esVisible()) {
