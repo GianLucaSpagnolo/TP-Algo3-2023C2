@@ -30,7 +30,7 @@ public class ColumnaSpider extends Columna {
         if (isEmpty()) {
             return null;
         }
-        Columna auxiliar = new ColumnaKlondike();
+        Columna auxiliar = new ColumnaSpider();
         if (!esCadena(indice)) {
             return null;
         }
@@ -75,7 +75,7 @@ public class ColumnaSpider extends Columna {
      * Inserta en una columna final un segmento de cartas completo de 13 cartas (desde A hasta K).
      */
     public boolean insertarColumnaFinal(Columna segmento) {
-        if (segmento == null) {
+        if (segmento == null || segmento.isEmpty()) {
             return false;
         }
         this.addAll(0, segmento.getCartas());
@@ -93,6 +93,9 @@ public class ColumnaSpider extends Columna {
             return false;
         }
         if (carta2 == null) {
+            return true;
+        }
+        if (!carta2.esVisible()) {
             return true;
         }
         return (carta1.getNumero() == (carta2.getNumero() - 1));
