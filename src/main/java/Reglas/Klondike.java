@@ -4,7 +4,7 @@ import Solitario.*;
 import java.util.ArrayList;
 
 public class Klondike implements Solitario {
-    private final Mesa mesa;
+    private Mesa mesa;
 
     /**
      * Genera una instancia del juego Solitario, en base a las reglas y a la disposicion de las columnas y del mazo
@@ -15,8 +15,8 @@ public class Klondike implements Solitario {
      * una instancia de una mesa (que debe ser configurada con formato Klondike) la cual puede inicializar un
      * estado de juego previamente determinado.
      */
-    public Klondike(GeneradorSemillas semilla, Mesa mesa) {
-        if (mesa == null) {
+    public Klondike(GeneradorSemillas semilla, Mesa estadoMesa) {
+        if (estadoMesa == null) {
             ArrayList<Palos> palos = new ArrayList<>();
             palos.add(Palos.PICAS);
             palos.add(Palos.TREBOLES);
@@ -38,13 +38,18 @@ public class Klondike implements Solitario {
                 nuevaMesa.inicializarColumnaFinal(columnaFinal);
             }
             nuevaMesa.crearBarajaDescarte();
-            mesa = nuevaMesa;
+            this.mesa = nuevaMesa;
+        } else {
+            setEstadoMesa(estadoMesa);
         }
-        this.mesa = mesa;
     }
 
     public Mesa getEstadoMesa() {
         return this.mesa;
+    }
+
+    private void setEstadoMesa(Mesa estadoMesa) {
+        this.mesa = estadoMesa;
     }
 
     /**

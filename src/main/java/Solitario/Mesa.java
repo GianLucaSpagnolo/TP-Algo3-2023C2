@@ -60,7 +60,7 @@ public class Mesa implements Serializable{
     }
 
     public Carta sacarCartaDescarte() {
-        if (barajaDescarte.estaVacio()) {
+        if ((barajaDescarte == null) || barajaDescarte.estaVacio()) {
             return null;
         }
         return barajaDescarte.sacarCarta();
@@ -69,28 +69,23 @@ public class Mesa implements Serializable{
 
     /**
      * Guarda el estado de la Mesa (con todas sus columnas, cartas y mazos correspondientes)
-     * en el archivo indicado por el parametro. Devuelve true o false en caso de error.
+     * en el stream indicado por el parametro. Puede lanzar IOException en caso de error.
      */
-    public boolean serializar(ObjectOutputStream os) {
-        try {
-            os.writeObject(this);
-            os.flush();
-            return true;
-        } catch (IOException ex) {
-            return false;
-        }
+    public void serializar(OutputStream os) throws IOException {
+        ObjectOutputStream bos = new ObjectOutputStream(os);
+        bos.writeObject(this);
+        bos.flush();
     }
 
     /**
      * Copia el estado de la Mesa (con todas sus columnas, cartas y mazos correspondientes)
-     * desde el archivo indicado por parametro. Devuelve la instancia de la mesa leida, o null en caso de error.
+     * desde el stream indicado por parametro. Devuelve la instancia de la mesa leida.
+     * Puede lanzar IOException o ClassNotFoundException en caso de error.
      */
-    public static Mesa deserializar(ObjectInputStream is) {
-        try {
-            ObjectInputStream objectInStream = new ObjectInputStream(is);
-            return (Mesa) objectInStream.readObject();
-        } catch (Exception ex) {
-            return null;
-        }
+    public static Mesa deserializar(InputStream is) throws IOException, ClassNotFoundException {
+        ObjectInputStream bis = new ObjectInputStream(is);
+        Mesa mesaLeida = (Mesa) bis.readObject();
+        bis.close();
+        return mesaLeida;
     }
 }

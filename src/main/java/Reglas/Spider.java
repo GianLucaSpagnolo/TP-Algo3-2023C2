@@ -3,7 +3,7 @@ package Reglas;
 import Solitario.*;
 import java.util.ArrayList;
 public class Spider implements Solitario {
-    private final Mesa mesa;
+    private Mesa mesa;
     private Integer posicionColumnaFinal = 0;
 
     /**
@@ -15,8 +15,8 @@ public class Spider implements Solitario {
      * una instancia de una mesa (que debe ser configurada con formato Spider) la cual puede inicializar un estado de
      * juego previamente determinado.
      */
-    public Spider(GeneradorSemillas semilla, Mesa mesa) {
-        if (mesa == null) {
+    public Spider(GeneradorSemillas semilla, Mesa estadoMesa) {
+        if (estadoMesa == null) {
             ArrayList<Palos> palos = new ArrayList<>();
             palos.add(Palos.PICAS);
             Mazo mazo = new Mazo();
@@ -34,13 +34,18 @@ public class Spider implements Solitario {
                 Columna columnaFinal = new ColumnaSpider();
                 nuevaMesa.inicializarColumnaFinal(columnaFinal);
             }
-            mesa = nuevaMesa;
+            this.mesa = nuevaMesa;
+        } else {
+            setEstadoMesa(estadoMesa);
         }
-        this.mesa = mesa;
     }
 
     public Mesa getEstadoMesa() {
         return this.mesa;
+    }
+
+    private void setEstadoMesa(Mesa estadoMesa) {
+        this.mesa = estadoMesa;
     }
 
     /**
@@ -48,16 +53,16 @@ public class Spider implements Solitario {
      * Solitario Spider.
      */
     public void repartirCartasInicio() {
-        for (int i=1; i <= 10; i++) {
+        for (int i=0; i < 10; i++) {
             for (int j=0; j < 6; j++) {
-                if ((i <= 4) || (j < 5)) {
+                if ((i < 4) || (j < 5)) {
                     Carta carta = mesa.sacarCartaMazo();
                     if (carta == null)
                         break;
-                    if ((i <= 4 && j == 5) || (i > 4 && j == 4)) {
+                    if ((i < 4 && j == 5) || (i >= 4 && j == 4)) {
                         carta.darVuelta();
                     }
-                    mesa.columnaMesaEnPosicion(i - 1).push(carta);
+                    mesa.columnaMesaEnPosicion(i).push(carta);
                 }
             }
         }
@@ -114,15 +119,14 @@ public class Spider implements Solitario {
      */
     public boolean sacarDelMazo() {
         Carta carta = mesa.sacarCartaMazo();
-        if (carta==null) {
+        if (carta == null)
             return false;
-        }
-        for (int i = 0; i < 10; i++) {
-            if (mesa.columnaMesaEnPosicion(i).isEmpty()) {
-                return false;
-            }
-        }
         mesa.insertarCartaMazo(carta);
+
+        for (int i = 0; i < 10; i++) {
+            if (mesa.columnaMesaEnPosicion(i).isEmpty())
+                return false;
+        }
         for (int i = 0; i < 10; i++) {
             carta = mesa.sacarCartaMazo();
             carta.darVuelta();
@@ -130,7 +134,4 @@ public class Spider implements Solitario {
         }
         return true;
     }
-
 }
-
-
