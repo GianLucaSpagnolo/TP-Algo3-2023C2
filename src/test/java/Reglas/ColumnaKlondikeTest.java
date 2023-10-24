@@ -1,8 +1,7 @@
 package Reglas;
 
 import Solitario.Carta;
-import Solitario.Columna;
-import Solitario.Palos;
+import Solitario.*;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -10,10 +9,11 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class ColumnaKlondikeTest {
+    private static final EstrategiaComparacion estrategia = new EstrategiaComparacionKlondike();
 
     @Test
     public void columnaVacia() {
-        Columna columna = new ColumnaKlondike();
+        Columna columna = new ColumnaKlondike(estrategia);
 
         assertTrue(columna.isEmpty());
         assertEquals(new ArrayList<Carta>(), columna.getCartas());
@@ -23,7 +23,7 @@ public class ColumnaKlondikeTest {
 
     @Test
     public void TestPushCarta() {
-        Columna columna = new ColumnaKlondike();
+        Columna columna = new ColumnaKlondike(estrategia);
         Carta carta = new Carta(5, Palos.TREBOLES);
         columna.push(carta);
 
@@ -38,7 +38,7 @@ public class ColumnaKlondikeTest {
      * Se introduce una carta y se la saca. Se comprueba que la columna se comporte como una columna vacía.
      */
     public void TestVaciarColumna() {
-        Columna columna = new ColumnaKlondike();
+        Columna columna = new ColumnaKlondike(estrategia);
         Carta cartaInsertada = new Carta(5, Palos.TREBOLES);
         columna.push(cartaInsertada);
         Carta cartaSacada = columna.pop();
@@ -50,7 +50,7 @@ public class ColumnaKlondikeTest {
 
     @Test
     public void TestDosCartasCadena() {
-        Columna columna = new ColumnaKlondike();
+        Columna columna = new ColumnaKlondike(estrategia);
         Carta cartaNegra = new Carta(5, Palos.TREBOLES);
         Carta cartaRoja = new Carta(4, Palos.CORAZONES);
 
@@ -67,7 +67,7 @@ public class ColumnaKlondikeTest {
 
     @Test
     public void TestDosCartasNoCadena() {
-        Columna columna = new ColumnaKlondike();
+        Columna columna = new ColumnaKlondike(estrategia);
         Carta cartaNegra = new Carta(5, Palos.TREBOLES);
         Carta cartaRoja = new Carta(4, Palos.TREBOLES);
 
@@ -94,7 +94,7 @@ public class ColumnaKlondikeTest {
      * Genera una columna completa de 13 cartas que es cadena
      */
     private Columna generarColumna() {
-        Columna columna = new ColumnaKlondike();
+        Columna columna = new ColumnaKlondike(estrategia);
         for (int i=13; i > 0; i--) {
             //inserta cartas intercaladas
             if (i % 2 == 0) {
@@ -116,7 +116,7 @@ public class ColumnaKlondikeTest {
         Columna columna = generarColumna();
         Columna segmento = columna.obtenerSegmento(5);
 
-        Columna segmentoEsperado = new ColumnaKlondike();
+        Columna segmentoEsperado = new ColumnaKlondike(estrategia);
         for (int i=6; i > 0; i--) {
             //inserta cartas intercaladas
             if (i % 2 == 0) {
@@ -130,7 +130,7 @@ public class ColumnaKlondikeTest {
             }
         }
 
-        Columna columnaRestante = new ColumnaKlondike();
+        Columna columnaRestante = new ColumnaKlondike(estrategia);
 
         //Contruye lo que se espera que quede del segmento original, es decir, el segmento del que se extrajo el segmento
         for (int i=13; i > 6; i--) {
@@ -205,7 +205,7 @@ public class ColumnaKlondikeTest {
      * Se trata de extraer un segmento que no es cadena de una columna
      */
     public void TestObtenerSegmentoInvalido() {
-        Columna columna = new ColumnaKlondike();
+        Columna columna = new ColumnaKlondike(estrategia);
         for (int i=5; i > 1; i--) {
             //inserta cartas intercaladas
             if (i % 2 == 0) {
@@ -235,7 +235,7 @@ public class ColumnaKlondikeTest {
      * Se trata de extraer un segmento de una columna vacia
      */
     public void TestObtenerSegmentoDeColumnaVacia() {
-        Columna columnaVacia = new ColumnaKlondike();
+        Columna columnaVacia = new ColumnaKlondike(estrategia);
         Columna segmentoExtraido = columnaVacia.obtenerSegmento(0);
 
         assertNull(segmentoExtraido);
@@ -247,7 +247,7 @@ public class ColumnaKlondikeTest {
      * Se trata de extraer un segmento con un indice de una carta invisible
      */
     public void TestObtenerSegmentoSobreCartasInvisibles() {
-        Columna columna = new ColumnaKlondike();
+        Columna columna = new ColumnaKlondike(estrategia);
         for (int i=6; i > 2; i--) {
             //inserta cartas intercaladas no visibles
             if (i % 2 == 0) {
@@ -278,7 +278,7 @@ public class ColumnaKlondikeTest {
     public void TestInsertarSegmentoSimpleValido() {
         Columna columna1 = generarColumna();
 
-        Columna columna2 = new ColumnaKlondike();
+        Columna columna2 = new ColumnaKlondike(estrategia);
         for (int i=13; i > 6; i--) {
             //inserta cartas intercaladas
             if (i % 2 == 0) {
@@ -295,7 +295,7 @@ public class ColumnaKlondikeTest {
         Columna segmentoExtraido = columna1.obtenerSegmento(5);
         boolean seInserto = columna2.insertarSegmento(segmentoExtraido); //La columna2 queda como una columna completa de 13 cartas
 
-        Columna segmentoExtraidoEsperado = new ColumnaKlondike();
+        Columna segmentoExtraidoEsperado = new ColumnaKlondike(estrategia);
         for (int i=6; i > 0; i--) {
             //inserta cartas intercaladas
             if (i % 2 == 0) {
@@ -309,7 +309,7 @@ public class ColumnaKlondikeTest {
             }
         }
 
-        Columna columnaRestanteEsperada = new ColumnaKlondike();
+        Columna columnaRestanteEsperada = new ColumnaKlondike(estrategia);
         for (int i=13; i > 6; i--) {
             //inserta cartas intercaladas
             if (i % 2 == 0) {
@@ -365,7 +365,7 @@ public class ColumnaKlondikeTest {
     public void TestInsertarSegmentoSimpleInvalido() {
         Columna columna1 = generarColumna();
 
-        Columna columna2 = new ColumnaKlondike();
+        Columna columna2 = new ColumnaKlondike(estrategia);
         for (int i=13; i > 6; i--) {
             //inserta cartas intercaladas
             if (i % 2 == 0) {
@@ -379,7 +379,7 @@ public class ColumnaKlondikeTest {
             }
         }
 
-        Columna columnaResultado = new ColumnaKlondike();
+        Columna columnaResultado = new ColumnaKlondike(estrategia);
         for (int i=13; i > 6; i--) {
             //inserta cartas intercaladas
             if (i % 2 == 0) {
@@ -396,7 +396,7 @@ public class ColumnaKlondikeTest {
         Columna segmentoExtraido = columna1.obtenerSegmento(3);
         boolean seInserto = columna2.insertarSegmento(segmentoExtraido);
 
-        Columna segmentoExtraidoEsperado = new ColumnaKlondike();
+        Columna segmentoExtraidoEsperado = new ColumnaKlondike(estrategia);
         for (int i=4; i > 0; i--) {
             //inserta cartas intercaladas
             if (i % 2 == 0) {
@@ -410,7 +410,7 @@ public class ColumnaKlondikeTest {
             }
         }
 
-        Columna columnaRestanteEsperada = new ColumnaKlondike();
+        Columna columnaRestanteEsperada = new ColumnaKlondike(estrategia);
         for (int i=13; i > 4; i--) {
             //inserta cartas intercaladas
             if (i % 2 == 0) {
@@ -464,7 +464,7 @@ public class ColumnaKlondikeTest {
      */
     public void TestInsertarSegmentoValidoUnaCarta() {
         Columna columnaCompleta = generarColumna();
-        Columna columna2 = new ColumnaKlondike();
+        Columna columna2 = new ColumnaKlondike(estrategia);
         Carta carta1 = new Carta(2, Palos.TREBOLES);
         carta1.darVuelta();
         columna2.push(carta1);
@@ -472,7 +472,7 @@ public class ColumnaKlondikeTest {
         Columna segmentoExtraido = columnaCompleta.obtenerSegmento(0);
         boolean seInserto = columna2.insertarSegmento(segmentoExtraido);
 
-        Columna columnaEsperada = new ColumnaKlondike();
+        Columna columnaEsperada = new ColumnaKlondike(estrategia);
         Carta carta2 = new Carta(2, Palos.TREBOLES);
         Carta carta3 = new Carta(1, Palos.CORAZONES);
         carta2.darVuelta();
@@ -480,7 +480,7 @@ public class ColumnaKlondikeTest {
         columnaEsperada.push(carta2);
         columnaEsperada.push(carta3);
 
-        Columna columnaRestanteEsperada = new ColumnaKlondike();
+        Columna columnaRestanteEsperada = new ColumnaKlondike(estrategia);
         for (int i=13; i > 1; i--) {
             //inserta cartas intercaladas
             if (i % 2 == 0) {
@@ -526,7 +526,7 @@ public class ColumnaKlondikeTest {
     @Test
     public void TestInsertarSegmentoValidoSobreColumnaVacia() {
         Columna columnaCompleta = generarColumna();
-        Columna columnaVacia = new ColumnaKlondike();
+        Columna columnaVacia = new ColumnaKlondike(estrategia);
         Columna segmentoExtraido = columnaCompleta.obtenerSegmento(12);
         boolean seInserto = columnaVacia.insertarSegmento(segmentoExtraido);
 
@@ -543,30 +543,30 @@ public class ColumnaKlondikeTest {
 
     @Test
     public void TestInsertarSegmentoInvalidoSobreColumnaVacia() {
-        Columna columna = new ColumnaKlondike();
+        Columna columna = new ColumnaKlondike(estrategia);
         Carta carta = new Carta(4, Palos.CORAZONES); //No es un 13
         carta.darVuelta();
         columna.push(carta);
 
-        Columna columnaVacia = new ColumnaKlondike();
+        Columna columnaVacia = new ColumnaKlondike(estrategia);
 
         Columna segmentoExtraido = columna.obtenerSegmento(0);
 
         boolean seInserto = columnaVacia.insertarSegmento(segmentoExtraido);
 
         assertFalse(seInserto);
-        assertEquals(new ColumnaKlondike(), columna);
-        assertEquals(new ColumnaKlondike(), columnaVacia);
+        assertEquals(new ColumnaKlondike(estrategia), columna);
+        assertEquals(new ColumnaKlondike(estrategia), columnaVacia);
     }
 
     @Test
     public void TestInsertarSegmentoVacio() {
-        Columna columna = new ColumnaKlondike();
+        Columna columna = new ColumnaKlondike(estrategia);
         Carta carta = new Carta(4, Palos.CORAZONES);
         carta.darVuelta();
         columna.push(carta);
 
-        Columna segmentoVacio = new ColumnaKlondike();
+        Columna segmentoVacio = new ColumnaKlondike(estrategia);
 
         boolean seInserto = columna.insertarSegmento(segmentoVacio);
 
@@ -579,14 +579,14 @@ public class ColumnaKlondikeTest {
 
     @Test
     public void TestInsertarSegmentoVacioSobreColumnaVacia() {
-        Columna columnaVacia = new ColumnaKlondike();
+        Columna columnaVacia = new ColumnaKlondike(estrategia);
 
-        Columna segmentoVacio = new ColumnaKlondike();
+        Columna segmentoVacio = new ColumnaKlondike(estrategia);
 
         boolean seInserto = columnaVacia.insertarSegmento(segmentoVacio);
 
         assertFalse(seInserto);
-        assertEquals(new ColumnaKlondike(), columnaVacia);
+        assertEquals(new ColumnaKlondike(estrategia), columnaVacia);
     }
 
     @Test
@@ -594,7 +594,7 @@ public class ColumnaKlondikeTest {
      * Simula escenario donde se debe volver a colocar un segmento extraido en la columna de la que se sacó, antes de hacer visible la carta tope invisible
      */
     public void TestInsertarSegmentoSobreCartaNoVisible() {
-        Columna columna = new ColumnaKlondike();
+        Columna columna = new ColumnaKlondike(estrategia);
         Carta cartaNoVisible = new Carta(3, Palos.CORAZONES);
         Carta cartaVisible = new Carta(2, Palos.TREBOLES);
         cartaVisible.darVuelta();
@@ -604,7 +604,7 @@ public class ColumnaKlondikeTest {
         Columna segmentoExtraido = columna.obtenerSegmento(0);
         boolean seInserto = columna.insertarSegmento(segmentoExtraido);
 
-        Columna columnaEsperada = new ColumnaKlondike();
+        Columna columnaEsperada = new ColumnaKlondike(estrategia);
         Carta carta1 = new Carta(3, Palos.CORAZONES);
         Carta carta2 = new Carta(2, Palos.TREBOLES);
         carta2.darVuelta();
@@ -628,14 +628,14 @@ public class ColumnaKlondikeTest {
 
     @Test
     public void InsertarCartaValidaEnColumnaFinal() {
-        Columna columnaFinal = new ColumnaKlondike();
+        Columna columnaFinal = new ColumnaKlondike(estrategia);
         Carta carta1 = new Carta(1, Palos.PICAS);
         carta1.darVuelta();
         columnaFinal.push(carta1);
 
         Carta cartaAInsertar = new Carta(2, Palos.PICAS);
         cartaAInsertar.darVuelta();
-        Columna segmento = new ColumnaKlondike();
+        Columna segmento = new ColumnaKlondike(estrategia);
         segmento.push(cartaAInsertar);
 
         boolean seInserto = columnaFinal.insertarColumnaFinal(segmento);
@@ -647,14 +647,14 @@ public class ColumnaKlondikeTest {
 
     @Test
     public void InsertarCartaNumeroInvalidoEnColumnaFinal() {
-        Columna columnaFinal = new ColumnaKlondike();
+        Columna columnaFinal = new ColumnaKlondike(estrategia);
         Carta carta1 = new Carta(1, Palos.PICAS);
         carta1.darVuelta();
         columnaFinal.push(carta1);
 
         Carta cartaAInsertar = new Carta(3, Palos.PICAS);
         cartaAInsertar.darVuelta();
-        Columna segmento = new ColumnaKlondike();
+        Columna segmento = new ColumnaKlondike(estrategia);
         segmento.push(cartaAInsertar);
 
         boolean seInserto = columnaFinal.insertarColumnaFinal(segmento);
@@ -666,14 +666,14 @@ public class ColumnaKlondikeTest {
 
     @Test
     public void InsertarCartaPaloInvalidoEnColumnaFinal() {
-        Columna columnaFinal = new ColumnaKlondike();
+        Columna columnaFinal = new ColumnaKlondike(estrategia);
         Carta carta1 = new Carta(1, Palos.PICAS);
         carta1.darVuelta();
         columnaFinal.push(carta1);
 
         Carta cartaAInsertar = new Carta(2, Palos.CORAZONES);
         cartaAInsertar.darVuelta();
-        Columna segmento = new ColumnaKlondike();
+        Columna segmento = new ColumnaKlondike(estrategia);
         segmento.push(cartaAInsertar);
 
         boolean seInserto = columnaFinal.insertarColumnaFinal(segmento);
@@ -685,11 +685,11 @@ public class ColumnaKlondikeTest {
 
     @Test
     public void InsertarCartaValidaEnColumnaFinalVacia() {
-        Columna columnaFinal = new ColumnaKlondike();
+        Columna columnaFinal = new ColumnaKlondike(estrategia);
 
         Carta cartaAInsertar = new Carta(1, Palos.CORAZONES);
         cartaAInsertar.darVuelta();
-        Columna segmento = new ColumnaKlondike();
+        Columna segmento = new ColumnaKlondike(estrategia);
         segmento.push(cartaAInsertar);
 
         boolean seInserto = columnaFinal.insertarColumnaFinal(segmento);
@@ -701,7 +701,7 @@ public class ColumnaKlondikeTest {
 
     @Test
     public void InsertarSegmentoNullEnColumnaFinal() {
-        Columna columnaFinal = new ColumnaKlondike();
+        Columna columnaFinal = new ColumnaKlondike(estrategia);
         Carta carta1 = new Carta(1, Palos.PICAS);
         carta1.darVuelta();
         columnaFinal.push(carta1);
@@ -721,7 +721,7 @@ public class ColumnaKlondikeTest {
     public void InsertarSegmentoDevuelta() {
         Columna columna1 = generarColumna();
 
-        Columna columna2 = new ColumnaKlondike();
+        Columna columna2 = new ColumnaKlondike(estrategia);
         for (int i=13; i > 6; i--) {
             //inserta cartas intercaladas
             if (i % 2 == 0) {
@@ -752,9 +752,9 @@ public class ColumnaKlondikeTest {
      */
     public void ReinsertarSegmentoVacio() {
 
-        Columna columna1 = new ColumnaKlondike();
+        Columna columna1 = new ColumnaKlondike(estrategia);
 
-        Columna columna2 = new ColumnaKlondike();
+        Columna columna2 = new ColumnaKlondike(estrategia);
         Carta carta = new Carta(3, Palos.TREBOLES);
         carta.darVuelta();
         columna2.push(carta);
@@ -774,7 +774,7 @@ public class ColumnaKlondikeTest {
 
     @Test
     public void MoverAColumnaFinalMismoColorDiferentePalo() {
-        Columna columnaFinal = new ColumnaKlondike();
+        Columna columnaFinal = new ColumnaKlondike(estrategia);
         Carta carta1 = new Carta(1, Palos.PICAS);
         carta1.darVuelta();
         columnaFinal.push(carta1);
@@ -782,7 +782,7 @@ public class ColumnaKlondikeTest {
         Carta cartaAInsertar = new Carta(2, Palos.TREBOLES);
         cartaAInsertar.darVuelta();
 
-        Columna segmento = new ColumnaKlondike();
+        Columna segmento = new ColumnaKlondike(estrategia);
         segmento.push(cartaAInsertar);
 
         boolean seInserto = columnaFinal.insertarColumnaFinal(segmento);

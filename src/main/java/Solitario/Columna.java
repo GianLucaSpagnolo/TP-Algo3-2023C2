@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public abstract class Columna extends ArrayList<Carta> implements Serializable {
-    public Columna() {
+    private final EstrategiaComparacion estrategia;
+    public Columna(EstrategiaComparacion estrategia) {
         super();
+        this.estrategia = estrategia;
     }
 
     public Carta peek() {
@@ -29,13 +31,52 @@ public abstract class Columna extends ArrayList<Carta> implements Serializable {
         return this;
     }
 
-    public abstract boolean esCadena(Integer indice);
+    /**
+     Verifica si las cartas de la columna, hasta un determinado indice, es una cadena correcta en base a las
+     reglas de un Solitario Klondike
+     */
+    public boolean esCadena(Integer indice) {
+        for (int i = 0; i < indice; i++) {
+            Carta carta1 = this.get(i);
+            Carta carta2 = this.get(i+1);
+            if (!estrategia.sonCompatibles(carta1, carta2)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Inserta el segmento de cartas previamente obtenido, en otra columna. Para eso verifica la compatibilidad
+     * entre sus cartas e intenta insertar el segmento en caso positivo.
+     */
+    public boolean insertarSegmento(Columna segmento) {
+        if (segmento == null || segmento.isEmpty()) {
+            return false;
+        }
+        Carta ultimaCarta = segmento.getCartas().get(segmento.size()-1);
+        Carta topeColumna = peek();
+        if ((estrategia.sonCompatibles(ultimaCarta, topeColumna))) {
+            this.addAll(0, segmento.getCartas());
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * En caso de que no se haya realizado exitosamente la accion se insertarSegmento() hacia una columna determinada,
+     * insertara el segmento en la columna a la cual pertenecia. Para este caso, no se realiza ninguna comparacion
+     * previa ya que el objetivo es dejar la columna origen tal como estaba antes de intentar hacer el movimiento.
+     */
+    public boolean insertarSegmentoDevuelta(Columna segmento) {
+        if (segmento == null || segmento.isEmpty()) {
+            return false;
+        }
+        this.addAll(0, segmento.getCartas());
+        return true;
+    }
 
     public abstract Columna obtenerSegmento(Integer indice);
-
-    public abstract boolean insertarSegmento(Columna segmento);
-
-    public abstract boolean insertarSegmentoDevuelta(Columna segmento);
 
     public abstract boolean insertarColumnaFinal(Columna segmento);
 }

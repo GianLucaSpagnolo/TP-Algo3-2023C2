@@ -1,8 +1,6 @@
 package Reglas;
 
-import Solitario.Carta;
-import Solitario.Columna;
-import Solitario.Palos;
+import Solitario.*;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -10,10 +8,11 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class ColumnaSpiderTest {
+    private static final EstrategiaComparacion estrategia = new EstrategiaComparacionSpider();
 
     @Test
     public void columnaVacia() {
-        Columna columna = new ColumnaSpider();
+        Columna columna = new ColumnaSpider(estrategia);
         assertTrue(columna.isEmpty());
         assertEquals(new ArrayList<Carta>(), columna.getCartas());
         assertNull(columna.peek());
@@ -22,7 +21,7 @@ public class ColumnaSpiderTest {
 
     @Test
     public void TestPushCarta() {
-        Columna columna = new ColumnaSpider();
+        Columna columna = new ColumnaSpider(estrategia);
         Carta carta = new Carta(5, Palos.PICAS);
         columna.push(carta);
 
@@ -37,7 +36,7 @@ public class ColumnaSpiderTest {
      * Se introduce una carta y se la saca. Se comprueba que la columna se comporte como una columna vacía.
      */
     public void TestVaciarColumna() {
-        Columna columna = new ColumnaSpider();
+        Columna columna = new ColumnaSpider(estrategia);
         Carta cartaInsertada = new Carta(5, Palos.PICAS);
         columna.push(cartaInsertada);
         Carta cartaSacada = columna.pop();
@@ -51,7 +50,7 @@ public class ColumnaSpiderTest {
 
     @Test
     public void TestDosCartasCadena() {
-        Columna columna = new ColumnaSpider();
+        Columna columna = new ColumnaSpider(estrategia);
         Carta carta1 = new Carta(5, Palos.PICAS);
         Carta carta2 = new Carta(4, Palos.PICAS);
 
@@ -68,7 +67,7 @@ public class ColumnaSpiderTest {
 
     @Test
     public void TestDosCartasNoCadena() {
-        Columna columna = new ColumnaSpider();
+        Columna columna = new ColumnaSpider(estrategia);
         Carta carta1 = new Carta(5, Palos.PICAS);
         Carta carta2 = new Carta(6, Palos.PICAS);
 
@@ -95,7 +94,7 @@ public class ColumnaSpiderTest {
      * Genera una columna completa de 13 cartas que es cadena (Segun las reglas Spider)
      */
     private Columna generarColumnaSpider() {
-        Columna columna = new ColumnaSpider();
+        Columna columna = new ColumnaSpider(estrategia);
         for (int i=13; i > 0; i--) {
             Carta carta = new Carta(i, Palos.PICAS);
             carta.darVuelta();
@@ -109,14 +108,14 @@ public class ColumnaSpiderTest {
         Columna columna = generarColumnaSpider();
         Columna segmento = columna.obtenerSegmento(5);
 
-        Columna segmentoEsperado = new ColumnaSpider();
+        Columna segmentoEsperado = new ColumnaSpider(estrategia);
         for (int i=6; i > 0; i--) {
             Carta carta = new Carta(i, Palos.PICAS);
             carta.darVuelta();
             segmentoEsperado.push(carta);
         }
 
-        Columna columnaRestante = new ColumnaSpider();
+        Columna columnaRestante = new ColumnaSpider(estrategia);
 
         //Contruye lo que se espera que quede del segmento original, es decir, el segmento del que se extrajo el segmento
         for (int i=13; i > 6; i--) {
@@ -184,7 +183,7 @@ public class ColumnaSpiderTest {
      * Se trata de extraer un segmento que no es cadena de una columna
      */
     public void TestObtenerSegmentoInvalido() {
-        Columna columna = new ColumnaSpider();
+        Columna columna = new ColumnaSpider(estrategia);
         for (int i=5; i > 1; i--) {
             Carta carta = new Carta(i, Palos.PICAS);
             carta.darVuelta();
@@ -206,7 +205,7 @@ public class ColumnaSpiderTest {
      * Se trata de extraer un segmento de una columna vacia
      */
     public void TestObtenerSegmentoDeColumnaVacia() {
-        Columna columnaVacia = new ColumnaSpider();
+        Columna columnaVacia = new ColumnaSpider(estrategia);
         Columna segmentoExtraido = columnaVacia.obtenerSegmento(0);
 
         assertNull(segmentoExtraido);
@@ -218,7 +217,7 @@ public class ColumnaSpiderTest {
      * Se trata de extraer un segmento con un indice de una carta invisible
      */
     public void TestObtenerSegmentoSobreCartasInvisibles() {
-        Columna columna = new ColumnaSpider();
+        Columna columna = new ColumnaSpider(estrategia);
         for (int i=6; i > 2; i--) {
            Carta carta = new Carta(i, Palos.PICAS);
            columna.push(carta);
@@ -244,7 +243,7 @@ public class ColumnaSpiderTest {
     public void TestInsertarSegmentoSimpleValido() {
         Columna columna1 = generarColumnaSpider();
 
-        Columna columna2 = new ColumnaSpider();
+        Columna columna2 = new ColumnaSpider(estrategia);
         for (int i=13; i > 6; i--) {
             Carta carta = new Carta(i, Palos.PICAS);
             carta.darVuelta();
@@ -254,14 +253,14 @@ public class ColumnaSpiderTest {
         Columna segmentoExtraido = columna1.obtenerSegmento(5);
         boolean seInserto = columna2.insertarSegmento(segmentoExtraido); //La columna2 queda como una columna completa de 13 cartas
 
-        Columna segmentoExtraidoEsperado = new ColumnaSpider();
+        Columna segmentoExtraidoEsperado = new ColumnaSpider(estrategia);
         for (int i=6; i > 0; i--) {
             Carta carta = new Carta(i, Palos.PICAS);
             carta.darVuelta();
             segmentoExtraidoEsperado.push(carta);
         }
 
-        Columna columnaRestanteEsperada = new ColumnaSpider();
+        Columna columnaRestanteEsperada = new ColumnaSpider(estrategia);
         for (int i=13; i > 6; i--) {
             Carta carta = new Carta(i, Palos.PICAS);
             carta.darVuelta();
@@ -310,14 +309,14 @@ public class ColumnaSpiderTest {
     public void TestInsertarSegmentoSimpleInvalido() {
         Columna columna1 = generarColumnaSpider();
 
-        Columna columna2 = new ColumnaSpider();
+        Columna columna2 = new ColumnaSpider(estrategia);
         for (int i=13; i > 6; i--) {
             Carta carta = new Carta(i, Palos.PICAS);
             carta.darVuelta();
             columna2.push(carta);
         }
 
-        Columna columnaResultado = new ColumnaSpider();
+        Columna columnaResultado = new ColumnaSpider(estrategia);
         for (int i=13; i > 6; i--) {
             Carta carta = new Carta(i, Palos.PICAS);
             carta.darVuelta();
@@ -327,14 +326,14 @@ public class ColumnaSpiderTest {
         Columna segmentoExtraido = columna1.obtenerSegmento(3);
         boolean seInserto = columna2.insertarSegmento(segmentoExtraido);
 
-        Columna segmentoExtraidoEsperado = new ColumnaSpider();
+        Columna segmentoExtraidoEsperado = new ColumnaSpider(estrategia);
         for (int i=4; i > 0; i--) {
             Carta carta = new Carta(i, Palos.PICAS);
             carta.darVuelta();
             segmentoExtraidoEsperado.push(carta);
         }
 
-        Columna columnaRestanteEsperada = new ColumnaSpider();
+        Columna columnaRestanteEsperada = new ColumnaSpider(estrategia);
         for (int i=13; i > 4; i--) {
             Carta carta = new Carta(i, Palos.PICAS);
             carta.darVuelta();
@@ -381,7 +380,7 @@ public class ColumnaSpiderTest {
      */
     public void TestInsertarSegmentoValidoUnaCarta() {
         Columna columnaCompleta = generarColumnaSpider();
-        Columna columna2 = new ColumnaSpider();
+        Columna columna2 = new ColumnaSpider(estrategia);
         Carta carta1 = new Carta(2, Palos.PICAS);
         carta1.darVuelta();
         columna2.push(carta1);
@@ -389,7 +388,7 @@ public class ColumnaSpiderTest {
         Columna segmentoExtraido = columnaCompleta.obtenerSegmento(0);
         boolean seInserto = columna2.insertarSegmento(segmentoExtraido);
 
-        Columna columnaEsperada = new ColumnaSpider();
+        Columna columnaEsperada = new ColumnaSpider(estrategia);
         Carta carta2 = new Carta(2, Palos.PICAS);
         Carta carta3 = new Carta(1, Palos.PICAS);
         carta2.darVuelta();
@@ -397,7 +396,7 @@ public class ColumnaSpiderTest {
         columnaEsperada.push(carta2);
         columnaEsperada.push(carta3);
 
-        Columna columnaRestanteEsperada = new ColumnaSpider();
+        Columna columnaRestanteEsperada = new ColumnaSpider(estrategia);
         for (int i=13; i > 1; i--) {
             Carta carta = new Carta(i, Palos.PICAS);
             carta.darVuelta();
@@ -436,7 +435,7 @@ public class ColumnaSpiderTest {
     @Test
     public void TestInsertarSegmentoValidoSobreColumnaVacia() {
         Columna columnaCompleta = generarColumnaSpider();
-        Columna columnaVacia = new ColumnaSpider();
+        Columna columnaVacia = new ColumnaSpider(estrategia);
         Columna segmentoExtraido = columnaCompleta.obtenerSegmento(12);
         boolean seInserto = columnaVacia.insertarSegmento(segmentoExtraido);
 
@@ -453,12 +452,12 @@ public class ColumnaSpiderTest {
 
     @Test
     public void TestInsertarSegmentoVacio() {
-        Columna columna = new ColumnaSpider();
+        Columna columna = new ColumnaSpider(estrategia);
         Carta carta = new Carta(4, Palos.PICAS);
         carta.darVuelta();
         columna.push(carta);
 
-        Columna segmentoVacio = new ColumnaSpider();
+        Columna segmentoVacio = new ColumnaSpider(estrategia);
 
         boolean seInserto = columna.insertarSegmento(segmentoVacio);
 
@@ -471,14 +470,14 @@ public class ColumnaSpiderTest {
 
     @Test
     public void TestInsertarSegmentoVacioSobreColumnaVacia() {
-        Columna columnaVacia = new ColumnaSpider();
+        Columna columnaVacia = new ColumnaSpider(estrategia);
 
-        Columna segmentoVacio = new ColumnaSpider();
+        Columna segmentoVacio = new ColumnaSpider(estrategia);
 
         boolean seInserto = columnaVacia.insertarSegmento(segmentoVacio);
 
         assertFalse(seInserto);
-        assertEquals(new ColumnaSpider(), columnaVacia);
+        assertEquals(new ColumnaSpider(estrategia), columnaVacia);
     }
 
     @Test
@@ -486,7 +485,7 @@ public class ColumnaSpiderTest {
      * Simula escenario donde se debe volver a colocar un segmento extraido en la columna de la que se sacó, antes de hacer visible la carta tope invisible
      */
     public void TestInsertarSegmentoSobreCartaNoVisible() {
-        Columna columna = new ColumnaSpider();
+        Columna columna = new ColumnaSpider(estrategia);
         Carta cartaNoVisible = new Carta(3, Palos.PICAS);
         Carta cartaVisible = new Carta(2, Palos.PICAS);
         cartaVisible.darVuelta();
@@ -496,7 +495,7 @@ public class ColumnaSpiderTest {
         Columna segmentoExtraido = columna.obtenerSegmento(0);
         boolean seInserto = columna.insertarSegmento(segmentoExtraido);
 
-        Columna columnaEsperada = new ColumnaSpider();
+        Columna columnaEsperada = new ColumnaSpider(estrategia);
         Carta carta1 = new Carta(3, Palos.PICAS);
         Carta carta2 = new Carta(2, Palos.PICAS);
         carta2.darVuelta();
@@ -520,7 +519,7 @@ public class ColumnaSpiderTest {
 
     @Test
     public void InsertarSegmentoEnColumnaFinal() {
-        Columna columnaFinal = new ColumnaSpider();
+        Columna columnaFinal = new ColumnaSpider(estrategia);
         Columna segmento = generarColumnaSpider();
 
         boolean seInserto = columnaFinal.insertarColumnaFinal(segmento);
@@ -534,8 +533,8 @@ public class ColumnaSpiderTest {
 
     @Test
     public void InsertarSegmentoVacioEnColumnaFinal() {
-        Columna columnaFinal = new ColumnaSpider();
-        Columna segmento = new ColumnaSpider();
+        Columna columnaFinal = new ColumnaSpider(estrategia);
+        Columna segmento = new ColumnaSpider(estrategia);
 
         boolean seInserto = columnaFinal.insertarColumnaFinal(segmento);
         Carta topeEsperado = null;
@@ -553,7 +552,7 @@ public class ColumnaSpiderTest {
     public void InsertarSegmentoDevuelta() {
         Columna columna1 = generarColumnaSpider();
 
-        Columna columna2 = new ColumnaSpider();
+        Columna columna2 = new ColumnaSpider(estrategia);
         for (int i=13; i > 6; i--) {
             Carta carta = new Carta(i, Palos.PICAS);
             carta.darVuelta();
@@ -577,9 +576,9 @@ public class ColumnaSpiderTest {
      */
     public void ReinsertarSegmentoVacio() {
 
-        Columna columna1 = new ColumnaSpider();
+        Columna columna1 = new ColumnaSpider(estrategia);
 
-        Columna columna2 = new ColumnaSpider();
+        Columna columna2 = new ColumnaSpider(estrategia);
         Carta carta = new Carta(3, Palos.PICAS);
         carta.darVuelta();
         columna2.push(carta);

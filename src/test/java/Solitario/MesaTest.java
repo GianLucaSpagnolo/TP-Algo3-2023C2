@@ -1,6 +1,7 @@
 package Solitario;
 
 import Reglas.ColumnaKlondike;
+import Reglas.EstrategiaComparacionKlondike;
 import org.junit.Test;
 
 import java.io.FileInputStream;
@@ -41,8 +42,9 @@ public class MesaTest {
         mazo.generarBaraja(semilla, palos);
         Mesa mesa = new Mesa(mazo);
 
+        EstrategiaComparacion estrategia = new EstrategiaComparacionKlondike();
         for (int i = 0; i < 6; i++) {
-            Columna columnaMesa = new ColumnaKlondike();
+            Columna columnaMesa = new ColumnaKlondike(estrategia);
             mesa.inicializarColumnaMesa(columnaMesa);
         }
         assertEquals(6, mesa.sizeColumnaMesa(), 0);
@@ -60,8 +62,9 @@ public class MesaTest {
         mazo.generarBaraja(semilla, palos);
         Mesa mesa = new Mesa(mazo);
 
+        EstrategiaComparacion estrategia = new EstrategiaComparacionKlondike();
         for (int i = 0; i < 5; i++) {
-            Columna columnaFinal = new ColumnaKlondike();
+            Columna columnaFinal = new ColumnaKlondike(estrategia);
             mesa.inicializarColumnaFinal(columnaFinal);
         }
         assertEquals(5, mesa.sizeColumnaFinal(), 0);
@@ -111,12 +114,13 @@ public class MesaTest {
         mazo.generarBaraja(semilla, palos);
 
         Mesa mesa = new Mesa(mazo);
+        EstrategiaComparacion estrategia = new EstrategiaComparacionKlondike();
         for (int i = 0; i < 7; i++) {
-            Columna columnaMesa = new ColumnaKlondike();
+            Columna columnaMesa = new ColumnaKlondike(estrategia);
             mesa.inicializarColumnaMesa(columnaMesa);
         }
         for (int i = 0; i < 4; i++) {
-            Columna columnaFinal = new ColumnaKlondike();
+            Columna columnaFinal = new ColumnaKlondike(estrategia);
             mesa.inicializarColumnaFinal(columnaFinal);
         }
         mesa.crearBarajaDescarte();
@@ -141,13 +145,14 @@ public class MesaTest {
         GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(104, palos);
         mazo.generarBaraja(semilla, palos);
 
+        EstrategiaComparacion estrategia = new EstrategiaComparacionKlondike();
         Mesa mesa = new Mesa(mazo);
         for (int i = 0; i < 10; i++) {
-            Columna columnaMesa = new ColumnaKlondike();
+            Columna columnaMesa = new ColumnaKlondike(estrategia);
             mesa.inicializarColumnaMesa(columnaMesa);
         }
         for (int i = 0; i < 10; i++) {
-            Columna columnaFinal = new ColumnaKlondike();
+            Columna columnaFinal = new ColumnaKlondike(estrategia);
             mesa.inicializarColumnaFinal(columnaFinal);
         }
 
@@ -167,13 +172,15 @@ public class MesaTest {
         Mazo mazo = new Mazo();
         GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString("A0B0C0D0E0F0G0H0I0J0K0L0M0");
         mazo.generarBaraja(semilla, palos);
+
+        EstrategiaComparacion estrategia = new EstrategiaComparacionKlondike();
         Mesa mesa = new Mesa(mazo);
         for (int i = 0; i < 6; i++) {
-            Columna columnaMesa = new ColumnaKlondike();
+            Columna columnaMesa = new ColumnaKlondike(estrategia);
             mesa.inicializarColumnaMesa(columnaMesa);
         }
         for (int i = 0; i < 2; i++) {
-            Columna columnaFinal = new ColumnaKlondike();
+            Columna columnaFinal = new ColumnaKlondike(estrategia);
             mesa.inicializarColumnaFinal(columnaFinal);
         }
 

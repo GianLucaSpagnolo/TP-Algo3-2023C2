@@ -29,12 +29,13 @@ public class Klondike implements Solitario {
             mazo.generarBaraja(semilla, palos);
 
             Mesa nuevaMesa = new Mesa(mazo);
+            EstrategiaComparacion estrategia = new EstrategiaComparacionKlondike();
             for (int i = 0; i < 7; i++) {
-                Columna columnaMesa = new ColumnaKlondike();
+                Columna columnaMesa = new ColumnaKlondike(estrategia);
                 nuevaMesa.inicializarColumnaMesa(columnaMesa);
             }
             for (int j = 0; j < 4; j++) {
-                Columna columnaFinal = new ColumnaKlondike();
+                Columna columnaFinal = new ColumnaKlondike(estrategia);
                 nuevaMesa.inicializarColumnaFinal(columnaFinal);
             }
             nuevaMesa.crearBarajaDescarte();
@@ -158,7 +159,8 @@ public class Klondike implements Solitario {
         if (carta == null) {
             return false;
         }
-        Columna columnaCarta = new ColumnaKlondike();
+        EstrategiaComparacion estrategia = new EstrategiaComparacionKlondike();
+        Columna columnaCarta = new ColumnaKlondike(estrategia);
         columnaCarta.push(carta);
         boolean seInserto = mesa.columnaMesaEnPosicion(destino).insertarSegmento(columnaCarta);
         if (!seInserto) {
@@ -176,7 +178,8 @@ public class Klondike implements Solitario {
         if (carta == null) {
             return false;
         }
-        Columna segmento = new ColumnaKlondike();
+        EstrategiaComparacion estrategia = new EstrategiaComparacionKlondike();
+        Columna segmento = new ColumnaKlondike(estrategia);
         segmento.push(carta);
         boolean seInserto = mesa.columnaFinalEnPosicion(destino).insertarColumnaFinal(segmento);
         if (!seInserto) {
