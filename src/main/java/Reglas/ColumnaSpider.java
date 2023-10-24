@@ -36,6 +36,4 @@ public class ColumnaSpider extends Columna {
         this.addAll(0, segmento.getCartas());
         return true;
     }
-
-
 }

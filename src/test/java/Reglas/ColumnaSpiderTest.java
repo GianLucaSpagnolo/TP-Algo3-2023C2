@@ -2,10 +2,9 @@ package Reglas;
 
 import Solitario.*;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-
-import static org.junit.Assert.*;
 
 public class ColumnaSpiderTest {
     private static final EstrategiaComparacion estrategia = new EstrategiaComparacionSpider();

@@ -1,7 +1,6 @@
 package Reglas;
 
 import Solitario.*;
-
 import java.io.Serializable;
 
 public class EstrategiaComparacionKlondike implements EstrategiaComparacion, Serializable {
@@ -25,5 +24,4 @@ public class EstrategiaComparacionKlondike implements EstrategiaComparacion, Ser
         }
         return (carta1.getNumero() == (carta2.getNumero() - 1)) && (carta1.getColor() != carta2.getColor());
     }
-
 }

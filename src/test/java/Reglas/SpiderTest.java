@@ -151,6 +151,63 @@ public class SpiderTest {
         assertEquals(Palos.PICAS, mesa.columnaMesaEnPosicion(9).peek().getPalo());
     }
 
+    @Test
+    public void spiderSacarDelMazoVariasVeces() {
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+                ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0F0" +
+                        "M0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
+        Spider spider = new Spider(semilla, null);
+        spider.repartirCartasInicio();
+        spider.sacarDelMazo();
+        spider.sacarDelMazo();
+        spider.sacarDelMazo();
+        Mesa mesa = spider.getEstadoMesa();
+
+        Carta carta1 = mesa.sacarCartaMazo();
+        carta1.darVuelta();
+        assertEquals(12, carta1.getNumero(), 0);
+        assertEquals(Palos.PICAS, carta1.getPalo());
+        Carta carta2 = mesa.sacarCartaMazo();
+        carta2.darVuelta();
+        assertEquals(13, carta2.getNumero(), 0);
+        assertEquals(Palos.PICAS, carta2.getPalo());
+        Carta carta3 = mesa.sacarCartaMazo();
+        carta3.darVuelta();
+        assertEquals(10,carta3.getNumero(), 0);
+        assertEquals(Palos.PICAS, carta3.getPalo());
+
+        assertEquals(10, mesa.columnaMesaEnPosicion(0).peek().getNumero(), 0);
+        assertEquals(9, mesa.columnaMesaEnPosicion(0).size(), 0);
+        assertEquals(Palos.PICAS, mesa.columnaMesaEnPosicion(0).peek().getPalo());
+        assertEquals(10, mesa.columnaMesaEnPosicion(1).peek().getNumero(), 0);
+        assertEquals(9, mesa.columnaMesaEnPosicion(1).size(), 0);
+        assertEquals(Palos.PICAS, mesa.columnaMesaEnPosicion(1).peek().getPalo());
+        assertEquals(11, mesa.columnaMesaEnPosicion(2).peek().getNumero(), 0);
+        assertEquals(9, mesa.columnaMesaEnPosicion(2).size(), 0);
+        assertEquals(Palos.PICAS, mesa.columnaMesaEnPosicion(2).peek().getPalo());
+        assertEquals(9, mesa.columnaMesaEnPosicion(3).peek().getNumero(), 0);
+        assertEquals(9, mesa.columnaMesaEnPosicion(3).size(), 0);
+        assertEquals(Palos.PICAS, mesa.columnaMesaEnPosicion(3).peek().getPalo());
+        assertEquals(4, mesa.columnaMesaEnPosicion(4).peek().getNumero(), 0);
+        assertEquals(8, mesa.columnaMesaEnPosicion(4).size(), 0);
+        assertEquals(Palos.PICAS, mesa.columnaMesaEnPosicion(4).peek().getPalo());
+        assertEquals(7, mesa.columnaMesaEnPosicion(5).peek().getNumero(), 0);
+        assertEquals(8, mesa.columnaMesaEnPosicion(5).size(), 0);
+        assertEquals(Palos.PICAS, mesa.columnaMesaEnPosicion(5).peek().getPalo());
+        assertEquals(10, mesa.columnaMesaEnPosicion(6).peek().getNumero(), 0);
+        assertEquals(8, mesa.columnaMesaEnPosicion(6).size(), 0);
+        assertEquals(Palos.PICAS, mesa.columnaMesaEnPosicion(6).peek().getPalo());
+        assertEquals(6, mesa.columnaMesaEnPosicion(7).peek().getNumero(), 0);
+        assertEquals(8, mesa.columnaMesaEnPosicion(7).size(), 0);
+        assertEquals(Palos.PICAS, mesa.columnaMesaEnPosicion(7).peek().getPalo());
+        assertEquals(12, mesa.columnaMesaEnPosicion(8).peek().getNumero(), 0);
+        assertEquals(8, mesa.columnaMesaEnPosicion(8).size(), 0);
+        assertEquals(Palos.PICAS, mesa.columnaMesaEnPosicion(8).peek().getPalo());
+        assertEquals(7, mesa.columnaMesaEnPosicion(9).peek().getNumero(), 0);
+        assertEquals(8, mesa.columnaMesaEnPosicion(9).size(), 0);
+        assertEquals(Palos.PICAS, mesa.columnaMesaEnPosicion(9).peek().getPalo());
+    }
+
 
     /**
      * Tests Klondike en estado particular

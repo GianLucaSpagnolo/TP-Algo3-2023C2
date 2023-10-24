@@ -1,7 +1,6 @@
 package Reglas;
 
 import Solitario.*;
-
 import java.io.Serializable;
 
 public class EstrategiaComparacionSpider implements EstrategiaComparacion, Serializable {

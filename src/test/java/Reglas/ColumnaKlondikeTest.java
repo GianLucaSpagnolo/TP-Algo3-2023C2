@@ -791,5 +791,4 @@ public class ColumnaKlondikeTest {
         assertEquals(1, columnaFinal.size());
         assertEquals(carta1, columnaFinal.peek());
     }
-
 }
