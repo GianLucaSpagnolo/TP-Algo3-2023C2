@@ -33,12 +33,14 @@ public abstract class Columna extends ArrayList<Carta> implements Serializable {
 
     /**
      Verifica si las cartas de la columna, hasta un determinado indice, es una cadena correcta en base a las
-     reglas de un Solitario Klondike
+     reglas determinadas por la estrategiaComparacion que posee la columna.
      */
     public boolean esCadena(Integer indice) {
         for (int i = 0; i < indice; i++) {
             Carta carta1 = this.get(i);
             Carta carta2 = this.get(i+1);
+            if (!carta2.esVisible())
+                return false;
             if (!estrategia.sonCompatibles(carta1, carta2)) {
                 return false;
             }

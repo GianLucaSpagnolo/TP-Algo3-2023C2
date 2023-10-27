@@ -71,6 +71,9 @@ public class Spider implements Solitario {
 
     /**
      * Mueve una o varias cartas de una columna mesa a otra.
+     * Si el movimiento es valido y en la columna destino se forma una cadena de 13 cartas (desde A hasta K)
+     * mueve dicho segmento de 13 cartas a una columna final, las cuales verifican un posible estado de victoria
+     * del solitario Spider.
      */
     public boolean moverCartas(Integer origen, Integer destino, Integer carta) {
         Columna segmento = mesa.columnaMesaEnPosicion(origen).obtenerSegmento(carta);
@@ -96,7 +99,13 @@ public class Spider implements Solitario {
      * Mueve un segmento de 13 cartas a una columna final.
      */
     private boolean moverCartasColumnaFinal(Integer origen, Integer destino) {
-        Columna segmento = mesa.columnaMesaEnPosicion(origen).obtenerSegmento(12);
+        Columna segmento;
+        try {
+            segmento = mesa.columnaMesaEnPosicion(origen).obtenerSegmento(12);
+        } catch (IndexOutOfBoundsException ex) {
+            return false;
+        }
+
         if (segmento == null) {
             return false;
         }
@@ -109,7 +118,8 @@ public class Spider implements Solitario {
 
 
     /**
-     * Verifica si el juego llego a un estado de victoria.
+     * Verifica si el juego llego a un estado de victoria, con las 8 columnas finales llenas de cartas las cuales
+     * conforman 8 cadenas desde A hasta K.
      */
     public boolean estaGanado() {
         return posicionColumnaFinal == 8;
@@ -117,6 +127,7 @@ public class Spider implements Solitario {
 
     /**
      * Reparte una carta a cada una de las 10 columnas mesa.
+     * Si en la mesa hay una columna vacia, no se puede repartir cartas
      */
     public boolean sacarDelMazo() {
         Carta carta = mesa.sacarCartaMazo();

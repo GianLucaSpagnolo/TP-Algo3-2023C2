@@ -816,7 +816,7 @@ public class KlondikeTest {
         }
         assertNotNull(nuevaMesa1);
 
-        // Verifica la correcta carga del primer estado de juego
+        // Verifica la correcta carga y lectura del primer estado de juego
         Klondike klondike2 = new Klondike(null, nuevaMesa1);
         Mesa mesa2 = klondike2.getEstadoMesa();
         Carta carta1 = mesa2.sacarCartaDescarte();
