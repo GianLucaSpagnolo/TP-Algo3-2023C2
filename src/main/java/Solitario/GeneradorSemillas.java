@@ -3,13 +3,17 @@ package Solitario;
 import java.util.List;
 import java.util.Random;
 
-public class Semilla {
+public class GeneradorSemillas {
     private final String semilla;
 
-    public Semilla(Integer cantidad, List<Palos> palos) {
-        /*
-         * Genera una semilla aleatoria de formato String a partir de una cantidad de cartas y una lista de palos definidos.
-         */
+    private GeneradorSemillas(String semillaCreada) {
+        semilla = semillaCreada;
+    }
+
+    /**
+     * Genera una semilla aleatoria de formato String a partir de una cantidad de cartas y una lista de palos definidos.
+     */
+    public static GeneradorSemillas generarSemillaConCantidadYPalos(Integer cantidad, List<Palos> palos) {
         StringBuilder semillaCreada = new StringBuilder();
         String numeros = "ABCDEFGHIJKLM";
         if (cantidad != 0 && !palos.isEmpty()) {
@@ -28,25 +32,25 @@ public class Semilla {
             }
         }
         StringBuilder nuevaSemilla = mezclarSemilla(semillaCreada);
-        this.semilla = nuevaSemilla.toString();
+        return new GeneradorSemillas(nuevaSemilla.toString());
     }
 
-    public Semilla(String semillaEscrita) {
-        /*
-         * Genera una semilla a partir de un string determinado.
-         * Para que un string sea considerado como semilla valida debe cumplir con un formato especifico:
-         * - Caracter en posicion par: letra de A hasta M, que representa un numero entre 1 y 13 respectivamente.
-         * - Caracter en posicion impar: numero que simboliza la posicion del palo que se encuentra en la lista de palos, al que corresponde
-         * la carta cuyo numero es el caracter anterior.
-         */
-        semilla = semillaEscrita;
+    /**
+     * Genera una semilla a partir de un string determinado.
+     * Para que un string sea considerado como semilla valida debe cumplir con un formato especifico:
+     * Caracter en posicion par: letra de A hasta M, que representa un numero entre 1 y 13 respectivamente.
+     * Caracter en posicion impar: numero que simboliza la posicion del palo que se encuentra en la lista de palos, al que corresponde
+     * la carta cuyo numero es el caracter anterior.
+     */
+    public static GeneradorSemillas generarSemillaConString(String semillaEscrita) {
+        return new GeneradorSemillas(semillaEscrita);
     }
 
-    private StringBuilder mezclarSemilla(StringBuilder semilla) {
-        /*
-         * Recibe el StringBuilder el cual el constructor de Semilla usaba para formar la semilla que el usuario precisa.
-         * Recorre cada par de caracteres (que corresponde a un numero y palo de una carta) y lo reposiciona de manera aleatoria en el string.
-         */
+    /**
+     * Recibe el StringBuilder el cual el constructor de Semilla usaba para formar la semilla que el usuario precisa.
+     * Recorre cada par de caracteres (que corresponde a un numero y palo de una carta) y lo reposiciona de manera aleatoria en el string.
+     */
+    private static StringBuilder mezclarSemilla(StringBuilder semilla) {
         if (semilla.isEmpty())
             return semilla;
         Random generador = new Random();

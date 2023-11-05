@@ -1,8 +1,9 @@
 package Solitario;
 
+import java.io.*;
 import java.util.ArrayList;
 
-public class Mesa {
+public class Mesa implements Serializable{
     private final Mazo baraja;
     private Mazo barajaDescarte;
     private final ArrayList<Columna> columnasMesa;
@@ -17,7 +18,6 @@ public class Mesa {
     public void crearBarajaDescarte() {
         this.barajaDescarte = new Mazo();
     }
-
 
     public void inicializarColumnaMesa(Columna columna) {
         columnasMesa.add(columna);
@@ -60,9 +60,32 @@ public class Mesa {
     }
 
     public Carta sacarCartaDescarte() {
-        if (barajaDescarte.estaVacio()) {
+        if ((barajaDescarte == null) || barajaDescarte.estaVacio()) {
             return null;
         }
         return barajaDescarte.sacarCarta();
+    }
+
+
+    /**
+     * Guarda el estado de la Mesa (con todas sus columnas, cartas y mazos correspondientes)
+     * en el stream indicado por el parametro. Puede lanzar IOException en caso de error.
+     */
+    public void serializar(OutputStream os) throws IOException {
+        ObjectOutputStream bos = new ObjectOutputStream(os);
+        bos.writeObject(this);
+        bos.flush();
+    }
+
+    /**
+     * Copia el estado de la Mesa (con todas sus columnas, cartas y mazos correspondientes)
+     * desde el stream indicado por parametro. Devuelve la instancia de la mesa leida.
+     * Puede lanzar IOException o ClassNotFoundException en caso de error.
+     */
+    public static Mesa deserializar(InputStream is) throws IOException, ClassNotFoundException {
+        ObjectInputStream bis = new ObjectInputStream(is);
+        Mesa mesaLeida = (Mesa) bis.readObject();
+        bis.close();
+        return mesaLeida;
     }
 }

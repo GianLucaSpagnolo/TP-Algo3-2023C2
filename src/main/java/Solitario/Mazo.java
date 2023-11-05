@@ -1,20 +1,21 @@
 package Solitario;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Stack;
 
-public class Mazo {
+public class Mazo implements Serializable {
     private final Stack<Carta> baraja;
 
     public Mazo() {
         this.baraja = new Stack<>();
     }
 
-    public void generarBaraja(Semilla semilla, List<Palos> palos) {
-        /*
-         * Genera una baraja del mazo a partir de una Semilla previamente instanciada cuyo string cumple un formato especifico.
-         * Recibe una lista de palos, la cual la semilla determinara, mediante la posicion de cada palo, de que palo es cada carta.
-         */
+    /**
+     * Genera una baraja del mazo a partir de una Semilla previamente instanciada cuyo string cumple un formato especifico.
+     * Recibe una lista de palos, la cual la semilla determinara, mediante la posicion de cada palo, de que palo es cada carta.
+     */
+    public void generarBaraja(GeneradorSemillas semilla, List<Palos> palos) {
         if (semilla.isEmpty())
             return;
         String numeros = "ABCDEFGHIJKLM";

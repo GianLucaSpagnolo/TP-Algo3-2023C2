@@ -1,6 +1,8 @@
 package Solitario;
 
-public class Carta {
+import java.io.Serializable;
+
+public class Carta implements Serializable {
     private final Integer numero;
     private final Color color;
     private final Palos palo;

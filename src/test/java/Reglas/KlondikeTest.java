@@ -1,12 +1,22 @@
 package Reglas;
 
-import Solitario.*;
+import Solitario.Carta;
+import Solitario.GeneradorSemillas;
+import Solitario.Mesa;
+import Solitario.Palos;
 import org.junit.Test;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 public class KlondikeTest {
 
-    // Tests Klondike iniciado de cero
+    /**
+     * Tests Klondike iniciado de cero
+     */
     @Test
     public void inicioMazoKlondike() {
         Klondike klondike = new Klondike(null, null);
@@ -17,7 +27,7 @@ public class KlondikeTest {
         for (int i = 0; i < 51; i++)
             assertTrue(klondike.sacarDelMazo());
         Mesa nuevaMesa = klondike.getEstadoMesa();
-        Carta nuevaCarta = mesa.sacarCartaDescarte();
+        Carta nuevaCarta = nuevaMesa.sacarCartaDescarte();
         assertTrue(nuevaCarta.esVisible());
         assertNull(nuevaMesa.sacarCartaMazo());
     }
@@ -83,12 +93,13 @@ public class KlondikeTest {
     }
 
 
-
-    // Tests Klondike con semilla particular
-    // "L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2"
+    /**
+     * Tests Klondike con semilla particular
+     * "L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2"
+     */
     @Test
     public void klondikeSemillaVacia() {
-        Semilla semilla = new Semilla("");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString("");
         Klondike klondike = new Klondike(semilla, null);
         Mesa mesa1 = klondike.getEstadoMesa();
         assertNull(mesa1.sacarCartaMazo());
@@ -116,8 +127,9 @@ public class KlondikeTest {
     }
 
     @Test
-    public void testSemillaCompleta() {
-        Semilla semilla = new Semilla("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
+    public void klondikeSemillaCompleta() {
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+                ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike = new Klondike(semilla, null);
         klondike.repartirCartasInicio();
         klondike.sacarDelMazo();
@@ -145,7 +157,8 @@ public class KlondikeTest {
 
     @Test
     public void moverUnaCartaEntreColumnas() {
-        Semilla semilla = new Semilla("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+                ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike = new Klondike(semilla, null);
         klondike.repartirCartasInicio();
 
@@ -195,7 +208,8 @@ public class KlondikeTest {
 
     @Test
     public void testMoverCartaDescarteAColumnaMesa() {
-        Semilla semilla = new Semilla("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+                ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike = new Klondike(semilla, null);
         klondike.repartirCartasInicio();
         assertFalse(klondike.moverCartaDescarteAColumnaMesa(4));
@@ -283,7 +297,8 @@ public class KlondikeTest {
 
     @Test
     public void testMoverCartaDescarteAColumnaFinal() {
-        Semilla semilla = new Semilla("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+                ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike = new Klondike(semilla, null);
         klondike.repartirCartasInicio();
         assertFalse(klondike.moverCartaDescarteAColumnaFinal(2));
@@ -361,7 +376,8 @@ public class KlondikeTest {
 
     @Test
     public void testMoverCartaColumnaFinal() {
-        Semilla semilla = new Semilla("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+                ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike = new Klondike(semilla, null);
         klondike.repartirCartasInicio();
 
@@ -446,7 +462,8 @@ public class KlondikeTest {
 
     @Test
     public void testMoverCartaColumnaFinalAColumnaMesa() {
-        Semilla semilla = new Semilla("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+                ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike = new Klondike(semilla, null);
         klondike.repartirCartasInicio();
 
@@ -523,7 +540,8 @@ public class KlondikeTest {
 
     @Test
     public void moverVariasCartasEntreColumnas() {
-        Semilla semilla = new Semilla("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+                ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike = new Klondike(semilla, null);
         klondike.repartirCartasInicio();
 
@@ -656,7 +674,8 @@ public class KlondikeTest {
 
     @Test
     public void verificarJuegoGanado() {
-        Semilla semilla = new Semilla("M3M1M2M0L3L1L2L0K3K1K2K0J3J1J2J0I3I1I2I0H3H1H2H0B1D0E2F2G0G1G3B2C3E0F0F3G2B0C1D3E3F1A3C2D1E1A1C0D2A2B3A0");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+                ("M3M1M2M0L3L1L2L0K3K1K2K0J3J1J2J0I3I1I2I0H3H1H2H0B1D0E2F2G0G1G3B2C3E0F0F3G2B0C1D3E3F1A3C2D1E1A1C0D2A2B3A0");
         Klondike klondike = new Klondike(semilla, null);
         // Semilla especial que al repartir permite tener las cartas en la baraja de manera ordenada que, al repartir, cada carta
         // queda en una posicion conveniente para enviarla directamente a una columna final correspondiente
@@ -686,11 +705,13 @@ public class KlondikeTest {
     }
 
 
-
-    // Tests Klondike en estado particular
+    /**
+     * Tests Klondike en estado particular
+     */
     @Test
-    public void manipulacionDeEstadosParticulares() {
-        Semilla semilla = new Semilla("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
+    public void manipulacionDeEstadosParticularesDeMesa() {
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+                ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike1 = new Klondike(semilla, null);
         klondike1.repartirCartasInicio();
 
@@ -738,7 +759,8 @@ public class KlondikeTest {
         assertEquals(Palos.PICAS, estado2.columnaMesaEnPosicion(5).peek().getPalo());
         estado2.insertarCartaDescarte(carta2);
 
-        Semilla nuevaSemilla = new Semilla("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
+        GeneradorSemillas nuevaSemilla = GeneradorSemillas.generarSemillaConString
+                ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike3 = new Klondike(nuevaSemilla, estado2);
         klondike3.moverCartas(4, 1, 0);
         klondike3.sacarDelMazo();
@@ -757,5 +779,106 @@ public class KlondikeTest {
         assertEquals(1, estado3.columnaMesaEnPosicion(1).peek().getNumero(), 0);
         assertEquals(Palos.TREBOLES, estado3.columnaMesaEnPosicion(1).peek().getPalo());
         assertTrue(estado3.columnaFinalEnPosicion(1).isEmpty());
+    }
+
+    @Test
+    public void verificacionDeCorrectaPersistenciaDeMesa() {
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+                ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
+        Klondike klondike1 = new Klondike(semilla, null);
+        klondike1.repartirCartasInicio();
+
+        // Forma el primer estado del juego
+        klondike1.moverCartas(3, 2, 0);
+        klondike1.moverCartaColumnaFinal(4, 1);
+        for (int i = 0; i < 3; i++) {
+            klondike1.sacarDelMazo();
+        }
+        Mesa mesa1 = klondike1.getEstadoMesa();
+        // Serializa el primer estado del juego
+        boolean seGrabo1 = false;
+        try {
+            FileOutputStream fileOut = new FileOutputStream("src/main/resources/mesa.txt");
+            mesa1.serializar(fileOut);
+            seGrabo1 = true;
+        } catch (IOException ex) {
+            fail();
+        }
+        assertTrue(seGrabo1);
+        // Deserializa el primer estado del juego
+        Mesa nuevaMesa1 = null;
+        try {
+            FileInputStream fileIn = new FileInputStream("src/main/resources/mesa.txt");
+            nuevaMesa1 = Mesa.deserializar(fileIn);
+
+        } catch (IOException | ClassNotFoundException ex) {
+            fail();
+        }
+        assertNotNull(nuevaMesa1);
+
+        // Verifica la correcta carga y lectura del primer estado de juego
+        Klondike klondike2 = new Klondike(null, nuevaMesa1);
+        Mesa mesa2 = klondike2.getEstadoMesa();
+        Carta carta1 = mesa2.sacarCartaDescarte();
+        assertEquals(7, carta1.getNumero(), 0);
+        assertEquals(Palos.TREBOLES, carta1.getPalo());
+        assertEquals(4, mesa2.columnaMesaEnPosicion(2).size(), 0);
+        assertEquals(3, mesa2.columnaMesaEnPosicion(2).peek().getNumero(), 0);
+        assertEquals(Palos.PICAS, mesa2.columnaMesaEnPosicion(2).peek().getPalo());
+        assertEquals(1, mesa2.columnaFinalEnPosicion(1).size(), 0);
+        assertEquals(1, mesa2.columnaFinalEnPosicion(1).peek().getNumero(), 0);
+        assertEquals(Palos.TREBOLES, mesa2.columnaFinalEnPosicion(1).peek().getPalo());
+        mesa2.insertarCartaDescarte(carta1);
+
+        // Forma el segundo estado del juego
+        klondike2.moverCartaDescarteAColumnaMesa(1);
+        klondike2.sacarDelMazo();
+        klondike2.moverCartaDescarteAColumnaMesa(6);
+        klondike2.sacarDelMazo();
+        klondike2.moverCartaDescarteAColumnaMesa(3);
+        klondike2.sacarDelMazo();
+        klondike2.moverCartaDescarteAColumnaMesa(5);
+        klondike2.sacarDelMazo();
+        mesa2 = klondike2.getEstadoMesa();
+        // Serializa el segundo estado del juego
+        boolean seGrabo2 = false;
+        try {
+            FileOutputStream fileOut = new FileOutputStream("src/main/resources/mesa.txt");
+            mesa2.serializar(fileOut);
+            seGrabo2 = true;
+        } catch (IOException ex) {
+            fail();
+        }
+        assertTrue(seGrabo2);
+        // Deserializa el segundo estado del juego
+        Mesa nuevaMesa2 = null;
+        try {
+            FileInputStream fileIn = new FileInputStream("src/main/resources/mesa.txt");
+            nuevaMesa2 = Mesa.deserializar(fileIn);
+
+        } catch (IOException | ClassNotFoundException ex) {
+            fail();
+        }
+        assertNotNull(nuevaMesa2);
+
+        // Verifica la correcta carga del primer estado de juego
+        Klondike klondike3 = new Klondike(null, nuevaMesa2);
+        Mesa mesa3 = klondike3.getEstadoMesa();
+        Carta carta2 = mesa3.sacarCartaDescarte();
+        assertEquals(2, carta2.getNumero(), 0);
+        assertEquals(Palos.DIAMANTES, carta2.getPalo());
+        assertEquals(3, mesa3.columnaMesaEnPosicion(1).size(), 0);
+        assertEquals(7, mesa3.columnaMesaEnPosicion(1).peek().getNumero(), 0);
+        assertEquals(Palos.TREBOLES, mesa3.columnaMesaEnPosicion(1).peek().getPalo());
+        assertEquals(8, mesa3.columnaMesaEnPosicion(6).size(), 0);
+        assertEquals(9, mesa3.columnaMesaEnPosicion(6).peek().getNumero(), 0);
+        assertEquals(Palos.DIAMANTES, mesa3.columnaMesaEnPosicion(6).peek().getPalo());
+        assertEquals(4, mesa3.columnaMesaEnPosicion(3).size(), 0);
+        assertEquals(5, mesa3.columnaMesaEnPosicion(3).peek().getNumero(), 0);
+        assertEquals(Palos.DIAMANTES, mesa3.columnaMesaEnPosicion(3).peek().getPalo());
+        assertEquals(7, mesa3.columnaMesaEnPosicion(5).size(), 0);
+        assertEquals(11, mesa3.columnaMesaEnPosicion(5).peek().getNumero(), 0);
+        assertEquals(Palos.PICAS, mesa3.columnaMesaEnPosicion(5).peek().getPalo());
+        mesa3.insertarCartaDescarte(carta2);
     }
 }

@@ -46,13 +46,13 @@ public class MazoTest {
     }
 
     @Test
+    /**
+     * Crea una baraja a partir de una semilla vacia, lo cual resulta en un mazo vacio.
+     */
     public void creacionBarajaSemillaVacia() {
-        /*
-         * Crea una baraja a partir de una semilla vacia, lo cual resulta en un mazo vacio.
-         */
         Mazo mazo = new Mazo();
         ArrayList<Palos> palos = new ArrayList<>();
-        Semilla semilla = new Semilla("");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString("");
         mazo.generarBaraja(semilla, palos);
         assertTrue(mazo.estaVacio());
     }
@@ -68,7 +68,7 @@ public class MazoTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.CORAZONES);
         Mazo mazo = new Mazo();
-        Semilla semilla = new Semilla("A0B0C0D0E0");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString("A0B0C0D0E0");
         mazo.generarBaraja(semilla, palos);
 
         for (int i = 5; i > 0; i--) {
@@ -83,14 +83,14 @@ public class MazoTest {
     }
 
     @Test
+    /**
+     * Crea una baraja con una unica carta.
+     */
     public void creacionBarajaDeUnaCarta() {
-        /*
-         * Crea una baraja con una unica carta.
-         */
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.DIAMANTES);
         Mazo mazo = new Mazo();
-        Semilla semilla = new Semilla("A0");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString("A0");
         mazo.generarBaraja(semilla, palos);
 
         Carta carta = mazo.sacarCarta();
@@ -104,14 +104,14 @@ public class MazoTest {
     }
 
     @Test
+    /**
+     * Crea una baraja de 13 cartas de un mismo palo.
+     */
     public void creacionBarajaSimple() {
-        /*
-         * Crea una baraja de 13 cartas de un mismo palo.
-         */
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.PICAS);
         Mazo mazo = new Mazo();
-        Semilla semilla = new Semilla("A0B0C0D0E0F0G0H0I0J0K0L0M0");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString("A0B0C0D0E0F0G0H0I0J0K0L0M0");
         mazo.generarBaraja(semilla, palos);
 
         for (int i = 13; i > 0; i--) {
@@ -126,14 +126,15 @@ public class MazoTest {
     }
 
     @Test
+    /**
+     * Crea una baraja de 104 cartas de un mismo palo.
+     */
     public void creacionGranBarajaSimple() {
-        /*
-         * Crea una baraja de 104 cartas de un mismo palo.
-         */
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.DIAMANTES);
         Mazo mazo = new Mazo();
-        Semilla semilla = new Semilla("A0B0C0D0E0F0G0H0I0J0K0L0M0A0B0C0D0E0F0G0H0I0J0K0L0M0A0B0C0D0E0F0G0H0I0J0K0L0M0A0B0C0D0E0F0G0H0I0J0K0L0M0" +
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+                ("A0B0C0D0E0F0G0H0I0J0K0L0M0A0B0C0D0E0F0G0H0I0J0K0L0M0A0B0C0D0E0F0G0H0I0J0K0L0M0A0B0C0D0E0F0G0H0I0J0K0L0M0" +
                 "A0B0C0D0E0F0G0H0I0J0K0L0M0A0B0C0D0E0F0G0H0I0J0K0L0M0A0B0C0D0E0F0G0H0I0J0K0L0M0A0B0C0D0E0F0G0H0I0J0K0L0M0");
         mazo.generarBaraja(semilla, palos);
 
@@ -151,17 +152,18 @@ public class MazoTest {
     }
 
     @Test
+    /**
+     * Crea una baraja de 52 cartas entre 4 palos diferentes.
+     */
     public void creacionBarajaCompleta() {
-        /*
-         * Crea una baraja de 52 cartas entre 4 palos diferentes.
-         */
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.PICAS);
         palos.add(Palos.TREBOLES);
         palos.add(Palos.CORAZONES);
         palos.add(Palos.DIAMANTES);
         Mazo mazo = new Mazo();
-        Semilla semilla = new Semilla("A0B0C0D0E0F0G0H0I0J0K0L0M0A1B1C1D1E1F1G1H1I1J1K1L1M1A2B2C2D2E2F2G2H2I2J2K2L2M2A3B3C3D3E3F3G3H3I3J3K3L3M3");
+        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+                ("A0B0C0D0E0F0G0H0I0J0K0L0M0A1B1C1D1E1F1G1H1I1J1K1L1M1A2B2C2D2E2F2G2H2I2J2K2L2M2A3B3C3D3E3F3G3H3I3J3K3L3M3");
         mazo.generarBaraja(semilla, palos);
 
         for (int j = 0; j < 4; j++) {
