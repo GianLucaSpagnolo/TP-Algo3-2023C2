@@ -32,7 +32,7 @@ public class ColumnaKlondike extends Columna {
      * Solitario Klondike.
      */
     public boolean insertarColumnaFinal(Columna segmento) {
-        if (segmento == null) {
+        if ((segmento == null) || (segmento.size() != 1)) {
             return false;
         }
         Carta topeColumnaFinal = peek();

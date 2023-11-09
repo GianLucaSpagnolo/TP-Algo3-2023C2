@@ -70,21 +70,31 @@ public class Spider implements Solitario {
     }
 
     /**
+     * Selecciona una o varias cartas, obteniendo un segmento (instancia de la clase Columna) de cartas
+     * las cuales cumplen con la condicion de cadena determinado por cada solitario.
+     * En caso de no conformar una cadena valida, devuelve null.
+     */
+    public Columna seleccionarCartas(Integer origen, Integer carta) {
+        return mesa.columnaMesaEnPosicion(origen).obtenerSegmento(carta);
+    }
+
+    /**
      * Mueve una o varias cartas de una columna mesa a otra.
      * Si el movimiento es valido y en la columna destino se forma una cadena de 13 cartas (desde A hasta K)
      * mueve dicho segmento de 13 cartas a una columna final, las cuales verifican un posible estado de victoria
      * del solitario Spider.
      */
-    public boolean moverCartas(Integer origen, Integer destino, Integer carta) {
-        Columna segmento = mesa.columnaMesaEnPosicion(origen).obtenerSegmento(carta);
-        if (segmento == null) {
+    public boolean moverCartas(Columna cartas, Integer origen, Integer destino) {
+        if (cartas == null) {
             return false;
         }
-        boolean seInserto = mesa.columnaMesaEnPosicion(destino).insertarSegmento(segmento);
+
+        boolean seInserto = mesa.columnaMesaEnPosicion(destino).insertarSegmento(cartas);
         if (!seInserto) {
-            mesa.columnaMesaEnPosicion(origen).insertarSegmentoDevuelta(segmento);
+            mesa.columnaMesaEnPosicion(origen).insertarSegmentoDevuelta(cartas);
             return false;
         }
+
         if ((mesa.columnaMesaEnPosicion(origen).peek() != null) && (!mesa.columnaMesaEnPosicion(origen).peek().esVisible())) {
             mesa.columnaMesaEnPosicion(origen).peek().darVuelta();
         }

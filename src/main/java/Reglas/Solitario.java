@@ -4,7 +4,8 @@ import Solitario.*;
 
 public interface Solitario {
     Mesa getEstadoMesa();
-    boolean moverCartas(Integer origen, Integer destino, Integer carta);
+    Columna seleccionarCartas(Integer origen, Integer carta);
+    boolean moverCartas(Columna cartas, Integer origen, Integer destino);
     void repartirCartasInicio();
     boolean estaGanado();
     boolean sacarDelMazo();
