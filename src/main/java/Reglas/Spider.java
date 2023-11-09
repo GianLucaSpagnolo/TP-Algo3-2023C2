@@ -15,7 +15,7 @@ public class Spider implements Solitario {
      * una instancia de una mesa (que debe ser configurada con formato Spider) la cual puede inicializar un estado de
      * juego previamente determinado.
      */
-    public Spider(GeneradorSemillas semilla, Mesa estadoMesa) {
+    public Spider(Semilla semilla, Mesa estadoMesa) {
         if (estadoMesa == null) {
             ArrayList<Palos> palos = new ArrayList<>();
             palos.add(Palos.PICAS);

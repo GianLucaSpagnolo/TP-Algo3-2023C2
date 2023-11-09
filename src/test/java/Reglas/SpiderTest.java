@@ -2,6 +2,7 @@ package Reglas;
 
 import Solitario.Carta;
 import Solitario.GeneradorSemillas;
+import Solitario.Semilla;
 import Solitario.Mesa;
 import Solitario.Palos;
 import org.junit.Test;
@@ -88,7 +89,7 @@ public class SpiderTest {
      */
     @Test
     public void spiderSemillaVacia() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString("");
+        Semilla semilla = GeneradorSemillas.generarSemillaConString("");
         Spider spider = new Spider(semilla, null);
         Mesa mesa1 = spider.getEstadoMesa();
         assertNull(mesa1.sacarCartaMazo());
@@ -113,7 +114,7 @@ public class SpiderTest {
 
     @Test
     public void spiderSemillaCompleta() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0M0" +
                         "F0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
         Spider spider = new Spider(semilla, null);
@@ -157,7 +158,7 @@ public class SpiderTest {
 
     @Test
     public void spiderSacarDelMazoVariasVeces() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0M0" +
                         "F0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
         Spider spider = new Spider(semilla, null);
@@ -214,7 +215,7 @@ public class SpiderTest {
 
     @Test
     public void moverUnaCartaEntreColumnas() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0M0" +
                         "F0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
         Spider spider = new Spider(semilla, null);
@@ -253,7 +254,7 @@ public class SpiderTest {
 
     @Test
     public void moverVariasCartasEntreColumnas() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0M0" +
                         "F0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
         Spider spider = new Spider(semilla, null);
@@ -294,7 +295,7 @@ public class SpiderTest {
 
     @Test
     public void testVaciarUnaColumnaMesa() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0M0" +
                         "F0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
         Spider spider = new Spider(semilla, null);
@@ -408,7 +409,7 @@ public class SpiderTest {
 
     @Test
     public void testCompletarUnaColumnaFinal() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0M0" +
                         "F0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
         Spider spider = new Spider(semilla, null);
@@ -421,7 +422,7 @@ public class SpiderTest {
 
     @Test
     public void verificarJuegoGanado() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("C0B0A0L0K0J0F0E0D0A0L0K0J0I0H0G0I0H0G0B0I0H0G0F0E0D0F0E0D0C0F0E0D0C0B0A0C0B0A0M0C0B0A0L0K0J0L0K0J0M0" +
                         "L0I0F0C0L0K0H0E0B0K0J0G0D0A0J0I0F0C0L0I0H0E0B0K0H0G0D0A0J0G0I0F0C0L0I0F0H0E0B0K0H0E0G0D0A0J0G0D0M0M0M0M0M0M0");
         Spider spider = new Spider(semilla, null);
@@ -475,7 +476,7 @@ public class SpiderTest {
      */
     @Test
     public void EstadosParticularesDeMesaEnColumnasMesa() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0M0" +
                         "F0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
         Spider spider1 = new Spider(semilla, null);
@@ -543,7 +544,7 @@ public class SpiderTest {
         assertEquals(9, mesa2.columnaMesaEnPosicion(9).peek().getNumero(), 0);
         assertEquals(10, mesa2.columnaMesaEnPosicion(9).size(), 0);
 
-        GeneradorSemillas nuevaSemilla = GeneradorSemillas.generarSemillaConString
+        Semilla nuevaSemilla = GeneradorSemillas.generarSemillaConString
                 ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0M0" +
                         "F0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
         Spider spider3 = new Spider(nuevaSemilla, mesa2);
@@ -576,7 +577,7 @@ public class SpiderTest {
 
     @Test
     public void EstadosParticularesDeMesaEnColumnasFinales() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0M0" +
                         "F0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
         Spider spider1 = new Spider(semilla, null);
@@ -591,7 +592,7 @@ public class SpiderTest {
 
     @Test
     public void verificacionDeCorrectaPersistenciaDeMesa() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0M0" +
                         "F0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
         Spider spider1 = new Spider(semilla, null);
@@ -657,7 +658,7 @@ public class SpiderTest {
         assertNotNull(nuevaMesa2);
 
         // Verifica la correcta carga y lectura del segundo estado del juego
-        GeneradorSemillas nuevaSemilla = GeneradorSemillas.generarSemillaConString
+        Semilla nuevaSemilla = GeneradorSemillas.generarSemillaConString
                 ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0M0" +
                         "F0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
         Spider spider3 = new Spider(nuevaSemilla, nuevaMesa2);

@@ -15,7 +15,7 @@ public class Klondike implements Solitario {
      * una instancia de una mesa (que debe ser configurada con formato Klondike) la cual puede inicializar un
      * estado de juego previamente determinado.
      */
-    public Klondike(GeneradorSemillas semilla, Mesa estadoMesa) {
+    public Klondike(Semilla semilla, Mesa estadoMesa) {
         if (estadoMesa == null) {
             ArrayList<Palos> palos = new ArrayList<>();
             palos.add(Palos.PICAS);

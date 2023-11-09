@@ -2,6 +2,7 @@ package Reglas;
 
 import Solitario.Carta;
 import Solitario.GeneradorSemillas;
+import Solitario.Semilla;
 import Solitario.Mesa;
 import Solitario.Palos;
 import org.junit.Test;
@@ -99,7 +100,7 @@ public class KlondikeTest {
      */
     @Test
     public void klondikeSemillaVacia() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString("");
+        Semilla semilla = GeneradorSemillas.generarSemillaConString("");
         Klondike klondike = new Klondike(semilla, null);
         Mesa mesa1 = klondike.getEstadoMesa();
         assertNull(mesa1.sacarCartaMazo());
@@ -128,7 +129,7 @@ public class KlondikeTest {
 
     @Test
     public void klondikeSemillaCompleta() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike = new Klondike(semilla, null);
         klondike.repartirCartasInicio();
@@ -157,7 +158,7 @@ public class KlondikeTest {
 
     @Test
     public void moverUnaCartaEntreColumnas() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike = new Klondike(semilla, null);
         klondike.repartirCartasInicio();
@@ -208,7 +209,7 @@ public class KlondikeTest {
 
     @Test
     public void testMoverCartaDescarteAColumnaMesa() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike = new Klondike(semilla, null);
         klondike.repartirCartasInicio();
@@ -297,7 +298,7 @@ public class KlondikeTest {
 
     @Test
     public void testMoverCartaDescarteAColumnaFinal() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike = new Klondike(semilla, null);
         klondike.repartirCartasInicio();
@@ -376,7 +377,7 @@ public class KlondikeTest {
 
     @Test
     public void testMoverCartaColumnaFinal() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike = new Klondike(semilla, null);
         klondike.repartirCartasInicio();
@@ -462,7 +463,7 @@ public class KlondikeTest {
 
     @Test
     public void testMoverCartaColumnaFinalAColumnaMesa() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike = new Klondike(semilla, null);
         klondike.repartirCartasInicio();
@@ -540,7 +541,7 @@ public class KlondikeTest {
 
     @Test
     public void moverVariasCartasEntreColumnas() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike = new Klondike(semilla, null);
         klondike.repartirCartasInicio();
@@ -674,7 +675,7 @@ public class KlondikeTest {
 
     @Test
     public void verificarJuegoGanado() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("M3M1M2M0L3L1L2L0K3K1K2K0J3J1J2J0I3I1I2I0H3H1H2H0B1D0E2F2G0G1G3B2C3E0F0F3G2B0C1D3E3F1A3C2D1E1A1C0D2A2B3A0");
         Klondike klondike = new Klondike(semilla, null);
         // Semilla especial que al repartir permite tener las cartas en la baraja de manera ordenada que, al repartir, cada carta
@@ -710,7 +711,7 @@ public class KlondikeTest {
      */
     @Test
     public void manipulacionDeEstadosParticularesDeMesa() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike1 = new Klondike(semilla, null);
         klondike1.repartirCartasInicio();
@@ -759,7 +760,7 @@ public class KlondikeTest {
         assertEquals(Palos.PICAS, estado2.columnaMesaEnPosicion(5).peek().getPalo());
         estado2.insertarCartaDescarte(carta2);
 
-        GeneradorSemillas nuevaSemilla = GeneradorSemillas.generarSemillaConString
+        Semilla nuevaSemilla = GeneradorSemillas.generarSemillaConString
                 ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike3 = new Klondike(nuevaSemilla, estado2);
         klondike3.moverCartas(4, 1, 0);
@@ -783,7 +784,7 @@ public class KlondikeTest {
 
     @Test
     public void verificacionDeCorrectaPersistenciaDeMesa() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
         Klondike klondike1 = new Klondike(semilla, null);
         klondike1.repartirCartasInicio();

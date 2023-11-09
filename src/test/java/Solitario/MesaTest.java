@@ -18,7 +18,7 @@ public class MesaTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.CORAZONES);
         Mazo mazo = new Mazo();
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString("A0");
+        Semilla semilla = GeneradorSemillas.generarSemillaConString("A0");
         mazo.generarBaraja(semilla, palos);
 
         Mesa mesa = new Mesa(mazo);
@@ -38,7 +38,7 @@ public class MesaTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.PICAS);
         Mazo mazo = new Mazo();
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(52, palos);
+        Semilla semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(52, palos);
         mazo.generarBaraja(semilla, palos);
         Mesa mesa = new Mesa(mazo);
 
@@ -58,7 +58,7 @@ public class MesaTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.DIAMANTES);
         Mazo mazo = new Mazo();
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(52, palos);
+        Semilla semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(52, palos);
         mazo.generarBaraja(semilla, palos);
         Mesa mesa = new Mesa(mazo);
 
@@ -78,7 +78,7 @@ public class MesaTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.DIAMANTES);
         Mazo mazo = new Mazo();
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(5, palos);
+        Semilla semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(5, palos);
         mazo.generarBaraja(semilla, palos);
         Mesa mesa = new Mesa(mazo);
         mesa.crearBarajaDescarte();
@@ -110,7 +110,7 @@ public class MesaTest {
         palos.add(Palos.CORAZONES);
         palos.add(Palos.TREBOLES);
         Mazo mazo = new Mazo();
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(52, palos);
+        Semilla semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(52, palos);
         mazo.generarBaraja(semilla, palos);
 
         Mesa mesa = new Mesa(mazo);
@@ -142,7 +142,7 @@ public class MesaTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.PICAS);
         Mazo mazo = new Mazo();
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(104, palos);
+        Semilla semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(104, palos);
         mazo.generarBaraja(semilla, palos);
 
         EstrategiaComparacion estrategia = new EstrategiaComparacionKlondike();
@@ -170,7 +170,7 @@ public class MesaTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.CORAZONES);
         Mazo mazo = new Mazo();
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString("A0B0C0D0E0F0G0H0I0J0K0L0M0");
+        Semilla semilla = GeneradorSemillas.generarSemillaConString("A0B0C0D0E0F0G0H0I0J0K0L0M0");
         mazo.generarBaraja(semilla, palos);
 
         EstrategiaComparacion estrategia = new EstrategiaComparacionKlondike();

@@ -4,16 +4,11 @@ import java.util.List;
 import java.util.Random;
 
 public class GeneradorSemillas {
-    private final String semilla;
-
-    private GeneradorSemillas(String semillaCreada) {
-        semilla = semillaCreada;
-    }
 
     /**
      * Genera una semilla aleatoria de formato String a partir de una cantidad de cartas y una lista de palos definidos.
      */
-    public static GeneradorSemillas generarSemillaConCantidadYPalos(Integer cantidad, List<Palos> palos) {
+    public static Semilla generarSemillaConCantidadYPalos(Integer cantidad, List<Palos> palos) {
         StringBuilder semillaCreada = new StringBuilder();
         String numeros = "ABCDEFGHIJKLM";
         if (cantidad != 0 && !palos.isEmpty()) {
@@ -32,7 +27,7 @@ public class GeneradorSemillas {
             }
         }
         StringBuilder nuevaSemilla = mezclarSemilla(semillaCreada);
-        return new GeneradorSemillas(nuevaSemilla.toString());
+        return new Semilla(nuevaSemilla.toString());
     }
 
     /**
@@ -42,8 +37,8 @@ public class GeneradorSemillas {
      * Caracter en posicion impar: numero que simboliza la posicion del palo que se encuentra en la lista de palos, al que corresponde
      * la carta cuyo numero es el caracter anterior.
      */
-    public static GeneradorSemillas generarSemillaConString(String semillaEscrita) {
-        return new GeneradorSemillas(semillaEscrita);
+    public static Semilla generarSemillaConString(String semillaEscrita) {
+        return new Semilla(semillaEscrita);
     }
 
     /**
@@ -73,17 +68,5 @@ public class GeneradorSemillas {
             semilla.insert((indice * 2) + 1, caracterPalo1);
         }
         return semilla;
-    }
-
-    public boolean isEmpty() {
-        return semilla.isEmpty();
-    }
-
-    public int length() {
-        return semilla.length();
-    }
-
-    public char charAt(int indice) {
-        return semilla.charAt(indice);
     }
 }
