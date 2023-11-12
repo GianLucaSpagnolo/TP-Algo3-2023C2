@@ -49,15 +49,7 @@ public class Main extends Application implements Initializable {
     public void cambiarEscena(ActionEvent actionEvent) {
         Stage stage = null;
         String varianteElegida = cajaOpciones.getValue();
-        try {
-            AnchorPane ventana = FXMLLoader.load((Objects.requireNonNull(getClass().getClassLoader().getResource("ventanaJuego.fxml"))));
-            stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            Scene scene = new Scene(ventana);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 
         switch (varianteElegida) {
             case "Klondike":
