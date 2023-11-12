@@ -13,7 +13,8 @@ public class VistaKlondike implements VistaJuego {
     private Scene escena;
 
     public VistaKlondike(Stage stage, Solitario modelo) {
-        Carta carta = new Carta(5, Palos.PICAS);
-
+        Carta ejemplo = new Carta(5, Palos.PICAS);
+        Canvas carta = VistaCarta.CanvasCarta(ejemplo);
+        stage.getChildren().
     }
 }
