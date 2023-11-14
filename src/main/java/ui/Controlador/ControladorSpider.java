@@ -5,9 +5,7 @@ import Reglas.Spider;
 import ui.Vista.VistaSpider;
 
 public class ControladorSpider {
-    public ControladorSpider(Spider modelo, VistaSpider vista) {
-        return;
-    }
+    public ControladorSpider(Spider modelo, VistaSpider vista) {}
 
-        public void iniciar() {return;}
+    public void iniciar() {}
 }

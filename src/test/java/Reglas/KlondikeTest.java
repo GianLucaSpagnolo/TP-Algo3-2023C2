@@ -6,6 +6,7 @@ import Solitario.Semilla;
 import Solitario.Mesa;
 import Solitario.Palos;
 import Solitario.Columna;
+import Solitario.ControladorArchivos;
 import org.junit.Test;
 
 import java.io.FileInputStream;
@@ -817,11 +818,12 @@ public class KlondikeTest {
             klondike1.sacarDelMazo();
         }
         Mesa mesa1 = klondike1.getEstadoMesa();
+        assertEquals(0, mesa1.getTipoMesa(), 0);
         // Serializa el primer estado del juego
         boolean seGrabo1 = false;
         try {
             FileOutputStream fileOut = new FileOutputStream("src/main/resources/mesa.txt");
-            mesa1.serializar(fileOut);
+            ControladorArchivos.serializarMesa(fileOut, mesa1);
             seGrabo1 = true;
         } catch (IOException ex) {
             fail();
@@ -831,7 +833,7 @@ public class KlondikeTest {
         Mesa nuevaMesa1 = null;
         try {
             FileInputStream fileIn = new FileInputStream("src/main/resources/mesa.txt");
-            nuevaMesa1 = Mesa.deserializar(fileIn);
+            nuevaMesa1 = ControladorArchivos.deserializarMesa(fileIn);
 
         } catch (IOException | ClassNotFoundException ex) {
             fail();
@@ -839,6 +841,7 @@ public class KlondikeTest {
         assertNotNull(nuevaMesa1);
 
         // Verifica la correcta carga y lectura del primer estado de juego
+        assertEquals(0, nuevaMesa1.getTipoMesa(), 0);
         Klondike klondike2 = new Klondike(null, nuevaMesa1);
         Mesa mesa2 = klondike2.getEstadoMesa();
         Carta carta1 = mesa2.sacarCartaDescarte();
@@ -862,11 +865,12 @@ public class KlondikeTest {
         klondike2.moverCartaDescarteAColumnaMesa(5);
         klondike2.sacarDelMazo();
         mesa2 = klondike2.getEstadoMesa();
+        assertEquals(0, mesa2.getTipoMesa(), 0);
         // Serializa el segundo estado del juego
         boolean seGrabo2 = false;
         try {
             FileOutputStream fileOut = new FileOutputStream("src/main/resources/mesa.txt");
-            mesa2.serializar(fileOut);
+            ControladorArchivos.serializarMesa(fileOut, mesa2);
             seGrabo2 = true;
         } catch (IOException ex) {
             fail();
@@ -876,7 +880,7 @@ public class KlondikeTest {
         Mesa nuevaMesa2 = null;
         try {
             FileInputStream fileIn = new FileInputStream("src/main/resources/mesa.txt");
-            nuevaMesa2 = Mesa.deserializar(fileIn);
+            nuevaMesa2 = ControladorArchivos.deserializarMesa(fileIn);
 
         } catch (IOException | ClassNotFoundException ex) {
             fail();
@@ -884,6 +888,7 @@ public class KlondikeTest {
         assertNotNull(nuevaMesa2);
 
         // Verifica la correcta carga del primer estado de juego
+        assertEquals(0, nuevaMesa2.getTipoMesa(), 0);
         Klondike klondike3 = new Klondike(null, nuevaMesa2);
         Mesa mesa3 = klondike3.getEstadoMesa();
         Carta carta2 = mesa3.sacarCartaDescarte();
@@ -902,5 +907,8 @@ public class KlondikeTest {
         assertEquals(11, mesa3.columnaMesaEnPosicion(5).peek().getNumero(), 0);
         assertEquals(Palos.PICAS, mesa3.columnaMesaEnPosicion(5).peek().getPalo());
         mesa3.insertarCartaDescarte(carta2);
+
+        mesa3 = klondike3.getEstadoMesa();
+        assertEquals(0, mesa3.getTipoMesa(), 0);
     }
 }

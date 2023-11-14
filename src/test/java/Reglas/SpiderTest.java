@@ -6,6 +6,7 @@ import Solitario.Semilla;
 import Solitario.Mesa;
 import Solitario.Palos;
 import Solitario.Columna;
+import Solitario.ControladorArchivos;
 import org.junit.Test;
 
 import java.io.FileInputStream;
@@ -620,11 +621,12 @@ public class SpiderTest {
         // Forma el primer estado del juego
         completarUnaColumnaFinal(spider1);
         Mesa mesa1 = spider1.getEstadoMesa();
+        assertEquals(1, mesa1.getTipoMesa(), 0);
         // Serializa el primer estado del juego
         boolean seGrabo1 = false;
         try {
             FileOutputStream fileOut = new FileOutputStream("src/main/resources/mesa.txt");
-            mesa1.serializar(fileOut);
+            ControladorArchivos.serializarMesa(fileOut, mesa1);
             seGrabo1 = true;
         } catch (IOException ex) {
             fail();
@@ -634,7 +636,7 @@ public class SpiderTest {
         Mesa nuevaMesa1 = null;
         try {
             FileInputStream fileIn = new FileInputStream("src/main/resources/mesa.txt");
-            nuevaMesa1 = Mesa.deserializar(fileIn);
+            nuevaMesa1 = ControladorArchivos.deserializarMesa(fileIn);
 
         } catch (IOException | ClassNotFoundException ex) {
             fail();
@@ -642,6 +644,7 @@ public class SpiderTest {
         assertNotNull(nuevaMesa1);
 
         // Verifica la correcta carga y lectura del primer estado del juego
+        assertEquals(1, nuevaMesa1.getTipoMesa(), 0);
         Spider spider2 = new Spider(null, nuevaMesa1);
         Mesa mesa2 = spider2.getEstadoMesa();
         verificarUnaColumnaFinal(mesa2);
@@ -655,11 +658,12 @@ public class SpiderTest {
         assertTrue(spider2.moverCartas(spider2.seleccionarCartas(9, 2), 9, 8));
         assertTrue(spider2.moverCartas(spider2.seleccionarCartas(8, 3), 8, 1));
         mesa2 = spider2.getEstadoMesa();
+        assertEquals(1, mesa2.getTipoMesa(), 0);
         // Serializa el segundo estado del juego
         boolean seGrabo2 = false;
         try {
             FileOutputStream fileOut = new FileOutputStream("src/main/resources/mesa.txt");
-            mesa2.serializar(fileOut);
+            ControladorArchivos.serializarMesa(fileOut, mesa2);
             seGrabo2 = true;
         } catch (IOException ex) {
             fail();
@@ -669,7 +673,7 @@ public class SpiderTest {
         Mesa nuevaMesa2 = null;
         try {
             FileInputStream fileIn = new FileInputStream("src/main/resources/mesa.txt");
-            nuevaMesa2 = Mesa.deserializar(fileIn);
+            nuevaMesa2 = ControladorArchivos.deserializarMesa(fileIn);
 
         } catch (IOException | ClassNotFoundException ex) {
             fail();
@@ -677,6 +681,7 @@ public class SpiderTest {
         assertNotNull(nuevaMesa2);
 
         // Verifica la correcta carga y lectura del segundo estado del juego
+        assertEquals(1, nuevaMesa2.getTipoMesa(), 0);
         Semilla nuevaSemilla = GeneradorSemillas.generarSemillaConString
                 ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0M0" +
                         "F0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
@@ -716,5 +721,8 @@ public class SpiderTest {
         assertTrue(spider3.sacarDelMazo());
         assertTrue(spider3.sacarDelMazo());
         assertFalse(spider3.sacarDelMazo());
+
+        mesa3 = spider3.getEstadoMesa();
+        assertEquals(1, mesa3.getTipoMesa(), 0);
     }
 }

@@ -25,7 +25,7 @@ public class Spider implements Solitario {
             }
             mazo.generarBaraja(semilla, palos);
 
-            Mesa nuevaMesa = new Mesa(mazo);
+            Mesa nuevaMesa = new Mesa(mazo, 1);
             EstrategiaComparacion estrategia = new EstrategiaComparacionSpider();
             for (int i = 0; i < 10; i++) {
                 Columna columnaMesa = new ColumnaSpider(estrategia);
