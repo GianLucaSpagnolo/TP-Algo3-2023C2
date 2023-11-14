@@ -28,7 +28,8 @@ public class Klondike implements Solitario {
             }
             mazo.generarBaraja(semilla, palos);
 
-            Mesa nuevaMesa = new Mesa(mazo, 0);
+            int tipoMesa = 0;
+            Mesa nuevaMesa = new Mesa(mazo, tipoMesa);
             EstrategiaComparacion estrategia = new EstrategiaComparacionKlondike();
             for (int i = 0; i < 7; i++) {
                 Columna columnaMesa = new ColumnaKlondike(estrategia);
