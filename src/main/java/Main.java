@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 
 import ui.Controlador.ControladorKlondike;
 import ui.Controlador.ControladorSpider;
+import ui.Vista.VistaInicial;
 import ui.Vista.VistaKlondike;
 import ui.Vista.VistaSpider;
 
@@ -31,12 +32,12 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class Main extends Application implements Initializable {
+public class Main extends Application {
     private static Stage stage;
     @FXML
     private Button botonNuevoJuego;
     private final String rutaArchivoGuardado = "src/main/resources/estadoJuego.txt";
-    private final String[] variantes = {"Klondike", "Spider"};
+    private static final String[] variantes = {"Klondike", "Spider"};
     private static Solitario modelo;
 
     @Override
@@ -53,11 +54,7 @@ public class Main extends Application implements Initializable {
             }
             iniciarJuego(variantes[estadoJuego.getTipoMesa()], estadoJuego);
         } else {
-            Scene escena = FXMLLoader.load((getClass().getResource("ventanaInicio.fxml")));
-            stage.setScene(escena);
-            stage.setTitle("Solitario");
-            stage.setResizable(false);
-            stage.show();
+            VistaInicial.mostrarVentanaInicial(variantes, stage);
         }
     }
 
@@ -66,31 +63,7 @@ public class Main extends Application implements Initializable {
     }
 
 
-    public void cambiarEscena(ActionEvent actionEvent) {
-        String varianteElegida = cajaOpciones.getValue();
-        Pane ventana = null;
-        try {
-            ventana = FXMLLoader.load((Objects.requireNonNull(getClass().getClassLoader().getResource("ventanaJuego.fxml"))));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        stage.close();
-        Scene scene = new Scene(ventana);
-        stage.setScene(scene);
-        stage.show();
-
-        botonCancelar.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("hola");
-            }
-        });
-        iniciarJuego(varianteElegida, null);
-
-
-    }
-
-    private void iniciarJuego(String varianteElegida, Mesa estadoJuego) {
+    public void iniciarJuego(String varianteElegida, Mesa estadoJuego) {
         if (varianteElegida.equals(variantes[0])) {
             Klondike modeloKlondike = new Klondike(null, estadoJuego);
             VistaKlondike vistaKlondike = new VistaKlondike(stage, modeloKlondike);

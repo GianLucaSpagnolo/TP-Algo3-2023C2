@@ -21,8 +21,12 @@ public class VistaInicial implements Initializable{
     private static ChoiceBox<String> cajaOpciones;
     @FXML
     private static Button botonCancelar;
+    private static String[] variantes;
+    private static Stage stage;
 
-    public static void mostrarVentanaInicial(String[] variantes, Stage stage) throws IOException {
+    public static void mostrarVentanaInicial(String[] listaVariantes, Stage escenario) throws IOException {
+        variantes = listaVariantes;
+        stage = escenario;
         Scene escena = FXMLLoader.load((VistaInicial.class.getResource("ventanaInicio.fxml")));
         stage.setScene(escena);
         stage.setTitle("Solitario");
@@ -49,9 +53,7 @@ public class VistaInicial implements Initializable{
                 System.out.println("hola");
             }
         });
-        iniciarJuego(varianteElegida, null);
-
-
+        Main.iniciarJuego(varianteElegida, null);
     }
 
     @Override
