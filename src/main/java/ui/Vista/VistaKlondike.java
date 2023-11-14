@@ -16,12 +16,7 @@ public class VistaKlondike implements VistaJuego {
     private Scene escena;
 
     public VistaKlondike(Stage stage, Solitario modelo) {
-        try {
-            ventana = FXMLLoader.load((Objects.requireNonNull(getClass().getClassLoader().getResource("ventanaJuego.fxml"))));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        /*
         Carta ejemplo = new Carta(5, Palos.PICAS);
         ejemplo.darVuelta();
         Canvas carta = VistaCarta.CanvasCarta(ejemplo);
@@ -29,5 +24,8 @@ public class VistaKlondike implements VistaJuego {
         escena = new Scene(ventana);
         stage.setScene(escena);
         stage.show();
+
+         */
     }
+
 }
