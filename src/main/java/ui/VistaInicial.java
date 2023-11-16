@@ -19,20 +19,20 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class VistaInicial implements Initializable{
+public class VistaInicial implements Initializable {
     @FXML
-    private static ChoiceBox<String> cajaOpciones;
+    private ChoiceBox<String> cajaOpciones;
     @FXML
-    private static Button botonCancelar;
+    private Button botonCancelar;
     private final String[] variantes = {"Klondike", "Spider"};
     private Stage stage;
 
-    public VistaInicial(Stage stage) {
-        this.stage = stage;
+    public VistaInicial() {
+        this.stage = new Stage();
     }
 
     public void mostrarVentanaInicial() throws IOException {
-        AnchorPane ventana = FXMLLoader.load((getClass().getResource("ventanaInicial.fxml")));
+        AnchorPane ventana = FXMLLoader.load((VistaInicial.class.getResource("/ventanaInicial.fxml")));
         Scene scene = new Scene(ventana);
         stage.setScene(scene);
         stage.setTitle("Solitario");
@@ -48,20 +48,10 @@ public class VistaInicial implements Initializable{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        stage.close();
         Scene scene = new Scene(ventana);
         stage.setScene(scene);
         stage.show();
-
-        botonCancelar.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("hola");
-            }
-        });
         //iniciarJuego(varianteElegida, null);
-
-
     }
 
     @Override

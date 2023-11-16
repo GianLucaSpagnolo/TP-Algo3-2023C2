@@ -17,14 +17,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class Main extends Application {
-    private static Stage stage;
     private final String rutaArchivoGuardado = "src/main/resources/estadoJuego.txt";
-    private static Solitario modelo;
+    private Solitario modelo;
     private String[] variantes;
 
     @Override
     public void start(Stage stage) throws IOException {
-        Main.stage = stage;
         if (!ControladorArchivos.archivoEstaVacio(rutaArchivoGuardado)) {
             Mesa estadoJuego = null;
             try {
@@ -35,7 +33,7 @@ public class Main extends Application {
             }
             //iniciarJuego(variantes[estadoJuego.getTipoMesa()], estadoJuego);
         } else {
-            VistaInicial vistaInicial = new VistaInicial(stage);
+            VistaInicial vistaInicial = new VistaInicial();
             vistaInicial.mostrarVentanaInicial();
         }
 
@@ -45,7 +43,7 @@ public class Main extends Application {
         launch();
     }
 
-
+    /*
     private void iniciarJuego(String varianteElegida, Mesa estadoJuego) {
         if (varianteElegida.equals(variantes[0])) {
             Klondike modeloKlondike = new Klondike(null, estadoJuego);
@@ -61,6 +59,8 @@ public class Main extends Application {
             controladorSpider.iniciar();
         }
     }
+
+     */
 
     @Override
     public void stop() throws Exception {

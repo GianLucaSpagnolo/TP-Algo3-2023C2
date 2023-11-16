@@ -16,6 +16,7 @@ public class VistaSpider implements VistaJuego{
     private Scene escena;
 
     public VistaSpider(Stage stage, Solitario modelo) {
+        /*
         try {
             ventana = FXMLLoader.load((Objects.requireNonNull(getClass().getClassLoader().getResource("ventanaJuego.fxml"))));
         } catch (IOException e) {
@@ -29,5 +30,7 @@ public class VistaSpider implements VistaJuego{
         escena = new Scene(ventana);
         stage.setScene(escena);
         stage.show();
+
+         */
     }
 }
