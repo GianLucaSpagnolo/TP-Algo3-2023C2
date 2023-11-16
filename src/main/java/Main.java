@@ -3,46 +3,28 @@ import Reglas.Solitario;
 import Reglas.Spider;
 import Solitario.ControladorArchivos;
 import Solitario.Mesa;
-
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
 import ui.Controlador.ControladorKlondike;
 import ui.Controlador.ControladorSpider;
 import ui.Vista.VistaKlondike;
 import ui.Vista.VistaSpider;
+import ui.VistaInicial;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
-import java.util.Objects;
-import java.util.ResourceBundle;
 
-public class Main extends Application implements Initializable {
+public class Main extends Application {
     private static Stage stage;
-    @FXML
-    private Button botonNuevoJuego;
     private final String rutaArchivoGuardado = "src/main/resources/estadoJuego.txt";
-    private final String[] variantes = {"Klondike", "Spider"};
     private static Solitario modelo;
+    private String[] variantes;
 
     @Override
     public void start(Stage stage) throws IOException {
         Main.stage = stage;
-
         if (!ControladorArchivos.archivoEstaVacio(rutaArchivoGuardado)) {
             Mesa estadoJuego = null;
             try {
@@ -51,44 +33,18 @@ public class Main extends Application implements Initializable {
             } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
-            iniciarJuego(variantes[estadoJuego.getTipoMesa()], estadoJuego);
+            //iniciarJuego(variantes[estadoJuego.getTipoMesa()], estadoJuego);
         } else {
-            Scene escena = FXMLLoader.load((getClass().getResource("ventanaInicio.fxml")));
-            stage.setScene(escena);
-            stage.setTitle("Solitario");
-            stage.setResizable(false);
-            stage.show();
+            VistaInicial vistaInicial = new VistaInicial(stage);
+            vistaInicial.mostrarVentanaInicial();
         }
+
     }
 
     public static void main(String[] args) {
         launch();
     }
 
-
-    public void cambiarEscena(ActionEvent actionEvent) {
-        String varianteElegida = cajaOpciones.getValue();
-        Pane ventana = null;
-        try {
-            ventana = FXMLLoader.load((Objects.requireNonNull(getClass().getClassLoader().getResource("ventanaJuego.fxml"))));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        stage.close();
-        Scene scene = new Scene(ventana);
-        stage.setScene(scene);
-        stage.show();
-
-        botonCancelar.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("hola");
-            }
-        });
-        iniciarJuego(varianteElegida, null);
-
-
-    }
 
     private void iniciarJuego(String varianteElegida, Mesa estadoJuego) {
         if (varianteElegida.equals(variantes[0])) {

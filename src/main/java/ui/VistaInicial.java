@@ -1,16 +1,19 @@
-package ui.Vista;
+package ui;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
@@ -21,10 +24,17 @@ public class VistaInicial implements Initializable{
     private static ChoiceBox<String> cajaOpciones;
     @FXML
     private static Button botonCancelar;
+    private final String[] variantes = {"Klondike", "Spider"};
+    private Stage stage;
 
-    public static void mostrarVentanaInicial(String[] variantes, Stage stage) throws IOException {
-        Scene escena = FXMLLoader.load((VistaInicial.class.getResource("ventanaInicio.fxml")));
-        stage.setScene(escena);
+    public VistaInicial(Stage stage) {
+        this.stage = stage;
+    }
+
+    public void mostrarVentanaInicial() throws IOException {
+        AnchorPane ventana = FXMLLoader.load((getClass().getResource("ventanaInicial.fxml")));
+        Scene scene = new Scene(ventana);
+        stage.setScene(scene);
         stage.setTitle("Solitario");
         stage.setResizable(false);
         stage.show();
@@ -49,7 +59,7 @@ public class VistaInicial implements Initializable{
                 System.out.println("hola");
             }
         });
-        iniciarJuego(varianteElegida, null);
+        //iniciarJuego(varianteElegida, null);
 
 
     }
