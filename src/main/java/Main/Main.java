@@ -1,28 +1,43 @@
+package Main;
+
 import Reglas.Klondike;
 import Reglas.Solitario;
 import Reglas.Spider;
 import Solitario.ControladorArchivos;
 import Solitario.Mesa;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import ui.Controlador.ControladorKlondike;
 import ui.Controlador.ControladorSpider;
+import ui.Vista.VistaInicial;
 import ui.Vista.VistaKlondike;
 import ui.Vista.VistaSpider;
-import ui.VistaInicial;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class Main extends Application {
-    private final String rutaArchivoGuardado = "src/main/resources/estadoJuego.txt";
-    private Solitario modelo;
-    private String[] variantes;
 
+public class Main extends Application {
+    private static Stage stage;
+    private final String rutaArchivoGuardado = "src/main/resources/estadoJuego.txt";
+    private static Solitario modelo;
+
+    public static void main(String[] args) {
+        launch();
+    }
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) throws Exception {
+        Main.stage = stage;
+        String [] variantes = VistaInicial.getVariantes();
         if (!ControladorArchivos.archivoEstaVacio(rutaArchivoGuardado)) {
             Mesa estadoJuego = null;
             try {
@@ -31,36 +46,28 @@ public class Main extends Application {
             } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
-            //iniciarJuego(variantes[estadoJuego.getTipoMesa()], estadoJuego);
+            iniciarJuego(variantes[estadoJuego.getTipoMesa()], estadoJuego);
         } else {
-            VistaInicial vistaInicial = new VistaInicial();
-            vistaInicial.mostrarVentanaInicial();
+            VistaInicial vi = new VistaInicial(null);
         }
-
     }
 
-    public static void main(String[] args) {
-        launch();
-    }
-
-    /*
-    private void iniciarJuego(String varianteElegida, Mesa estadoJuego) {
+    public static void iniciarJuego(String varianteElegida, Mesa estadoJuego) {
+        String [] variantes = VistaInicial.getVariantes();
         if (varianteElegida.equals(variantes[0])) {
             Klondike modeloKlondike = new Klondike(null, estadoJuego);
-            VistaKlondike vistaKlondike = new VistaKlondike(stage, modeloKlondike);
+            VistaKlondike vistaKlondike = new VistaKlondike(modeloKlondike);
             ControladorKlondike controladorKlondike = new ControladorKlondike(modeloKlondike, vistaKlondike);
             modelo = modeloKlondike;
             controladorKlondike.iniciar();
         } else if (varianteElegida.equals(variantes[1])) {
             Spider modeloSpider = new Spider(null, estadoJuego);
-            VistaSpider vistaSpider = new VistaSpider(stage, modeloSpider);
+            VistaSpider vistaSpider = new VistaSpider(modeloSpider);
             ControladorSpider controladorSpider = new ControladorSpider(modeloSpider, vistaSpider);
             modelo = modeloSpider;
             controladorSpider.iniciar();
         }
     }
-
-     */
 
     @Override
     public void stop() throws Exception {
@@ -89,7 +96,6 @@ public class Main extends Application {
             ex.printStackTrace();
         }
         /////////
-
         super.stop();
     }
 }
