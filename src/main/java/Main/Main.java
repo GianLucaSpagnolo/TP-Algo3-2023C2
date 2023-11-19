@@ -54,18 +54,22 @@ public class Main extends Application {
 
     public static void iniciarJuego(String varianteElegida, Mesa estadoJuego) {
         String [] variantes = VistaInicial.getVariantes();
-        if (varianteElegida.equals(variantes[0])) {
-            Klondike modeloKlondike = new Klondike(null, estadoJuego);
-            VistaKlondike vistaKlondike = new VistaKlondike(modeloKlondike);
-            ControladorKlondike controladorKlondike = new ControladorKlondike(modeloKlondike, vistaKlondike);
-            modelo = modeloKlondike;
-            controladorKlondike.iniciar();
-        } else if (varianteElegida.equals(variantes[1])) {
-            Spider modeloSpider = new Spider(null, estadoJuego);
-            VistaSpider vistaSpider = new VistaSpider(modeloSpider);
-            ControladorSpider controladorSpider = new ControladorSpider(modeloSpider, vistaSpider);
-            modelo = modeloSpider;
-            controladorSpider.iniciar();
+        if (varianteElegida != null) {
+            if (varianteElegida.equals(variantes[0])) {
+                Klondike modeloKlondike = new Klondike(null, estadoJuego);
+                modeloKlondike.repartirCartasInicio();
+                VistaKlondike vistaKlondike = new VistaKlondike(modeloKlondike);
+                ControladorKlondike controladorKlondike = new ControladorKlondike(modeloKlondike, vistaKlondike);
+                modelo = modeloKlondike;
+                controladorKlondike.iniciar();
+            } else if (varianteElegida.equals(variantes[1])) {
+                Spider modeloSpider = new Spider(null, estadoJuego);
+                modeloSpider.repartirCartasInicio();
+                VistaSpider vistaSpider = new VistaSpider(modeloSpider);
+                ControladorSpider controladorSpider = new ControladorSpider(modeloSpider, vistaSpider);
+                modelo = modeloSpider;
+                controladorSpider.iniciar();
+            }
         }
     }
 

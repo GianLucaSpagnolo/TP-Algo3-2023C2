@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -16,7 +17,7 @@ public class VistaPrincipal {
     @FXML
     private ChoiceBox<String> opciones;
     private Stage stage;
-    private Parent ventana;
+    private Pane ventana;
     public VistaPrincipal() {
         stage = new Stage();
         var loader = new FXMLLoader(getClass().getResource("/ventanaPrincipal.fxml"));
@@ -44,7 +45,7 @@ public class VistaPrincipal {
         return stage;
     }
 
-    public Parent getVentana() {
+    public Pane getVentana() {
         return ventana;
     }
 }

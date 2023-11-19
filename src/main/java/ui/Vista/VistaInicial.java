@@ -20,10 +20,10 @@ public class VistaInicial {
     private ChoiceBox<String> cajaOpciones;
     @FXML
     private Button botonCancelar;
-    private static String[] variantes = {"Klondike", "Spider"};
-    private Stage stage;
+    private static final String[] variantes = {"Klondike", "Spider"};
+    private final Stage stage;
     private Parent ventana;
-    private Stage escenaAbierta;
+    private final Stage escenaAbierta;
 
     public VistaInicial(Stage escenaAbierta) {
         this.escenaAbierta = escenaAbierta;
@@ -40,15 +40,16 @@ public class VistaInicial {
         cajaOpciones.getItems().addAll(variantes);
         cajaOpciones.setOnAction(this::cambiarEscena);
         botonCancelar.setOnAction(s -> stage.close());
+        stage.setResizable(false);
         stage.show();
     }
 
     public void cambiarEscena(ActionEvent actionEvent) {
+        String varianteElegida = cajaOpciones.getValue();
         if (escenaAbierta != null) {
             escenaAbierta.close();
         }
         stage.close();
-        String varianteElegida = cajaOpciones.getValue();
         while (!cajaOpciones.getItems().isEmpty()) {
             cajaOpciones.getItems().remove(0);
         }

@@ -21,6 +21,14 @@ public class Mesa implements Serializable{
         return this.tipoMesa;
     }
 
+    public Mazo getBarajaDescarte() {
+        return barajaDescarte;
+    }
+
+    public Mazo getBaraja() {
+        return baraja;
+    }
+
     public void crearBarajaDescarte() {
         this.barajaDescarte = new Mazo();
     }

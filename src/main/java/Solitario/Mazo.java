@@ -44,4 +44,18 @@ public class Mazo implements Serializable {
     public boolean estaVacio() {
         return baraja.empty();
     }
+
+    public Carta peek() {
+        if (estaVacio()) {
+            return null;
+        }
+        return baraja.peek();
+    }
+
+    public int size() {
+        return baraja.size();
+    }
+
+
+
 }

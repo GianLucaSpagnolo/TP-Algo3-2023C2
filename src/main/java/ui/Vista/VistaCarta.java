@@ -9,8 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 
-public class VistaCarta extends ImageView{
-    private Carta carta;
+public class VistaCarta extends ImageView {
     public VistaCarta(Carta carta) {
         super(obtenerRuta(carta));
     }
