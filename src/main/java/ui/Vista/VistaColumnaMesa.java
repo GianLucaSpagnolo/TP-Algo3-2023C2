@@ -2,21 +2,21 @@ package ui.Vista;
 
 import Solitario.Carta;
 import Solitario.Columna;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 
 public class VistaColumnaMesa extends VBox {
-    private int tamaño;
-    private int indice;
+    private int tamanio;
+    private final int indice;
 
     public VistaColumnaMesa(Columna columnaMesa, int indiceMesa)  {
         super(-70);
         indice = indiceMesa;
         ArrayList<Carta> listaCartas = columnaMesa.getCartas();
-        tamaño = listaCartas.size();
+        tamanio = listaCartas.size();
+        VistaCarta base = new VistaCarta(null, 0, indice);
+        this.getChildren().add(base);
         for (int i = columnaMesa.size()-1; i >= 0; i--) {
             Carta carta = listaCartas.get(i);
             VistaCarta vc = new VistaCarta(carta, i, indiceMesa);
@@ -25,18 +25,18 @@ public class VistaColumnaMesa extends VBox {
     }
 
     public int size() {
-        return tamaño;
+        return tamanio;
     }
 
     public void pintarCartas(int indice) {
-        int indiceEnColumna = tamaño-indice-1; //indice adaptado al VBox
-        for (int i = tamaño-1; i >= indiceEnColumna; i--) {
+        int indiceEnColumna = tamanio-indice; //indice adaptado al VBox
+        for (int i = tamanio; i >= indiceEnColumna; i--) {
             ((VistaCarta)this.getChildren().get(i)).pintarCarta();
         }
     }
 
     public void despintarCartas() {
-        for (int i = tamaño-1; i >= 0; i--) {
+        for (int i = tamanio; i >= 0; i--) {
             ((VistaCarta)this.getChildren().get(i)).despintarCarta();
         }
     }
@@ -47,17 +47,14 @@ public class VistaColumnaMesa extends VBox {
 
     public void actualizarColumna(Columna columna) {
         this.getChildren().clear();
+        VistaCarta base = new VistaCarta(null, 0, indice);
+        this.getChildren().add(base);
         ArrayList<Carta> listaCartas = columna.getCartas();
-        tamaño = listaCartas.size();
-        if (columna.isEmpty()) {
-            ImageView iv = new ImageView("Cartas/Medium/transparente.png");
-            this.getChildren().add(iv);
-        } else {
-            for (int i = columna.size()-1; i >= 0; i--) {
-                Carta carta = listaCartas.get(i);
-                VistaCarta vc = new VistaCarta(carta, i, indice);
-                this.getChildren().add(vc);
-            }
+        tamanio = listaCartas.size();
+        for (int i = columna.size()-1; i >= 0; i--) {
+            Carta carta = listaCartas.get(i);
+            VistaCarta vc = new VistaCarta(carta, i, indice);
+            this.getChildren().add(vc);
         }
     }
 

@@ -54,7 +54,7 @@ public class Main extends Application {
 
     public static void iniciarJuego(String varianteElegida, Mesa estadoJuego) {
         Semilla semilla = GeneradorSemillas.generarSemillaConString
-                ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
+                ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3M3M0E2");
         String [] variantes = VistaInicial.getVariantes();
         if (varianteElegida != null) {
             if (varianteElegida.equals(variantes[0])) {
