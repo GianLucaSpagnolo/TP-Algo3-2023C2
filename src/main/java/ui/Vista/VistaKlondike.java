@@ -124,12 +124,22 @@ public class VistaKlondike implements VistaJuego {
         vcm.despintarCartas();
     }
 
-    public void actualizarColumnasMesa(int indice1, int indice2) {
+    public void actualizarColumnasMesa(int indice) {
         Mesa mesa = modelo.getEstadoMesa();
-        ((VistaColumnaMesa)sectorColumnasMesa.getChildren().get(indice1)).actualizarColumna(mesa.columnaMesaEnPosicion(indice1));
-        ((VistaColumnaMesa)sectorColumnasMesa.getChildren().get(indice2)).actualizarColumna(mesa.columnaMesaEnPosicion(indice2));
+        ((VistaColumnaMesa)sectorColumnasMesa.getChildren().get(indice)).actualizarColumna(mesa.columnaMesaEnPosicion(indice));
     }
 
+    public void registrarClickEnBarajaDescarte(EventHandler<MouseEvent> eventHandler) {
+        StackPane mazoDescarte = (StackPane) sectorMazos.getChildren().get(1);
+        mazoDescarte.setOnMouseClicked(eventHandler);
+    }
 
+    public void seleccionarCartaDescarte() {
+        ((VistaMazo) sectorMazos.getChildren().get(1)).pintarCartaDescarte();
+    }
+
+    public void deseleccionarCartaDescarte() {
+        ((VistaMazo) sectorMazos.getChildren().get(1)).despintarCartaDescarte();
+    }
 
 }

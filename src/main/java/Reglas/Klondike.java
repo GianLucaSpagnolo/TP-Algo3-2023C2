@@ -88,7 +88,9 @@ public class Klondike implements Solitario {
         if (cartas == null)
             return false;
 
-        boolean seInserto = mesa.columnaMesaEnPosicion(destino).insertarSegmento(cartas);
+        boolean seInserto = false;
+        if (destino != -1)
+            seInserto = mesa.columnaMesaEnPosicion(destino).insertarSegmento(cartas);
         if (!seInserto) {
             mesa.columnaMesaEnPosicion(origen).insertarSegmentoDevuelta(cartas);
             return false;
