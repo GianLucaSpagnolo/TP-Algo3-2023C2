@@ -216,4 +216,18 @@ public class Klondike implements Solitario {
         }
         return true;
     }
+
+    public boolean moverEntreColumnasFinales(Integer origen, Integer destino) {
+        Columna carta = mesa.columnaFinalEnPosicion(origen).obtenerSegmento(0);
+        if (carta == null) {
+            return false;
+        }
+
+        boolean seInserto = mesa.columnaFinalEnPosicion(destino).insertarColumnaFinal(carta);
+        if (!seInserto) {
+            mesa.columnaFinalEnPosicion(origen).insertarColumnaFinal(carta);
+            return false;
+        }
+        return true;
+    }
 }

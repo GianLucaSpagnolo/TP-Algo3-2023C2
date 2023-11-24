@@ -12,11 +12,11 @@ import javafx.scene.paint.Color;
 
 public class VistaCarta extends ImageView {
     private int indice;
-    private int indiceColumnaMesa;
+    private int indiceColumna;
     public VistaCarta(Carta carta, int indice, int indiceColumnaMesa) {
         super(obtenerRuta(carta));
         this.indice = indice;
-        this.indiceColumnaMesa = indiceColumnaMesa;
+        this.indiceColumna = indiceColumnaMesa;
     }
 
     private static String obtenerRuta(Carta carta) {
@@ -29,8 +29,8 @@ public class VistaCarta extends ImageView {
         return "Cartas/Medium/Dada Vuelta.png";
     }
 
-    public int getIndiceColumnaMesa() {
-        return indiceColumnaMesa;
+    public int getIndiceColumna() {
+        return indiceColumna;
     }
 
     public int getIndice() {

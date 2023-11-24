@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
 import ui.Vista.VistaCarta;
+import ui.Vista.VistaColumnaFinal;
 import ui.Vista.VistaColumnaMesa;
 import ui.Vista.VistaKlondike;
 
@@ -37,7 +38,7 @@ public class ControladorKlondike {
                     hayCartaColumnaMesa = false;
                     modelo.moverCartas(segmentoSeleccionado, indiceColumnaMesa, -1);
                     vista.deseleccionarCartas(indiceColumnaMesa);
-                    vista.actualizarColumnasMesa(indiceColumnaMesa);
+                    vista.actualizarColumnaMesa(indiceColumnaMesa);
                 } else if (hayCartaDescarte) {
                     hayCartaDescarte = false;
                     vista.deseleccionarCartaDescarte();
@@ -62,7 +63,7 @@ public class ControladorKlondike {
                 }
                 if (vistaCarta != null) {
                     indice = vistaCarta.getIndice();
-                    indiceColumnaSeleccionada = vistaCarta.getIndiceColumnaMesa();
+                    indiceColumnaSeleccionada = vistaCarta.getIndiceColumna();
                 }
 
                 if ((!hayCartaColumnaMesa) && (!hayCartaDescarte) && (indice != -1)) {
@@ -74,15 +75,15 @@ public class ControladorKlondike {
                     }
                 } else if ((hayCartaColumnaMesa) && (!hayCartaDescarte)) {
                     modelo.moverCartas(segmentoSeleccionado, indiceColumnaMesa, indiceColumnaSeleccionada);
-                    vista.actualizarColumnasMesa(indiceColumnaMesa);
-                    vista.actualizarColumnasMesa(indiceColumnaSeleccionada);
+                    vista.actualizarColumnaMesa(indiceColumnaMesa);
+                    vista.actualizarColumnaMesa(indiceColumnaSeleccionada);
                     vista.deseleccionarCartas(indiceColumnaMesa);
                     hayCartaColumnaMesa = false;
                 } else if (hayCartaDescarte) {
                     modelo.moverCartaDescarteAColumnaMesa(indiceColumnaSeleccionada);
                     vista.deseleccionarCartaDescarte();
                     vista.actualizarMazos();
-                    vista.actualizarColumnasMesa(indiceColumnaSeleccionada);
+                    vista.actualizarColumnaMesa(indiceColumnaSeleccionada);
                     hayCartaDescarte = false;
                 }
             }
@@ -98,10 +99,50 @@ public class ControladorKlondike {
                     hayCartaColumnaMesa = false;
                     modelo.moverCartas(segmentoSeleccionado, indiceColumnaMesa, -1);
                     vista.deseleccionarCartas(indiceColumnaMesa);
-                    vista.actualizarColumnasMesa(indiceColumnaMesa);
+                    vista.actualizarColumnaMesa(indiceColumnaMesa);
                 } else {
                     hayCartaDescarte = false;
                     vista.deseleccionarCartaDescarte();
+                }
+            }
+        });
+
+        vista.registrarClickEnColumnaFinal(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {;
+                int indiceColumnaSeleccionada = 0;
+                VistaCarta vistaCarta = null;
+                PickResult click = mouseEvent.getPickResult();
+                try {
+                    vistaCarta = (VistaCarta) click.getIntersectedNode();
+                } catch (ClassCastException e) {
+                    VistaColumnaFinal vcf = (VistaColumnaFinal) click.getIntersectedNode();
+                    indiceColumnaSeleccionada = vcf.getIndice();
+                }
+                if (vistaCarta != null) {
+                    indiceColumnaSeleccionada = vistaCarta.getIndiceColumna();
+                }
+                if ((!hayCartaColumnaMesa) && (!hayCartaDescarte) && (!hayCartaColumnaFinal)) {
+                    indiceColumnaFinal = indiceColumnaSeleccionada;
+                    hayCartaColumnaFinal = true;
+                    vista.seleccionarCartaColumnaFinal(indiceColumnaFinal);
+                } else if (hayCartaColumnaFinal) {
+                    hayCartaColumnaFinal = false;
+                    modelo.moverEntreColumnasFinales(indiceColumnaFinal, indiceColumnaSeleccionada);
+                    vista.deseleccionarCartaColumnaFinal(indiceColumnaFinal);
+                    vista.actualizarColumnaFinal(indiceColumnaSeleccionada);
+                    vista.actualizarColumnaFinal(indiceColumnaFinal);
+                } else if (hayCartaDescarte) {
+                    hayCartaDescarte = false;
+                    modelo.moverCartaDescarteAColumnaFinal(indiceColumnaSeleccionada);
+                    vista.deseleccionarCartaDescarte();
+                    vista.actualizarColumnaFinal(indiceColumnaSeleccionada);
+                    vista.actualizarMazos();
+                } else if (hayCartaColumnaMesa) {
+                    hayCartaColumnaMesa = false;
+                    modelo.moverCartaColumnaFinal(segmentoSeleccionado, indiceColumnaMesa, indiceColumnaSeleccionada);
+                    vista.actualizarColumnaFinal(indiceColumnaSeleccionada);
+                    vista.actualizarColumnaMesa(indiceColumnaMesa);
                 }
             }
         });

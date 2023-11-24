@@ -58,7 +58,7 @@ public class VistaKlondike implements VistaJuego {
         //SectorColumnasFinales
         HBox sectorColumnasFinales = new HBox(20);
         for (int i=0; i < 4;i++) {
-            VistaColumnaFinal vcf = new VistaColumnaFinal(mesa.columnaFinalEnPosicion(i));
+            VistaColumnaFinal vcf = new VistaColumnaFinal(mesa.columnaFinalEnPosicion(i), i);
             Canvas rectangulo = dibujarRectangulo(columnasFinalesX, columnasFinalesY, i);
             ventana.getChildren().add(rectangulo);
             sectorColumnasFinales.getChildren().add(vcf);
@@ -119,12 +119,22 @@ public class VistaKlondike implements VistaJuego {
         vcm.pintarCartas(indice);
     }
 
+    public void seleccionarCartaColumnaFinal(int indiceColumnaFinal) {
+        VistaColumnaFinal vcf = (VistaColumnaFinal) sectorColumnasFinales.getChildren().get(indiceColumnaFinal);
+        vcf.pintarCarta();
+    }
+
+    public void deseleccionarCartaColumnaFinal(int indiceColumnaFinal) {
+        VistaColumnaFinal vcf = (VistaColumnaFinal) sectorColumnasFinales.getChildren().get(indiceColumnaFinal);
+        vcf.despintarCarta();
+    }
+
     public void deseleccionarCartas(int indiceColumnaMesa) {
         VistaColumnaMesa vcm = (VistaColumnaMesa) sectorColumnasMesa.getChildren().get(indiceColumnaMesa);
         vcm.despintarCartas();
     }
 
-    public void actualizarColumnasMesa(int indice) {
+    public void actualizarColumnaMesa(int indice) {
         Mesa mesa = modelo.getEstadoMesa();
         ((VistaColumnaMesa)sectorColumnasMesa.getChildren().get(indice)).actualizarColumna(mesa.columnaMesaEnPosicion(indice));
     }
@@ -140,6 +150,18 @@ public class VistaKlondike implements VistaJuego {
 
     public void deseleccionarCartaDescarte() {
         ((VistaMazo) sectorMazos.getChildren().get(1)).despintarCartaDescarte();
+    }
+
+    public void registrarClickEnColumnaFinal(EventHandler<MouseEvent> eventHandler) {
+        for (int i = 0; i < 4; i++) {
+            VistaColumnaFinal vcf = (VistaColumnaFinal) sectorColumnasFinales.getChildren().get(i);
+            vcf.setOnMouseClicked(eventHandler);
+        }
+    }
+
+    public void actualizarColumnaFinal(int indice) {
+        Mesa mesa = modelo.getEstadoMesa();
+        ((VistaColumnaFinal)sectorColumnasFinales.getChildren().get(indice)).actualizarColumnaFinal(mesa.columnaFinalEnPosicion(indice));
     }
 
 }
