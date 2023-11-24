@@ -13,15 +13,16 @@ import Solitario.*;
 
 public class VistaKlondike implements VistaJuego {
     private final Solitario modelo;
+    private final Stage stage;
     private final HBox sectorMazos;
     private final HBox sectorColumnasFinales;
     private final HBox sectorColumnasMesa;
 
-    private final int columnasFinalesX = 600;
+    private final int columnasFinalesX = 373;
     private final int columnasFinalesY = 80;
-    private final int columnasMesaX = 130;
+    private final int columnasMesaX = 100;
     private final int columnasMesaY = 240;
-    private final int mazosX = 40;
+    private final int mazosX = 100;
     private final int mazosY = 80;
 
 
@@ -29,7 +30,7 @@ public class VistaKlondike implements VistaJuego {
         //escena principal
         this.modelo = modelo;
         VistaPrincipal base = new VistaPrincipal();
-        Stage stage = base.getStage();
+        this.stage = base.getStage();
         Pane ventana = base.getVentana();
 
         Mesa mesa = modelo.getEstadoMesa();
@@ -82,6 +83,8 @@ public class VistaKlondike implements VistaJuego {
         ventana.getChildren().add(sectorColumnasMesa);
         stage.show();
     }
+
+    public Stage getStage() {return stage;}
 
     private Canvas dibujarRectangulo(int x, int y, int i) {
         Canvas rectangulo = new Canvas(71,94);

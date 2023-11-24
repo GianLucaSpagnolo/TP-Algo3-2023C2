@@ -31,13 +31,10 @@ public class VistaPrincipal {
         stage.setScene(escena);
         stage.setResizable(false);
         opciones.getItems().add("Nuevo Juego");
-        opciones.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                opciones.getItems().remove(0);
-                opciones.getItems().add("Nuevo Juego");
-                VistaInicial vi = new VistaInicial(stage);
-            }
+        opciones.setOnAction(event -> {
+            opciones.getItems().remove(0);
+            opciones.getItems().add("Nuevo Juego");
+            VistaInicial vi = new VistaInicial(stage);
         });
     }
 

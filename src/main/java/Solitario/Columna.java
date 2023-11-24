@@ -58,7 +58,6 @@ public abstract class Columna extends ArrayList<Carta> implements Serializable {
         }
         Carta ultimaCarta = segmento.getCartas().get(segmento.size()-1);
         Carta topeColumna = peek();
-        System.out.println(estrategia.sonCompatibles(ultimaCarta, topeColumna));
         if ((estrategia.sonCompatibles(ultimaCarta, topeColumna))) {
             this.addAll(0, segmento.getCartas());
             return true;
