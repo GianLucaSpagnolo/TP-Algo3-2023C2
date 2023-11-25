@@ -55,7 +55,4 @@ public class Mazo implements Serializable {
     public int size() {
         return baraja.size();
     }
-
-
-
 }

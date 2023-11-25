@@ -4,6 +4,7 @@ import Solitario.Carta;
 import Solitario.GeneradorSemillas;
 import Solitario.Semilla;
 import Solitario.Mesa;
+import Solitario.Mazo;
 import Solitario.Palos;
 import Solitario.Columna;
 import Solitario.ControladorArchivos;
@@ -26,12 +27,19 @@ public class KlondikeTest {
         Mesa mesa = klondike.getEstadoMesa();
         Carta carta = mesa.sacarCartaMazo();
         assertFalse(carta.esVisible());
+        Mazo mazo = mesa.getBaraja();
+        Carta carta2 = mazo.peek();
+        assertFalse(carta2.esVisible());
         assertNull(mesa.sacarCartaDescarte());
+
         for (int i = 0; i < 51; i++)
             assertTrue(klondike.sacarDelMazo());
         Mesa nuevaMesa = klondike.getEstadoMesa();
         Carta nuevaCarta = nuevaMesa.sacarCartaDescarte();
         assertTrue(nuevaCarta.esVisible());
+        Mazo nuevoMazo = mesa.getBarajaDescarte();
+        Carta nuevaCarta2 = nuevoMazo.peek();
+        assertTrue(nuevaCarta2.esVisible());
         assertNull(nuevaMesa.sacarCartaMazo());
     }
 
@@ -479,6 +487,63 @@ public class KlondikeTest {
         Columna seleccion = klondike.seleccionarCartas(1, 1);
         assertNotNull(seleccion);
         assertFalse(klondike.moverCartaColumnaFinal(seleccion, 1, 2));
+    }
+
+    @Test
+    public void moverCartasEntreColumnasFinales() {
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
+                ("L1D0C3G2H1G0J2D2D1A3M3J1A2B1F3I2E1B3K0E3I3G1L0K2J0H0B2I0H2C1C2L2E0A0J3M2K1A1F2I1B0M1C0F0L3F1D3G3K3H3M0E2");
+        Klondike klondike = new Klondike(semilla, null);
+        klondike.repartirCartasInicio();
+
+        assertTrue(klondike.moverCartaColumnaFinal(klondike.seleccionarCartas(4, 0), 4, 0));
+        Mesa mesa1 = klondike.getEstadoMesa();
+        assertEquals(6, mesa1.columnaMesaEnPosicion(4).peek().getNumero(), 0);
+        assertEquals(Palos.CORAZONES, mesa1.columnaMesaEnPosicion(4).peek().getPalo());
+        assertEquals(4, mesa1.columnaMesaEnPosicion(4).size(), 0);
+        assertFalse(mesa1.columnaFinalEnPosicion(0).isEmpty());
+        assertEquals(1, mesa1.columnaFinalEnPosicion(0).peek().getNumero(), 0);
+        assertEquals(Palos.TREBOLES, mesa1.columnaFinalEnPosicion(0).peek().getPalo());
+
+        assertTrue(klondike.moverEntreColumnasFinales(0, 2));
+        Mesa mesa2 = klondike.getEstadoMesa();
+        assertTrue(mesa2.columnaFinalEnPosicion(0).isEmpty());
+        assertFalse(mesa2.columnaFinalEnPosicion(2).isEmpty());
+        assertEquals(1, mesa2.columnaFinalEnPosicion(2).peek().getNumero(), 0);
+        assertEquals(Palos.TREBOLES, mesa2.columnaFinalEnPosicion(2).peek().getPalo());
+
+        for (int i = 0; i < 15; i++)
+            klondike.sacarDelMazo();
+        klondike.moverCartaDescarteAColumnaFinal(3);
+        for (int i = 0; i < 17; i++)
+            klondike.sacarDelMazo();
+        klondike.moverCartaDescarteAColumnaFinal(3);
+        for (int i = 0; i < 14; i++)
+            klondike.sacarDelMazo();
+        klondike.moverCartaDescarteAColumnaFinal(3);
+
+        assertFalse(klondike.moverEntreColumnasFinales(3, 0));
+        Mesa mesa3 = klondike.getEstadoMesa();
+        assertTrue(mesa3.columnaFinalEnPosicion(0).isEmpty());
+        assertFalse(mesa3.columnaFinalEnPosicion(3).isEmpty());
+        assertEquals(3, mesa3.columnaFinalEnPosicion(3).peek().getNumero(), 0);
+        assertEquals(Palos.DIAMANTES, mesa3.columnaFinalEnPosicion(3).peek().getPalo());
+
+        assertFalse(klondike.moverEntreColumnasFinales(3, 2));
+        Mesa mesa4 = klondike.getEstadoMesa();
+        assertFalse(mesa4.columnaFinalEnPosicion(3).isEmpty());
+        assertEquals(3, mesa4.columnaFinalEnPosicion(3).peek().getNumero(), 0);
+        assertEquals(Palos.DIAMANTES, mesa4.columnaFinalEnPosicion(3).peek().getPalo());
+        assertFalse(mesa4.columnaFinalEnPosicion(2).isEmpty());
+        assertEquals(1, mesa4.columnaFinalEnPosicion(2).peek().getNumero(), 0);
+        assertEquals(Palos.TREBOLES, mesa4.columnaFinalEnPosicion(2).peek().getPalo());
+
+        assertFalse(klondike.moverEntreColumnasFinales(1, 3));
+        Mesa mesa5 = klondike.getEstadoMesa();
+        assertTrue(mesa5.columnaFinalEnPosicion(1).isEmpty());
+        assertFalse(mesa5.columnaFinalEnPosicion(3).isEmpty());
+        assertEquals(3, mesa5.columnaFinalEnPosicion(3).peek().getNumero(), 0);
+        assertEquals(Palos.DIAMANTES, mesa5.columnaFinalEnPosicion(3).peek().getPalo());
     }
 
     @Test

@@ -11,6 +11,8 @@ public class MazoTest {
     public void testCreacionMazo() {
         Mazo mazo = new Mazo();
         assertTrue(mazo.estaVacio());
+        assertNull(mazo.peek());
+        assertEquals(0, mazo.size(), 0);
     }
 
     @Test
@@ -43,6 +45,13 @@ public class MazoTest {
         mazo.agregarCarta(carta3);
         mazo.agregarCarta(carta4);
         assertFalse(mazo.estaVacio());
+        assertEquals(4, mazo.size(), 0);
+
+        Carta cartaSacada = mazo.peek();
+        cartaSacada.darVuelta();
+        assertEquals(5, cartaSacada.getNumero(), 0);
+        assertEquals(Palos.CORAZONES, cartaSacada.getPalo());
+        assertEquals(4, mazo.size(), 0);
     }
 
     @Test
