@@ -29,11 +29,13 @@ public class VistaKlondike implements VistaJuego {
     public VistaKlondike(Solitario modelo) {
         //escena principal
         this.modelo = modelo;
-        VistaPrincipal base = new VistaPrincipal();
+
+        Mesa mesa = modelo.getEstadoMesa();
+
+        VistaPrincipal base = new VistaPrincipal(mesa.getTipoMesa());
         this.stage = base.getStage();
         Pane ventana = base.getVentana();
 
-        Mesa mesa = modelo.getEstadoMesa();
 
         //sectorMazos
         VistaMazo vistaMazo = new VistaMazo(mesa.getBaraja());
@@ -119,27 +121,27 @@ public class VistaKlondike implements VistaJuego {
 
     public void seleccionarCartas(int indice, int indiceColumnaMesa) {
         VistaColumnaMesa vcm = (VistaColumnaMesa) sectorColumnasMesa.getChildren().get(indiceColumnaMesa);
-        vcm.pintarCartas(indice);
-    }
-
-    public void seleccionarCartaColumnaFinal(int indiceColumnaFinal) {
-        VistaColumnaFinal vcf = (VistaColumnaFinal) sectorColumnasFinales.getChildren().get(indiceColumnaFinal);
-        vcf.pintarCarta();
-    }
-
-    public void deseleccionarCartaColumnaFinal(int indiceColumnaFinal) {
-        VistaColumnaFinal vcf = (VistaColumnaFinal) sectorColumnasFinales.getChildren().get(indiceColumnaFinal);
-        vcf.despintarCarta();
+        vcm.pintar(indice);
     }
 
     public void deseleccionarCartas(int indiceColumnaMesa) {
         VistaColumnaMesa vcm = (VistaColumnaMesa) sectorColumnasMesa.getChildren().get(indiceColumnaMesa);
-        vcm.despintarCartas();
+        vcm.despintar();
+    }
+
+    public void seleccionarCartaColumnaFinal(int indiceColumnaFinal) {
+        VistaColumnaFinal vcf = (VistaColumnaFinal) sectorColumnasFinales.getChildren().get(indiceColumnaFinal);
+        vcf.pintar(1);
+    }
+
+    public void deseleccionarCartaColumnaFinal(int indiceColumnaFinal) {
+        VistaColumnaFinal vcf = (VistaColumnaFinal) sectorColumnasFinales.getChildren().get(indiceColumnaFinal);
+        vcf.despintar();
     }
 
     public void actualizarColumnaMesa(int indice) {
         Mesa mesa = modelo.getEstadoMesa();
-        ((VistaColumnaMesa)sectorColumnasMesa.getChildren().get(indice)).actualizarColumna(mesa.columnaMesaEnPosicion(indice));
+        ((VistaColumnaMesa)sectorColumnasMesa.getChildren().get(indice)).actualizar(mesa.columnaMesaEnPosicion(indice));
     }
 
     public void registrarClickEnBarajaDescarte(EventHandler<MouseEvent> eventHandler) {
@@ -164,7 +166,7 @@ public class VistaKlondike implements VistaJuego {
 
     public void actualizarColumnaFinal(int indice) {
         Mesa mesa = modelo.getEstadoMesa();
-        ((VistaColumnaFinal)sectorColumnasFinales.getChildren().get(indice)).actualizarColumnaFinal(mesa.columnaFinalEnPosicion(indice));
+        ((VistaColumnaFinal)sectorColumnasFinales.getChildren().get(indice)).actualizar(mesa.columnaFinalEnPosicion(indice));
     }
 
 }

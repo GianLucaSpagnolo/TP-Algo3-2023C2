@@ -90,7 +90,9 @@ public class Spider implements Solitario {
             return false;
         }
 
-        boolean seInserto = mesa.columnaMesaEnPosicion(destino).insertarSegmento(cartas);
+        boolean seInserto = false;
+        if ((destino != -1) || (((mesa.columnaMesaEnPosicion(destino).size() + cartas.size()) < 25))) //Asegura que no haya mas de 25 cartas por columna, por una cuestión de visión
+            seInserto = mesa.columnaMesaEnPosicion(destino).insertarSegmento(cartas);
         if (!seInserto) {
             mesa.columnaMesaEnPosicion(origen).insertarSegmentoDevuelta(cartas);
             return false;
@@ -116,7 +118,6 @@ public class Spider implements Solitario {
         } catch (IndexOutOfBoundsException ex) {
             return false;
         }
-
         if (segmento == null) {
             return false;
         }

@@ -34,6 +34,7 @@ public class VistaInicial {
         }
         Scene escena = new Scene(ventana);
         stage.setScene(escena);
+        stage.setTitle("Menu inicial");
         cajaOpciones.getItems().addAll(variantes);
         cajaOpciones.setOnAction(this::cambiarEscena);
         botonCancelar.setOnAction(s -> stage.close());

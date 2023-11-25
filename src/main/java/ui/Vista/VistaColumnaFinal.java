@@ -4,7 +4,7 @@ import Solitario.Carta;
 import Solitario.Columna;
 import javafx.scene.layout.StackPane;
 
-public class VistaColumnaFinal extends StackPane {
+public class VistaColumnaFinal extends StackPane implements VistaColumna {
     private final int indice;
 
     public VistaColumnaFinal(Columna columnaFinal, int indice){
@@ -23,7 +23,7 @@ public class VistaColumnaFinal extends StackPane {
         return indice;
     }
 
-    public void actualizarColumnaFinal(Columna columna) {
+    public void actualizar(Columna columna) {
         this.getChildren().clear();
         VistaCarta base = new VistaCarta(null, 0, indice);
         this.getChildren().add(base);
@@ -34,11 +34,11 @@ public class VistaColumnaFinal extends StackPane {
         }
     }
 
-    public void pintarCarta() {
-        ((VistaCarta)this.getChildren().get(1)).pintarCarta();
+    public void pintar(int indice) {
+        ((VistaCarta)this.getChildren().get(indice)).pintarCarta();
     }
 
-    public void despintarCarta() {
+    public void despintar() {
         ((VistaCarta)this.getChildren().get(1)).despintarCarta();
     }
 }

@@ -42,7 +42,7 @@ public class VistaVictoria {
         });
 
         stage.setOnCloseRequest(windowEvent -> escenaAbierta.close());
-
+        stage.setTitle("Bien ahi master");
         stage.setResizable(false);
         stage.show();
     }

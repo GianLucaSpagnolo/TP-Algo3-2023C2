@@ -59,7 +59,9 @@ public class Main extends Application {
                 controladorKlondike.iniciar();
             } else if (varianteElegida.equals(variantes[1])) {
                 Spider modeloSpider = new Spider(null, estadoJuego);
-                modeloSpider.repartirCartasInicio();
+                if (estadoJuego == null) {
+                    modeloSpider.repartirCartasInicio();
+                }
                 VistaSpider vistaSpider = new VistaSpider(modeloSpider);
                 ControladorSpider controladorSpider = new ControladorSpider(modeloSpider, vistaSpider);
                 modelo = modeloSpider;
@@ -87,13 +89,6 @@ public class Main extends Application {
                 }
             }
         }
-        // LINEAS A BORRAR CUANDO ANDE EL RESTO
-        try {
-            ControladorArchivos.vaciarArchivo(rutaArchivoGuardado);
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        }
-        /////////
         super.stop();
     }
 }

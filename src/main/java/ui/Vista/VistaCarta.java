@@ -8,8 +8,10 @@ import javafx.scene.image.ImageView;
 public class VistaCarta extends ImageView {
     private final int indice;
     private final int indiceColumna;
+    private final Carta carta;
     public VistaCarta(Carta carta, int indice, int indiceColumnaMesa) {
         super(obtenerRuta(carta));
+        this.carta = carta;
         this.indice = indice;
         this.indiceColumna = indiceColumnaMesa;
     }
@@ -42,6 +44,10 @@ public class VistaCarta extends ImageView {
         ColorAdjust colorAdjust = new ColorAdjust();
         colorAdjust.setBrightness(0);
         this.setEffect(colorAdjust);
+    }
+
+    public Carta getCarta() {
+        return carta;
     }
 }
 

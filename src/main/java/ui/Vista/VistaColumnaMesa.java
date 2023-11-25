@@ -6,7 +6,7 @@ import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 
-public class VistaColumnaMesa extends VBox {
+public class VistaColumnaMesa extends VBox implements VistaColumna {
     private int tamanio;
     private final int indice;
 
@@ -28,14 +28,14 @@ public class VistaColumnaMesa extends VBox {
         return tamanio;
     }
 
-    public void pintarCartas(int indice) {
+    public void pintar(int indice) {
         int indiceEnColumna = tamanio-indice; //indice adaptado al VBox
         for (int i = tamanio; i >= indiceEnColumna; i--) {
             ((VistaCarta)this.getChildren().get(i)).pintarCarta();
         }
     }
 
-    public void despintarCartas() {
+    public void despintar() {
         for (int i = tamanio; i >= 0; i--) {
             ((VistaCarta)this.getChildren().get(i)).despintarCarta();
         }
@@ -45,7 +45,7 @@ public class VistaColumnaMesa extends VBox {
         return indice;
     }
 
-    public void actualizarColumna(Columna columna) {
+    public void actualizar(Columna columna) {
         this.getChildren().clear();
         VistaCarta base = new VistaCarta(null, 0, indice);
         this.getChildren().add(base);

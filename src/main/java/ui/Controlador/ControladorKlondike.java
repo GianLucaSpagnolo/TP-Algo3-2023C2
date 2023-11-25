@@ -65,7 +65,7 @@ public class ControladorKlondike {
                     vista.seleccionarCartas(indice, indiceColumnaSeleccionada);
                     hayCartaColumnaMesa = true;
                 }
-            } else if ((hayCartaColumnaMesa) && (!hayCartaDescarte)) {
+            } else if ((hayCartaColumnaMesa) && (!hayCartaDescarte) && ((indice != -1) || ((segmentoSeleccionado.peek().getNumero() == 13) && (indice == -1)))) {
                 modelo.moverCartas(segmentoSeleccionado, indiceColumnaMesa, indiceColumnaSeleccionada);
                 vista.actualizarColumnaMesa(indiceColumnaMesa);
                 vista.actualizarColumnaMesa(indiceColumnaSeleccionada);
