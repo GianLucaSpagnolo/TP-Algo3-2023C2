@@ -8,7 +8,6 @@ import ui.Vista.*;
 public class ControladorKlondike {
     private final VistaKlondike vista;
     private final Klondike modelo;
-
     private Columna segmentoSeleccionado;
     private int indiceColumnaMesa;
     private int indiceColumnaFinal;
