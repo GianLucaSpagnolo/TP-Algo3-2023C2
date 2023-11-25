@@ -2,20 +2,14 @@ package ui.Vista;
 
 import Reglas.Solitario;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import Solitario.*;
-
-import java.io.IOException;
-import java.util.Objects;
 
 public class VistaSpider implements VistaJuego{
     private final Solitario modelo;

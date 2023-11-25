@@ -12,11 +12,9 @@ import ui.Controlador.ControladorSpider;
 import ui.Vista.VistaInicial;
 import ui.Vista.VistaKlondike;
 import ui.Vista.VistaSpider;
-
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
+
 
 
 public class Main extends Application {
@@ -32,13 +30,9 @@ public class Main extends Application {
         Main.stage = stage;
         String [] variantes = VistaInicial.getVariantes();
         if (!ControladorArchivos.archivoEstaVacio(rutaArchivoGuardado)) {
-            Mesa estadoJuego = null;
-            try {
-                FileInputStream fileIn = new FileInputStream(rutaArchivoGuardado);
-                estadoJuego = ControladorArchivos.deserializarMesa(fileIn);
-            } catch (IOException | ClassNotFoundException ex) {
-                ex.printStackTrace();
-            }
+            Mesa estadoJuego;
+            FileInputStream fileIn = new FileInputStream(rutaArchivoGuardado);
+            estadoJuego = ControladorArchivos.deserializarMesa(fileIn);
             iniciarJuego(variantes[estadoJuego.getTipoMesa()], estadoJuego);
         } else {
             VistaInicial vi = new VistaInicial(null);
@@ -74,19 +68,11 @@ public class Main extends Application {
     public void stop() throws Exception {
         if (modelo != null) {
             if (modelo.estaGanado()) {
-                try {
-                    ControladorArchivos.vaciarArchivo(rutaArchivoGuardado);
-                } catch (FileNotFoundException ex) {
-                    ex.printStackTrace();
-                }
+                ControladorArchivos.vaciarArchivo(rutaArchivoGuardado);
             } else {
                 Mesa estadoJuego = modelo.getEstadoMesa();
-                try {
-                    FileOutputStream fileOut = new FileOutputStream(rutaArchivoGuardado);
-                    ControladorArchivos.serializarMesa(fileOut, estadoJuego);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+                FileOutputStream fileOut = new FileOutputStream(rutaArchivoGuardado);
+                ControladorArchivos.serializarMesa(fileOut, estadoJuego);
             }
         }
         super.stop();

@@ -1,6 +1,4 @@
 package ui.Controlador;
-
-import Reglas.Klondike;
 import Reglas.Spider;
 import Solitario.Columna;
 import javafx.scene.input.PickResult;
