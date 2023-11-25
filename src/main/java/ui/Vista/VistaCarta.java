@@ -1,18 +1,13 @@
 package ui.Vista;
 
 import Solitario.Carta;
-import Solitario.Palos;
-import javafx.fxml.FXML;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.effect.ColorAdjust;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 
 
 public class VistaCarta extends ImageView {
-    private int indice;
-    private int indiceColumna;
+    private final int indice;
+    private final int indiceColumna;
     public VistaCarta(Carta carta, int indice, int indiceColumnaMesa) {
         super(obtenerRuta(carta));
         this.indice = indice;

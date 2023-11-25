@@ -1,10 +1,7 @@
 package ui.Controlador;
 
 import Reglas.Klondike;
-import Solitario.Carta;
 import Solitario.Columna;
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
 import ui.Vista.*;
 
@@ -107,7 +104,7 @@ public class ControladorKlondike {
             }
         });
 
-        vista.registrarClickEnColumnaFinal(mouseEvent -> {;
+        vista.registrarClickEnColumnaFinal(mouseEvent -> {
             int indiceColumnaSeleccionada = 0;
             boolean estaVacia = false;
             VistaCarta vistaCarta = null;

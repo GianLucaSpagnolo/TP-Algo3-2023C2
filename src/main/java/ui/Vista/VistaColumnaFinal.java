@@ -4,8 +4,6 @@ import Solitario.Carta;
 import Solitario.Columna;
 import javafx.scene.layout.StackPane;
 
-import java.util.ArrayList;
-
 public class VistaColumnaFinal extends StackPane {
     private final int indice;
 
