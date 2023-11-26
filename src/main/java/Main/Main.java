@@ -14,7 +14,7 @@ import ui.Vista.VistaKlondike;
 import ui.Vista.VistaSpider;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-
+import java.io.IOException;
 
 
 public class Main extends Application {
@@ -26,7 +26,7 @@ public class Main extends Application {
         launch();
     }
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) throws IOException, ClassNotFoundException {
         Main.stage = stage;
         String [] variantes = VistaInicial.getVariantes();
         if (!ControladorArchivos.archivoEstaVacio(rutaArchivoGuardado)) {

@@ -91,7 +91,8 @@ public class Spider implements Solitario {
         }
 
         boolean seInserto = false;
-        if ((destino != -1) || (((mesa.columnaMesaEnPosicion(destino).size() + cartas.size()) < 25))) //Asegura que no haya mas de 25 cartas por columna, por una cuestión de visión
+        //Asegura que no haya mas de 24 cartas por columna, por una cuestión de tamaño maximo de la columna
+        if (!((destino == -1) || ((mesa.columnaMesaEnPosicion(destino).size() + cartas.size()) >= 24)))
             seInserto = mesa.columnaMesaEnPosicion(destino).insertarSegmento(cartas);
         if (!seInserto) {
             mesa.columnaMesaEnPosicion(origen).insertarSegmentoDevuelta(cartas);
@@ -101,31 +102,36 @@ public class Spider implements Solitario {
         if ((mesa.columnaMesaEnPosicion(origen).peek() != null) && (!mesa.columnaMesaEnPosicion(origen).peek().esVisible())) {
             mesa.columnaMesaEnPosicion(origen).peek().darVuelta();
         }
-        boolean seMovio = moverCartasColumnaFinal(destino, posicionColumnaFinal);
-        if (seMovio) {
-            posicionColumnaFinal++;
-        }
+
+        moverCartasColumnaFinal(destino);
         return true;
     }
 
     /**
      * Mueve un segmento de 13 cartas a una columna final.
      */
-    private boolean moverCartasColumnaFinal(Integer origen, Integer destino) {
+    private void moverCartasColumnaFinal(Integer origen) {
         Columna segmento;
         try {
             segmento = mesa.columnaMesaEnPosicion(origen).obtenerSegmento(12);
         } catch (IndexOutOfBoundsException ex) {
-            return false;
+            return;
         }
         if (segmento == null) {
-            return false;
+            return;
         }
-        mesa.columnaFinalEnPosicion(destino).insertarColumnaFinal(segmento);
+
+        for (int i = 0; i < 8; i++) {
+            if (mesa.columnaFinalEnPosicion(i).isEmpty()) {
+                mesa.columnaFinalEnPosicion(i).insertarColumnaFinal(segmento);
+                posicionColumnaFinal = i;
+                break;
+            }
+        }
+
         if ((mesa.columnaMesaEnPosicion(origen).peek() != null) && (!mesa.columnaMesaEnPosicion(origen).peek().esVisible())) {
             mesa.columnaMesaEnPosicion(origen).peek().darVuelta();
         }
-        return true;
     }
 
 
@@ -134,7 +140,7 @@ public class Spider implements Solitario {
      * conforman 8 cadenas desde A hasta K.
      */
     public boolean estaGanado() {
-        return posicionColumnaFinal == 8;
+        return posicionColumnaFinal == 7;
     }
 
     /**
@@ -155,6 +161,8 @@ public class Spider implements Solitario {
             carta = mesa.sacarCartaMazo();
             carta.darVuelta();
             mesa.columnaMesaEnPosicion(i).push(carta);
+
+            moverCartasColumnaFinal(i);
         }
         return true;
     }

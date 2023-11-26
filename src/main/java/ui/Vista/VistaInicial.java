@@ -27,19 +27,26 @@ public class VistaInicial {
         stage = new Stage();
         var loader = new FXMLLoader(getClass().getResource("/ventanaInicial.fxml"));
         loader.setController(this);
+
+        boolean error = false;
         try {
             ventana = loader.load();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
+            error = true;
+            stage.close();
         }
-        Scene escena = new Scene(ventana);
-        stage.setScene(escena);
-        stage.setTitle("Menu inicial");
-        cajaOpciones.getItems().addAll(variantes);
-        cajaOpciones.setOnAction(this::cambiarEscena);
-        botonCancelar.setOnAction(s -> stage.close());
-        stage.setResizable(false);
-        stage.show();
+
+        if (!error) {
+            Scene escena = new Scene(ventana);
+            stage.setScene(escena);
+            stage.setTitle("Menu inicial");
+            cajaOpciones.getItems().addAll(variantes);
+            cajaOpciones.setOnAction(this::cambiarEscena);
+            botonCancelar.setOnAction(s -> stage.close());
+            stage.setResizable(false);
+            stage.show();
+        }
     }
 
     public void cambiarEscena(ActionEvent actionEvent) {

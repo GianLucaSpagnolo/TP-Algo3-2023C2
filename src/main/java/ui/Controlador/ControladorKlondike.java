@@ -64,19 +64,19 @@ public class ControladorKlondike {
                     vista.seleccionarCartas(indice, indiceColumnaSeleccionada);
                     hayCartaColumnaMesa = true;
                 }
-            } else if ((hayCartaColumnaMesa) && (!hayCartaDescarte) && ((indice != -1) || ((segmentoSeleccionado.peek().getNumero() == 13) && (indice == -1)))) {
+            } else if ((hayCartaColumnaMesa) && (!hayCartaDescarte) && ((indice != -1) || ((segmentoSeleccionado.getCartas().get(segmentoSeleccionado.size() - 1).getNumero() == 13) && (indice == -1))) && ((vistaCarta == null) || (vistaCarta.getCarta().esVisible()))) {
                 modelo.moverCartas(segmentoSeleccionado, indiceColumnaMesa, indiceColumnaSeleccionada);
                 vista.actualizarColumnaMesa(indiceColumnaMesa);
                 vista.actualizarColumnaMesa(indiceColumnaSeleccionada);
                 vista.deseleccionarCartas(indiceColumnaMesa);
                 hayCartaColumnaMesa = false;
-            } else if (hayCartaDescarte) {
+            } else if (hayCartaDescarte && ((indice != -1) || ((modelo.getEstadoMesa().getBarajaDescarte().peek().getNumero() == 13) && (indice == -1))) && ((vistaCarta == null) || (vistaCarta.getCarta().esVisible()))) {
                 modelo.moverCartaDescarteAColumnaMesa(indiceColumnaSeleccionada);
                 vista.deseleccionarCartaDescarte();
                 vista.actualizarMazos();
                 vista.actualizarColumnaMesa(indiceColumnaSeleccionada);
                 hayCartaDescarte = false;
-            } else if (hayCartaColumnaFinal) {
+            } else if (hayCartaColumnaFinal && ((indice != -1) || ((modelo.getEstadoMesa().columnaFinalEnPosicion(indiceColumnaFinal).peek().getNumero() == 13) && (indice == -1))) && ((vistaCarta == null) || (vistaCarta.getCarta().esVisible()))) {
                 hayCartaColumnaFinal = false;
                 modelo.moverCartaColumnaFinalAColumnaMesa(indiceColumnaFinal, indiceColumnaSeleccionada);
                 vista.deseleccionarCartaColumnaFinal(indiceColumnaFinal);

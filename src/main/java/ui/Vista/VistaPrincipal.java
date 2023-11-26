@@ -23,22 +23,29 @@ public class VistaPrincipal {
         this.variante = variante;
         var loader = new FXMLLoader(getClass().getResource("/ventanaPrincipal.fxml"));
         loader.setController(this);
+
+        boolean error = false;
         try {
             ventana = loader.load();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
+            error = true;
+            stage.close();
         }
-        Scene escena = new Scene(ventana);
-        stage.setScene(escena);
-        setMedidas();
-        stage.setResizable(false);
-        stage.setTitle("Solitario");
-        opciones.getItems().add("Nuevo Juego");
-        opciones.setOnAction(event -> {
-            opciones.getItems().remove(0);
+
+        if (!error) {
+            Scene escena = new Scene(ventana);
+            stage.setScene(escena);
+            setMedidas();
+            stage.setResizable(false);
+            stage.setTitle("Solitario");
             opciones.getItems().add("Nuevo Juego");
-            VistaInicial vi = new VistaInicial(stage);
-        });
+            opciones.setOnAction(event -> {
+                opciones.getItems().remove(0);
+                opciones.getItems().add("Nuevo Juego");
+                VistaInicial vi = new VistaInicial(stage);
+            });
+        }
     }
 
     public Stage getStage() {

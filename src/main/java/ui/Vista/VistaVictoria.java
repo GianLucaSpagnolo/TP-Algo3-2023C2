@@ -24,26 +24,33 @@ public class VistaVictoria {
         stage = new Stage();
         var loader = new FXMLLoader(getClass().getResource("/ventanaVictoria.fxml"));
         loader.setController(this);
+
+        boolean error = false;
         try {
             ventana = loader.load();
         } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Scene escena = new Scene(ventana);
-        stage.setScene(escena);
-        botonCerrar.setOnAction(event -> {
-            escenaAbierta.close();
+            System.out.println(e.getMessage());
+            error = true;
             stage.close();
-        });
+        }
 
-        botonNuevoJuego.setOnAction(event -> {
-            escenaAbierta.close();
-            VistaInicial vi = new VistaInicial(stage);
-        });
+        if (!error) {
+            Scene escena = new Scene(ventana);
+            stage.setScene(escena);
 
-        stage.setOnCloseRequest(windowEvent -> escenaAbierta.close());
-        stage.setTitle("Bien ahi master");
-        stage.setResizable(false);
-        stage.show();
+            botonCerrar.setOnAction(event -> {
+                escenaAbierta.close();
+                stage.close();
+            });
+            botonNuevoJuego.setOnAction(event -> {
+                escenaAbierta.close();
+                VistaInicial vi = new VistaInicial(stage);
+            });
+
+            stage.setOnCloseRequest(windowEvent -> escenaAbierta.close());
+            stage.setTitle("Bien ahi master");
+            stage.setResizable(false);
+            stage.show();
+        }
     }
 }

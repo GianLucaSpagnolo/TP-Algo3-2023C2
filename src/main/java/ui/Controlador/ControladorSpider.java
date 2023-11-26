@@ -24,8 +24,7 @@ public class ControladorSpider {
                 for (int i = 0; i < 10; i++) {
                     vista.actualizarColumnaMesa(i);
                 }
-
-            } else if (hayCartaColumnaMesa) {
+            } else {
                 hayCartaColumnaMesa = false;
                 modelo.moverCartas(segmentoSeleccionado, indiceColumnaMesa, -1);
                 vista.deseleccionarCartas(indiceColumnaMesa);
@@ -58,7 +57,7 @@ public class ControladorSpider {
                     vista.seleccionarCartas(indice, indiceColumnaSeleccionada);
                     hayCartaColumnaMesa = true;
                 }
-            } else if (hayCartaColumnaMesa) {
+            } else if (hayCartaColumnaMesa && ((indice != -1) || ((modelo.getEstadoMesa().columnaMesaEnPosicion(indiceColumnaSeleccionada).isEmpty()) && (indice == -1))) && ((vistaCarta == null) || (vistaCarta.getCarta().esVisible()))) {
                 modelo.moverCartas(segmentoSeleccionado, indiceColumnaMesa, indiceColumnaSeleccionada);
                 vista.actualizarColumnaMesa(indiceColumnaMesa);
                 vista.actualizarColumnaMesa(indiceColumnaSeleccionada);
@@ -72,6 +71,5 @@ public class ControladorSpider {
                 }
             }
         });
-
     }
 }
