@@ -80,12 +80,10 @@ public class VistaSpider implements VistaJuego{
         stage.show();
     }
 
-    @Override
     public Stage getStage() {
         return stage;
     }
 
-    @Override
     public void registrarSacarDelMazo(EventHandler<MouseEvent> eventHandler) {
         mazo.setOnMouseClicked(eventHandler);
     }
@@ -95,7 +93,6 @@ public class VistaSpider implements VistaJuego{
         mazo.actualizarMazo(mesa.getBaraja());
     }
 
-    @Override
     public void registrarClickEnColumnaMesa(EventHandler<MouseEvent> eventHandler) {
         for (int i = 0; i < 10; i++) {
             VistaColumnaMesa vcm = (VistaColumnaMesa) sectorColumnasMesa.getChildren().get(i);
@@ -103,19 +100,16 @@ public class VistaSpider implements VistaJuego{
         }
     }
 
-    @Override
     public void seleccionarCartas(int indice, int indiceColumnaMesa) {
         VistaColumnaMesa vcm = (VistaColumnaMesa) sectorColumnasMesa.getChildren().get(indiceColumnaMesa);
         vcm.pintar(indice);
     }
 
-    @Override
     public void deseleccionarCartas(int indiceColumnaMesa) {
         VistaColumnaMesa vcm = (VistaColumnaMesa) sectorColumnasMesa.getChildren().get(indiceColumnaMesa);
         vcm.despintar();
     }
 
-    @Override
     public void actualizarColumnaMesa(int indice) {
         Mesa mesa = modelo.getEstadoMesa();
         ((VistaColumnaMesa)sectorColumnasMesa.getChildren().get(indice)).actualizar(mesa.columnaMesaEnPosicion(indice));
