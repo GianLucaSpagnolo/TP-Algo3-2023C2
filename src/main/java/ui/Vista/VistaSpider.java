@@ -18,12 +18,12 @@ public class VistaSpider implements VistaJuego{
     private final HBox sectorColumnasFinales;
     private final HBox sectorColumnasMesa;
 
-    private final int columnasFinalesX = 45;
-    private final int columnasFinalesY = 800;
-    private final int columnasMesaX = 45;
-    private final int columnasMesaY = 50;
-    private final int mazoX = 865;
-    private final int mazoY = 800;
+    private final int columnasFinalesX = 30;
+    private final int columnasFinalesY = 500;
+    private final int columnasMesaX = 30;
+    private final int columnasMesaY = 30;
+    private final int mazoX = 544;
+    private final int mazoY = 500;
 
     public VistaSpider(Solitario modelo) {
         //escena principal
@@ -37,12 +37,12 @@ public class VistaSpider implements VistaJuego{
 
         //mazo
         VistaMazo vistaMazo = new VistaMazo(mesa.getBaraja());
-        Canvas circulo = new Canvas(71,94);
+        Canvas circulo = new Canvas(47,62);
         GraphicsContext gc1 = circulo.getGraphicsContext2D();
         gc1.setFill(javafx.scene.paint.Color.LIGHTGREEN);
-        gc1.fillOval(2,2,67,90);
+        gc1.fillOval(2,2,43,58);
         gc1.setFill(Color.GREEN);
-        gc1.fillOval(6,6,59,83);
+        gc1.fillOval(5.5,5.5,36,51);
         circulo.setLayoutX(mazoX);
         circulo.setLayoutY(mazoY);
         ventana.getChildren().add(circulo);
@@ -52,7 +52,7 @@ public class VistaSpider implements VistaJuego{
         ventana.getChildren().add(vistaMazo);
 
         //SectorColumnasFinales
-        HBox sectorColumnasFinales = new HBox(20);
+        HBox sectorColumnasFinales = new HBox(10);
         for (int i=0; i < 8;i++) {
             VistaColumnaFinal vcf = new VistaColumnaFinal(mesa.columnaFinalEnPosicion(i), i);
             Canvas rectangulo = dibujarRectangulo(columnasFinalesX, columnasFinalesY, i);
@@ -65,10 +65,10 @@ public class VistaSpider implements VistaJuego{
         ventana.getChildren().add(sectorColumnasFinales);
 
         //SectorColumnasMesa
-        HBox sectorColumnasMesa = new HBox(20);
+        HBox sectorColumnasMesa = new HBox(10);
         for (int i=0; i < 10; i++) {
             VistaColumnaMesa vcm = new VistaColumnaMesa(mesa.columnaMesaEnPosicion(i), i);
-            Canvas rectangulo = dibujarRectangulo(columnasMesaX, columnasMesaY + 23, i);
+            Canvas rectangulo = dibujarRectangulo(columnasMesaX, columnasMesaY + 15, i);
             ventana.getChildren().add(rectangulo);
             sectorColumnasMesa.getChildren().add(vcm);
         }
@@ -121,13 +121,13 @@ public class VistaSpider implements VistaJuego{
     }
 
     private Canvas dibujarRectangulo(int x, int y, int i) {
-        Canvas rectangulo = new Canvas(71,94);
+        Canvas rectangulo = new Canvas(47,62);
         GraphicsContext gc2 = rectangulo.getGraphicsContext2D();
         gc2.setFill(Color.LIGHTGREEN);
-        gc2.fillRect(2,2,67,90);
+        gc2.fillRect(2,2,43,58);
         gc2.setFill(Color.GREEN);
-        gc2.fillRect(6,6,59,83);
-        rectangulo.setLayoutX(x + 71 * i + 20 * i);
+        gc2.fillRect(5.5,5.5,36,51);
+        rectangulo.setLayoutX(x + 47 * i + 10 * i);
         rectangulo.setLayoutY(y);
         return rectangulo;
     }

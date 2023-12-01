@@ -92,7 +92,7 @@ public class Spider implements Solitario {
 
         boolean seInserto = false;
         //Asegura que no haya mas de 24 cartas por columna, por una cuestión de tamaño maximo de la columna
-        if (!((destino == -1) || ((mesa.columnaMesaEnPosicion(destino).size() + cartas.size()) >= 24)))
+        if (!((destino == -1) || ((mesa.columnaMesaEnPosicion(destino).size() + cartas.size()) >= 40)))
             seInserto = mesa.columnaMesaEnPosicion(destino).insertarSegmento(cartas);
         if (!seInserto) {
             mesa.columnaMesaEnPosicion(origen).insertarSegmentoDevuelta(cartas);

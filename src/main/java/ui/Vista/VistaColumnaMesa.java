@@ -11,7 +11,7 @@ public class VistaColumnaMesa extends VBox implements VistaColumna {
     private final int indice;
 
     public VistaColumnaMesa(Columna columnaMesa, int indiceMesa)  {
-        super(-70);
+        super(-45);
         indice = indiceMesa;
         ArrayList<Carta> listaCartas = columnaMesa.getCartas();
         tamanio = listaCartas.size();
@@ -21,6 +21,12 @@ public class VistaColumnaMesa extends VBox implements VistaColumna {
             Carta carta = listaCartas.get(i);
             VistaCarta vc = new VistaCarta(carta, i, indiceMesa);
             this.getChildren().add(vc);
+        }
+        if (tamanio >= 22) {
+            this.setSpacing(-48);
+        }
+        if (tamanio >= 32) {
+            this.setSpacing(-51);
         }
     }
 
@@ -46,6 +52,15 @@ public class VistaColumnaMesa extends VBox implements VistaColumna {
     }
 
     public void actualizar(Columna columna) {
+        if (columna.size() >= 22) {
+            this.setSpacing(-48);
+        }
+        if (columna.size() >= 32) {
+            this.setSpacing(-51);
+        }
+        if (columna.size() < 22) {
+            this.setSpacing(-45);
+        }
         this.getChildren().clear();
         VistaCarta base = new VistaCarta(null, 0, indice);
         this.getChildren().add(base);

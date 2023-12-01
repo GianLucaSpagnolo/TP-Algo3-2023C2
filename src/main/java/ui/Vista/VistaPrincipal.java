@@ -15,8 +15,8 @@ public class VistaPrincipal {
     private Pane ventana;
     private final Integer variante;
 
-    private final double[] medidasAncho = {832, 1000};
-    private final double[] medidasAlto = {800, 1000};
+    private final double[] medidasAncho = {503, 635};
+    private final double[] medidasAlto = {570, 630};
 
     public VistaPrincipal(Integer variante) {
         stage = new Stage();

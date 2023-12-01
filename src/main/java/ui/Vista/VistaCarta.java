@@ -18,12 +18,12 @@ public class VistaCarta extends ImageView {
 
     private static String obtenerRuta(Carta carta) {
         if (carta == null) {
-            return "Cartas/Medium/transparente.png";
+            return "Cartas/Small/transparente.png";
         }
         if (carta.esVisible()) {
-            return "Cartas/Medium/" + carta.getPalo().nombre + " " + carta.getNumero() + ".png";
+            return "Cartas/Small/" + carta.getPalo().nombre + " " + carta.getNumero() + ".png";
         }
-        return "Cartas/Medium/Dada Vuelta.png";
+        return "Cartas/Small/Dada Vuelta.png";
     }
 
     public int getIndiceColumna() {
