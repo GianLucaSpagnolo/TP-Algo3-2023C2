@@ -17,7 +17,7 @@ public class VistaInicial {
     private ChoiceBox<String> cajaOpciones;
     @FXML
     private Button botonCancelar;
-    private static final String[] variantes = {"Klondike", "Spider"};
+    private static final String[] variantes = {"         Klondike            ", "         Spider             "};
     private final Stage stage;
     private Parent ventana;
     private final Stage escenaAbierta;
