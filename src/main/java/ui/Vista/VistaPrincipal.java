@@ -38,7 +38,7 @@ public class VistaPrincipal {
             stage.setScene(escena);
             setMedidas();
             stage.setResizable(false);
-            stage.setTitle("Solitario");
+            stage.setTitle("Solitario " + NombresVariantes.getListaVariantes()[variante]);
             opciones.getItems().add("Nuevo Juego");
             opciones.setOnAction(event -> {
                 opciones.getItems().remove(0);

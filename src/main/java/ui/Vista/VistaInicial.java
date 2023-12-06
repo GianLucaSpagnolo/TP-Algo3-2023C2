@@ -17,7 +17,6 @@ public class VistaInicial {
     private ChoiceBox<String> cajaOpciones;
     @FXML
     private Button botonCancelar;
-    private static final String[] variantes = {"         Klondike            ", "         Spider             "};
     private final Stage stage;
     private Parent ventana;
     private final Stage escenaAbierta;
@@ -41,7 +40,7 @@ public class VistaInicial {
             Scene escena = new Scene(ventana);
             stage.setScene(escena);
             stage.setTitle("Menu inicial");
-            cajaOpciones.getItems().addAll(variantes);
+            cajaOpciones.getItems().addAll(NombresVariantes.getListaVariantes());
             cajaOpciones.setOnAction(this::cambiarEscena);
             botonCancelar.setOnAction(s -> stage.close());
             stage.setResizable(false);
@@ -58,11 +57,7 @@ public class VistaInicial {
         while (!cajaOpciones.getItems().isEmpty()) {
             cajaOpciones.getItems().remove(0);
         }
-        cajaOpciones.getItems().addAll(variantes);
+        cajaOpciones.getItems().addAll(NombresVariantes.getListaVariantes());
         Main.iniciarJuego(varianteElegida, null);
-    }
-
-    public static String[] getVariantes() {
-        return variantes;
     }
 }

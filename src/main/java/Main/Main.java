@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import ui.Controlador.ControladorKlondike;
 import ui.Controlador.ControladorSpider;
+import ui.Vista.NombresVariantes;
 import ui.Vista.VistaInicial;
 import ui.Vista.VistaKlondike;
 import ui.Vista.VistaSpider;
@@ -21,6 +22,7 @@ public class Main extends Application {
     private static Stage stage;
     private final String rutaArchivoGuardado = "src/main/resources/estadoJuego.txt";
     private static Solitario modelo;
+    private static final String[] variantes = NombresVariantes.getListaVariantes();
 
     public static void main(String[] args) {
         launch();
@@ -28,11 +30,9 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException, ClassNotFoundException {
         Main.stage = stage;
-        String [] variantes = VistaInicial.getVariantes();
         if (!ControladorArchivos.archivoEstaVacio(rutaArchivoGuardado)) {
-            Mesa estadoJuego;
             FileInputStream fileIn = new FileInputStream(rutaArchivoGuardado);
-            estadoJuego = ControladorArchivos.deserializarMesa(fileIn);
+            Mesa estadoJuego = ControladorArchivos.deserializarMesa(fileIn);
             iniciarJuego(variantes[estadoJuego.getTipoMesa()], estadoJuego);
         } else {
             VistaInicial vi = new VistaInicial(null);
@@ -40,7 +40,6 @@ public class Main extends Application {
     }
 
     public static void iniciarJuego(String varianteElegida, Mesa estadoJuego) {
-        String [] variantes = VistaInicial.getVariantes();
         if (varianteElegida != null) {
             if (varianteElegida.equals(variantes[0])) {
                 Klondike modeloKlondike = new Klondike(null, estadoJuego);

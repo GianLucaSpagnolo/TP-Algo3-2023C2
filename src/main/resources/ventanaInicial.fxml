@@ -9,22 +9,21 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="305.0"
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0"
+            prefWidth="305.0"
             xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label layoutX="21.0" layoutY="35.0" text="Seleccionar Solitario">
-         <font>
-            <Font size="21.0" />
-         </font>
-      </Label>
-      <Circle fill="DODGERBLUE" layoutX="258.0" layoutY="51.0" radius="28.0" stroke="BLACK" strokeType="INSIDE" />
-      <Label layoutX="252.0" layoutY="31.0" text="?" textFill="WHITE">
-         <font>
-            <Font size="27.0" />
-         </font>
-      </Label>
-      <Separator layoutY="91.0" prefHeight="0.0" prefWidth="305.0" />
-      <ChoiceBox fx:id="cajaOpciones" layoutX="21.0" layoutY="126.0" prefWidth="150.0" />
-      <Button fx:id="botonCancelar" layoutX="208.0" layoutY="126.0" mnemonicParsing="false" text="Cancelar" />
-   </children>
+   <Label layoutX="21.0" layoutY="35.0" text="Seleccionar Solitario">
+      <font>
+         <Font size="21.0"/>
+      </font>
+   </Label>
+   <Circle fill="DODGERBLUE" layoutX="258.0" layoutY="51.0" radius="28.0" stroke="BLACK" strokeType="INSIDE"/>
+   <Label layoutX="252.0" layoutY="31.0" text="?" textFill="WHITE">
+      <font>
+         <Font size="27.0"/>
+      </font>
+   </Label>
+   <Separator layoutY="91.0" prefHeight="0.0" prefWidth="305.0"/>
+   <ChoiceBox fx:id="cajaOpciones" layoutX="40.0" layoutY="126.0" prefWidth="81.0"/>
+   <Button fx:id="botonCancelar" layoutX="183.0" layoutY="126.0" mnemonicParsing="false" text="   Cancelar   "/>
 </AnchorPane>
