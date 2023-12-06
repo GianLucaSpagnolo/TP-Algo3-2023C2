@@ -179,6 +179,9 @@ public class Klondike implements Solitario {
             mesa.insertarCartaDescarte(carta);
             return false;
         }
+
+        if (mesa.getBarajaDescarte().estaVacio())
+            sacarDelMazo();
         return true;
     }
 
@@ -198,6 +201,9 @@ public class Klondike implements Solitario {
             mesa.insertarCartaDescarte(carta);
             return false;
         }
+
+        if (mesa.getBarajaDescarte().estaVacio())
+            sacarDelMazo();
         return true;
     }
 
