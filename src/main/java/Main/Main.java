@@ -39,26 +39,34 @@ public class Main extends Application {
         }
     }
 
+    private static void iniciarKlondike(Mesa estadoJuego) {
+        Klondike modeloKlondike = new Klondike(null, estadoJuego);
+        if (estadoJuego == null) {
+            modeloKlondike.repartirCartasInicio();
+        }
+        VistaKlondike vistaKlondike = new VistaKlondike(modeloKlondike);
+        ControladorKlondike controladorKlondike = new ControladorKlondike(modeloKlondike, vistaKlondike);
+        modelo = modeloKlondike;
+        controladorKlondike.iniciar();
+    }
+
+    private static void iniciarSpider(Mesa estadoJuego) {
+        Spider modeloSpider = new Spider(null, estadoJuego);
+        if (estadoJuego == null) {
+            modeloSpider.repartirCartasInicio();
+        }
+        VistaSpider vistaSpider = new VistaSpider(modeloSpider);
+        ControladorSpider controladorSpider = new ControladorSpider(modeloSpider, vistaSpider);
+        modelo = modeloSpider;
+        controladorSpider.iniciar();
+    }
+
     public static void iniciarJuego(String varianteElegida, Mesa estadoJuego) {
         if (varianteElegida != null) {
             if (varianteElegida.equals(variantes[0])) {
-                Klondike modeloKlondike = new Klondike(null, estadoJuego);
-                if (estadoJuego == null) {
-                    modeloKlondike.repartirCartasInicio();
-                }
-                VistaKlondike vistaKlondike = new VistaKlondike(modeloKlondike);
-                ControladorKlondike controladorKlondike = new ControladorKlondike(modeloKlondike, vistaKlondike);
-                modelo = modeloKlondike;
-                controladorKlondike.iniciar();
+                iniciarKlondike(estadoJuego);
             } else if (varianteElegida.equals(variantes[1])) {
-                Spider modeloSpider = new Spider(null, estadoJuego);
-                if (estadoJuego == null) {
-                    modeloSpider.repartirCartasInicio();
-                }
-                VistaSpider vistaSpider = new VistaSpider(modeloSpider);
-                ControladorSpider controladorSpider = new ControladorSpider(modeloSpider, vistaSpider);
-                modelo = modeloSpider;
-                controladorSpider.iniciar();
+                iniciarSpider(estadoJuego);
             }
         }
     }
