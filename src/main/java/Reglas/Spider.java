@@ -15,7 +15,7 @@ public class Spider implements Solitario {
      * una instancia de una mesa (que debe ser configurada con formato Spider) la cual puede inicializar un estado de
      * juego previamente determinado.
      */
-    public Spider(GeneradorSemillas semilla, Mesa estadoMesa) {
+    public Spider(Semilla semilla, Mesa estadoMesa) {
         if (estadoMesa == null) {
             ArrayList<Palos> palos = new ArrayList<>();
             palos.add(Palos.PICAS);
@@ -25,7 +25,8 @@ public class Spider implements Solitario {
             }
             mazo.generarBaraja(semilla, palos);
 
-            Mesa nuevaMesa = new Mesa(mazo);
+            int tipoMesa = 1;
+            Mesa nuevaMesa = new Mesa(mazo, tipoMesa);
             EstrategiaComparacion estrategia = new EstrategiaComparacionSpider();
             for (int i = 0; i < 10; i++) {
                 Columna columnaMesa = new ColumnaSpider(estrategia);
@@ -70,50 +71,67 @@ public class Spider implements Solitario {
     }
 
     /**
+     * Selecciona una o varias cartas, obteniendo un segmento (instancia de la clase Columna) de cartas
+     * las cuales cumplen con la condicion de cadena determinado por cada solitario.
+     * En caso de no conformar una cadena valida, devuelve null.
+     */
+    public Columna seleccionarCartas(Integer origen, Integer carta) {
+        return mesa.columnaMesaEnPosicion(origen).obtenerSegmento(carta);
+    }
+
+    /**
      * Mueve una o varias cartas de una columna mesa a otra.
      * Si el movimiento es valido y en la columna destino se forma una cadena de 13 cartas (desde A hasta K)
      * mueve dicho segmento de 13 cartas a una columna final, las cuales verifican un posible estado de victoria
      * del solitario Spider.
      */
-    public boolean moverCartas(Integer origen, Integer destino, Integer carta) {
-        Columna segmento = mesa.columnaMesaEnPosicion(origen).obtenerSegmento(carta);
-        if (segmento == null) {
+    public boolean moverCartas(Columna cartas, Integer origen, Integer destino) {
+        if (cartas == null) {
             return false;
         }
-        boolean seInserto = mesa.columnaMesaEnPosicion(destino).insertarSegmento(segmento);
+
+        boolean seInserto = false;
+        //Asegura que no haya mas de 24 cartas por columna, por una cuestión de tamaño maximo de la columna
+        if (!((destino == -1) || ((mesa.columnaMesaEnPosicion(destino).size() + cartas.size()) >= 40)))
+            seInserto = mesa.columnaMesaEnPosicion(destino).insertarSegmento(cartas);
         if (!seInserto) {
-            mesa.columnaMesaEnPosicion(origen).insertarSegmentoDevuelta(segmento);
+            mesa.columnaMesaEnPosicion(origen).insertarSegmentoDevuelta(cartas);
             return false;
         }
+
         if ((mesa.columnaMesaEnPosicion(origen).peek() != null) && (!mesa.columnaMesaEnPosicion(origen).peek().esVisible())) {
             mesa.columnaMesaEnPosicion(origen).peek().darVuelta();
         }
-        boolean seMovio = moverCartasColumnaFinal(destino, posicionColumnaFinal);
-        if (seMovio) {
-            posicionColumnaFinal++;
-        }
+
+        moverCartasColumnaFinal(destino);
         return true;
     }
 
     /**
      * Mueve un segmento de 13 cartas a una columna final.
      */
-    private boolean moverCartasColumnaFinal(Integer origen, Integer destino) {
+    private void moverCartasColumnaFinal(Integer origen) {
         Columna segmento;
         try {
             segmento = mesa.columnaMesaEnPosicion(origen).obtenerSegmento(12);
         } catch (IndexOutOfBoundsException ex) {
-            return false;
+            return;
+        }
+        if (segmento == null) {
+            return;
         }
 
-        if (segmento == null) {
-            return false;
+        for (int i = 0; i < 8; i++) {
+            if (mesa.columnaFinalEnPosicion(i).isEmpty()) {
+                mesa.columnaFinalEnPosicion(i).insertarColumnaFinal(segmento);
+                posicionColumnaFinal = i;
+                break;
+            }
         }
-        mesa.columnaFinalEnPosicion(destino).insertarColumnaFinal(segmento);
+
         if ((mesa.columnaMesaEnPosicion(origen).peek() != null) && (!mesa.columnaMesaEnPosicion(origen).peek().esVisible())) {
             mesa.columnaMesaEnPosicion(origen).peek().darVuelta();
         }
-        return true;
     }
 
 
@@ -122,7 +140,7 @@ public class Spider implements Solitario {
      * conforman 8 cadenas desde A hasta K.
      */
     public boolean estaGanado() {
-        return posicionColumnaFinal == 8;
+        return posicionColumnaFinal == 7;
     }
 
     /**
@@ -143,6 +161,8 @@ public class Spider implements Solitario {
             carta = mesa.sacarCartaMazo();
             carta.darVuelta();
             mesa.columnaMesaEnPosicion(i).push(carta);
+
+            moverCartasColumnaFinal(i);
         }
         return true;
     }

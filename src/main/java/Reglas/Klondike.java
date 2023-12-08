@@ -15,7 +15,7 @@ public class Klondike implements Solitario {
      * una instancia de una mesa (que debe ser configurada con formato Klondike) la cual puede inicializar un
      * estado de juego previamente determinado.
      */
-    public Klondike(GeneradorSemillas semilla, Mesa estadoMesa) {
+    public Klondike(Semilla semilla, Mesa estadoMesa) {
         if (estadoMesa == null) {
             ArrayList<Palos> palos = new ArrayList<>();
             palos.add(Palos.PICAS);
@@ -28,7 +28,8 @@ public class Klondike implements Solitario {
             }
             mazo.generarBaraja(semilla, palos);
 
-            Mesa nuevaMesa = new Mesa(mazo);
+            int tipoMesa = 0;
+            Mesa nuevaMesa = new Mesa(mazo, tipoMesa);
             EstrategiaComparacion estrategia = new EstrategiaComparacionKlondike();
             for (int i = 0; i < 7; i++) {
                 Columna columnaMesa = new ColumnaKlondike(estrategia);
@@ -72,18 +73,29 @@ public class Klondike implements Solitario {
     }
 
     /**
+     * Selecciona una o varias cartas, obteniendo un segmento (instancia de la clase Columna) de cartas
+     * las cuales cumplen con la condicion de cadena determinado por cada solitario.
+     * En caso de no conformar una cadena valida, devuelve null.
+     */
+    public Columna seleccionarCartas(Integer origen, Integer carta) {
+        return mesa.columnaMesaEnPosicion(origen).obtenerSegmento(carta);
+    }
+
+    /**
      * Mueve una o varias cartas de una columna mesa a otra.
      */
-    public boolean moverCartas(Integer origen, Integer destino, Integer carta) {
-        Columna segmento = mesa.columnaMesaEnPosicion(origen).obtenerSegmento(carta);
-        if (segmento == null) {
+    public boolean moverCartas(Columna cartas, Integer origen, Integer destino) {
+        if (cartas == null)
             return false;
-        }
-        boolean seInserto = mesa.columnaMesaEnPosicion(destino).insertarSegmento(segmento);
+
+        boolean seInserto = false;
+        if (destino != -1)
+            seInserto = mesa.columnaMesaEnPosicion(destino).insertarSegmento(cartas);
         if (!seInserto) {
-            mesa.columnaMesaEnPosicion(origen).insertarSegmentoDevuelta(segmento);
+            mesa.columnaMesaEnPosicion(origen).insertarSegmentoDevuelta(cartas);
             return false;
         }
+
         if ((mesa.columnaMesaEnPosicion(origen).peek() != null) && (!mesa.columnaMesaEnPosicion(origen).peek().esVisible())) {
             mesa.columnaMesaEnPosicion(origen).peek().darVuelta();
         }
@@ -93,16 +105,16 @@ public class Klondike implements Solitario {
     /**
      * Mueve una carta de una columna mesa a una columna final.
      */
-    public boolean moverCartaColumnaFinal(Integer origen, Integer destino) {
-        Columna segmento = mesa.columnaMesaEnPosicion(origen).obtenerSegmento(0);
-        if (segmento == null) {
+    public boolean moverCartaColumnaFinal(Columna cartas, Integer origen, Integer destino) {
+        if (cartas == null)
             return false;
-        }
-        boolean seInserto = mesa.columnaFinalEnPosicion(destino).insertarColumnaFinal(segmento);
+
+        boolean seInserto = mesa.columnaFinalEnPosicion(destino).insertarColumnaFinal(cartas);
         if (!seInserto) {
-            mesa.columnaMesaEnPosicion(origen).insertarSegmentoDevuelta(segmento);
+            mesa.columnaMesaEnPosicion(origen).insertarSegmentoDevuelta(cartas);
             return false;
         }
+
         if ((mesa.columnaMesaEnPosicion(origen).peek() != null) && (!mesa.columnaMesaEnPosicion(origen).peek().esVisible())) {
             mesa.columnaMesaEnPosicion(origen).peek().darVuelta();
         }
@@ -167,6 +179,9 @@ public class Klondike implements Solitario {
             mesa.insertarCartaDescarte(carta);
             return false;
         }
+
+        if (mesa.getBarajaDescarte().estaVacio())
+            sacarDelMazo();
         return true;
     }
 
@@ -186,6 +201,9 @@ public class Klondike implements Solitario {
             mesa.insertarCartaDescarte(carta);
             return false;
         }
+
+        if (mesa.getBarajaDescarte().estaVacio())
+            sacarDelMazo();
         return true;
     }
 
@@ -198,6 +216,20 @@ public class Klondike implements Solitario {
             return false;
         }
         boolean seInserto = mesa.columnaMesaEnPosicion(destino).insertarSegmento(carta);
+        if (!seInserto) {
+            mesa.columnaFinalEnPosicion(origen).insertarColumnaFinal(carta);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean moverEntreColumnasFinales(Integer origen, Integer destino) {
+        Columna carta = mesa.columnaFinalEnPosicion(origen).obtenerSegmento(0);
+        if (carta == null) {
+            return false;
+        }
+
+        boolean seInserto = mesa.columnaFinalEnPosicion(destino).insertarColumnaFinal(carta);
         if (!seInserto) {
             mesa.columnaFinalEnPosicion(origen).insertarColumnaFinal(carta);
             return false;

@@ -4,15 +4,29 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Mesa implements Serializable{
+    private final int tipoMesa;
     private final Mazo baraja;
     private Mazo barajaDescarte;
     private final ArrayList<Columna> columnasMesa;
     private final ArrayList<Columna> columnasFinales;
 
-    public Mesa(Mazo baraja) {
+    public Mesa(Mazo baraja, int tipo) {
+        this.tipoMesa = tipo;
         this.baraja = baraja;
         this.columnasMesa = new ArrayList<>();
         this.columnasFinales = new ArrayList<>();
+    }
+
+    public int getTipoMesa() {
+        return this.tipoMesa;
+    }
+
+    public Mazo getBarajaDescarte() {
+        return barajaDescarte;
+    }
+
+    public Mazo getBaraja() {
+        return baraja;
     }
 
     public void crearBarajaDescarte() {
@@ -66,26 +80,4 @@ public class Mesa implements Serializable{
         return barajaDescarte.sacarCarta();
     }
 
-
-    /**
-     * Guarda el estado de la Mesa (con todas sus columnas, cartas y mazos correspondientes)
-     * en el stream indicado por el parametro. Puede lanzar IOException en caso de error.
-     */
-    public void serializar(OutputStream os) throws IOException {
-        ObjectOutputStream bos = new ObjectOutputStream(os);
-        bos.writeObject(this);
-        bos.flush();
-    }
-
-    /**
-     * Copia el estado de la Mesa (con todas sus columnas, cartas y mazos correspondientes)
-     * desde el stream indicado por parametro. Devuelve la instancia de la mesa leida.
-     * Puede lanzar IOException o ClassNotFoundException en caso de error.
-     */
-    public static Mesa deserializar(InputStream is) throws IOException, ClassNotFoundException {
-        ObjectInputStream bis = new ObjectInputStream(is);
-        Mesa mesaLeida = (Mesa) bis.readObject();
-        bis.close();
-        return mesaLeida;
-    }
 }

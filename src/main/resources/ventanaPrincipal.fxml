@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="817.0" style="-fx-background-color: Green;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label prefHeight="25.0" prefWidth="2000" style="-fx-background-color: lightgray;" text="   Juego">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="opciones" opacity="0.0" prefHeight="25.0" prefWidth="55.0" />
+      <Separator layoutX="52.0" orientation="VERTICAL" prefHeight="25.0" prefWidth="0.0" />
+   </children>
+</Pane>

@@ -11,6 +11,8 @@ public class MazoTest {
     public void testCreacionMazo() {
         Mazo mazo = new Mazo();
         assertTrue(mazo.estaVacio());
+        assertNull(mazo.peek());
+        assertEquals(0, mazo.size(), 0);
     }
 
     @Test
@@ -43,6 +45,13 @@ public class MazoTest {
         mazo.agregarCarta(carta3);
         mazo.agregarCarta(carta4);
         assertFalse(mazo.estaVacio());
+        assertEquals(4, mazo.size(), 0);
+
+        Carta cartaSacada = mazo.peek();
+        cartaSacada.darVuelta();
+        assertEquals(5, cartaSacada.getNumero(), 0);
+        assertEquals(Palos.CORAZONES, cartaSacada.getPalo());
+        assertEquals(4, mazo.size(), 0);
     }
 
     @Test
@@ -52,7 +61,7 @@ public class MazoTest {
     public void creacionBarajaSemillaVacia() {
         Mazo mazo = new Mazo();
         ArrayList<Palos> palos = new ArrayList<>();
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString("");
+        Semilla semilla = GeneradorSemillas.generarSemillaConString("");
         mazo.generarBaraja(semilla, palos);
         assertTrue(mazo.estaVacio());
     }
@@ -68,7 +77,7 @@ public class MazoTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.CORAZONES);
         Mazo mazo = new Mazo();
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString("A0B0C0D0E0");
+        Semilla semilla = GeneradorSemillas.generarSemillaConString("A0B0C0D0E0");
         mazo.generarBaraja(semilla, palos);
 
         for (int i = 5; i > 0; i--) {
@@ -90,7 +99,7 @@ public class MazoTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.DIAMANTES);
         Mazo mazo = new Mazo();
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString("A0");
+        Semilla semilla = GeneradorSemillas.generarSemillaConString("A0");
         mazo.generarBaraja(semilla, palos);
 
         Carta carta = mazo.sacarCarta();
@@ -111,7 +120,7 @@ public class MazoTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.PICAS);
         Mazo mazo = new Mazo();
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString("A0B0C0D0E0F0G0H0I0J0K0L0M0");
+        Semilla semilla = GeneradorSemillas.generarSemillaConString("A0B0C0D0E0F0G0H0I0J0K0L0M0");
         mazo.generarBaraja(semilla, palos);
 
         for (int i = 13; i > 0; i--) {
@@ -133,7 +142,7 @@ public class MazoTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.DIAMANTES);
         Mazo mazo = new Mazo();
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("A0B0C0D0E0F0G0H0I0J0K0L0M0A0B0C0D0E0F0G0H0I0J0K0L0M0A0B0C0D0E0F0G0H0I0J0K0L0M0A0B0C0D0E0F0G0H0I0J0K0L0M0" +
                 "A0B0C0D0E0F0G0H0I0J0K0L0M0A0B0C0D0E0F0G0H0I0J0K0L0M0A0B0C0D0E0F0G0H0I0J0K0L0M0A0B0C0D0E0F0G0H0I0J0K0L0M0");
         mazo.generarBaraja(semilla, palos);
@@ -162,7 +171,7 @@ public class MazoTest {
         palos.add(Palos.CORAZONES);
         palos.add(Palos.DIAMANTES);
         Mazo mazo = new Mazo();
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("A0B0C0D0E0F0G0H0I0J0K0L0M0A1B1C1D1E1F1G1H1I1J1K1L1M1A2B2C2D2E2F2G2H2I2J2K2L2M2A3B3C3D3E3F3G3H3I3J3K3L3M3");
         mazo.generarBaraja(semilla, palos);
 

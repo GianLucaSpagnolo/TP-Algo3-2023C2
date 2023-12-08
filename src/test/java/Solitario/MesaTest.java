@@ -5,6 +5,7 @@ import Reglas.EstrategiaComparacionKlondike;
 import org.junit.Test;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,10 +19,10 @@ public class MesaTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.CORAZONES);
         Mazo mazo = new Mazo();
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString("A0");
+        Semilla semilla = GeneradorSemillas.generarSemillaConString("A0");
         mazo.generarBaraja(semilla, palos);
 
-        Mesa mesa = new Mesa(mazo);
+        Mesa mesa = new Mesa(mazo, 0);
         mesa.crearBarajaDescarte();
 
         Carta carta = new Carta(1, Palos.CORAZONES);
@@ -38,9 +39,9 @@ public class MesaTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.PICAS);
         Mazo mazo = new Mazo();
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(52, palos);
+        Semilla semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(52, palos);
         mazo.generarBaraja(semilla, palos);
-        Mesa mesa = new Mesa(mazo);
+        Mesa mesa = new Mesa(mazo, 0);
 
         EstrategiaComparacion estrategia = new EstrategiaComparacionKlondike();
         for (int i = 0; i < 6; i++) {
@@ -58,9 +59,9 @@ public class MesaTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.DIAMANTES);
         Mazo mazo = new Mazo();
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(52, palos);
+        Semilla semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(52, palos);
         mazo.generarBaraja(semilla, palos);
-        Mesa mesa = new Mesa(mazo);
+        Mesa mesa = new Mesa(mazo, 0);
 
         EstrategiaComparacion estrategia = new EstrategiaComparacionKlondike();
         for (int i = 0; i < 5; i++) {
@@ -78,9 +79,9 @@ public class MesaTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.DIAMANTES);
         Mazo mazo = new Mazo();
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(5, palos);
+        Semilla semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(5, palos);
         mazo.generarBaraja(semilla, palos);
-        Mesa mesa = new Mesa(mazo);
+        Mesa mesa = new Mesa(mazo, 0);
         mesa.crearBarajaDescarte();
 
         for (int i = 0; i < 5; i++) {
@@ -110,10 +111,10 @@ public class MesaTest {
         palos.add(Palos.CORAZONES);
         palos.add(Palos.TREBOLES);
         Mazo mazo = new Mazo();
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(52, palos);
+        Semilla semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(52, palos);
         mazo.generarBaraja(semilla, palos);
 
-        Mesa mesa = new Mesa(mazo);
+        Mesa mesa = new Mesa(mazo, 0);
         EstrategiaComparacion estrategia = new EstrategiaComparacionKlondike();
         for (int i = 0; i < 7; i++) {
             Columna columnaMesa = new ColumnaKlondike(estrategia);
@@ -142,11 +143,11 @@ public class MesaTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.PICAS);
         Mazo mazo = new Mazo();
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(104, palos);
+        Semilla semilla = GeneradorSemillas.generarSemillaConCantidadYPalos(104, palos);
         mazo.generarBaraja(semilla, palos);
 
         EstrategiaComparacion estrategia = new EstrategiaComparacionKlondike();
-        Mesa mesa = new Mesa(mazo);
+        Mesa mesa = new Mesa(mazo, 1);
         for (int i = 0; i < 10; i++) {
             Columna columnaMesa = new ColumnaKlondike(estrategia);
             mesa.inicializarColumnaMesa(columnaMesa);
@@ -170,11 +171,11 @@ public class MesaTest {
         ArrayList<Palos> palos = new ArrayList<>();
         palos.add(Palos.CORAZONES);
         Mazo mazo = new Mazo();
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString("A0B0C0D0E0F0G0H0I0J0K0L0M0");
+        Semilla semilla = GeneradorSemillas.generarSemillaConString("A0B0C0D0E0F0G0H0I0J0K0L0M0");
         mazo.generarBaraja(semilla, palos);
 
         EstrategiaComparacion estrategia = new EstrategiaComparacionKlondike();
-        Mesa mesa = new Mesa(mazo);
+        Mesa mesa = new Mesa(mazo, 0);
         for (int i = 0; i < 6; i++) {
             Columna columnaMesa = new ColumnaKlondike(estrategia);
             mesa.inicializarColumnaMesa(columnaMesa);
@@ -184,11 +185,21 @@ public class MesaTest {
             mesa.inicializarColumnaFinal(columnaFinal);
         }
 
+        String ruta = "src/main/resources/mesa.txt";
+
+        // Verifica que el archivo este vacio
+        try {
+            ControladorArchivos.vaciarArchivo(ruta);
+        } catch (FileNotFoundException ex) {
+            fail();
+        }
+        assertTrue(ControladorArchivos.archivoEstaVacio(ruta));
+
         // Serializacion de la Mesa
         boolean seGrabo = false;
         try {
-            FileOutputStream fileOut = new FileOutputStream("src/main/resources/mesa.txt");
-            mesa.serializar(fileOut);
+            FileOutputStream fileOut = new FileOutputStream(ruta);
+            ControladorArchivos.serializarMesa(fileOut, mesa);
             seGrabo = true;
         } catch (IOException ex) {
             fail();
@@ -198,14 +209,15 @@ public class MesaTest {
         // Deserializacion de la Mesa
         Mesa nuevaMesa = null;
         try {
-            FileInputStream fileIn = new FileInputStream("src/main/resources/mesa.txt");
-            nuevaMesa = Mesa.deserializar(fileIn);
+            FileInputStream fileIn = new FileInputStream(ruta);
+            nuevaMesa = ControladorArchivos.deserializarMesa(fileIn);
 
         } catch (IOException | ClassNotFoundException ex) {
             fail();
         }
         assertNotNull(nuevaMesa);
 
+        assertEquals(0, nuevaMesa.getTipoMesa(), 0);
         assertEquals(mesa.sizeColumnaMesa(), nuevaMesa.sizeColumnaMesa());
         assertEquals(mesa.sizeColumnaFinal(), nuevaMesa.sizeColumnaFinal());
         for (int i = 13; i > 0; i--) {
@@ -216,6 +228,14 @@ public class MesaTest {
             assertEquals(carta1.getPalo(), carta2.getPalo());
             assertEquals(carta1.getNumero(), carta2.getNumero(), 0);
         }
-    }
 
+        // Verifica que el archivo de la mesa no esta vacio, y lo vuelve a vaciar
+        assertFalse(ControladorArchivos.archivoEstaVacio(ruta));
+        try {
+            ControladorArchivos.vaciarArchivo(ruta);
+        } catch (FileNotFoundException ex) {
+            fail();
+        }
+        assertTrue(ControladorArchivos.archivoEstaVacio(ruta));
+    }
 }

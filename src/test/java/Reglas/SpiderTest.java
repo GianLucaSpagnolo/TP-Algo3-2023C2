@@ -2,8 +2,11 @@ package Reglas;
 
 import Solitario.Carta;
 import Solitario.GeneradorSemillas;
+import Solitario.Semilla;
 import Solitario.Mesa;
 import Solitario.Palos;
+import Solitario.Columna;
+import Solitario.ControladorArchivos;
 import org.junit.Test;
 
 import java.io.FileInputStream;
@@ -88,7 +91,7 @@ public class SpiderTest {
      */
     @Test
     public void spiderSemillaVacia() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString("");
+        Semilla semilla = GeneradorSemillas.generarSemillaConString("");
         Spider spider = new Spider(semilla, null);
         Mesa mesa1 = spider.getEstadoMesa();
         assertNull(mesa1.sacarCartaMazo());
@@ -108,12 +111,14 @@ public class SpiderTest {
         assertNull(mesa3.sacarCartaMazo());
         assertNull(mesa3.sacarCartaDescarte());
 
-        assertFalse(spider.moverCartas(1, 0, 3));
+        Columna seleccion = spider.seleccionarCartas(1, 3);
+        assertNull(seleccion);
+        assertFalse(spider.moverCartas(seleccion, 1, 0));
     }
 
     @Test
     public void spiderSemillaCompleta() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0M0" +
                         "F0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
         Spider spider = new Spider(semilla, null);
@@ -157,7 +162,7 @@ public class SpiderTest {
 
     @Test
     public void spiderSacarDelMazoVariasVeces() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0M0" +
                         "F0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
         Spider spider = new Spider(semilla, null);
@@ -214,19 +219,33 @@ public class SpiderTest {
 
     @Test
     public void moverUnaCartaEntreColumnas() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0M0" +
                         "F0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
         Spider spider = new Spider(semilla, null);
         spider.repartirCartasInicio();
 
-        assertTrue(spider.moverCartas(6, 7, 0));
-        assertTrue(spider.moverCartas(6, 9, 0));
-        assertTrue(spider.moverCartas(5, 7, 0));
-        assertFalse(spider.moverCartas(0, 1, 0));
-        assertFalse(spider.moverCartas(1, 2, 0));
-        assertFalse(spider.moverCartas(2, 1, 0));
-        assertFalse(spider.moverCartas(8, 7, 0));
+        Columna seleccion1 = spider.seleccionarCartas(6, 0);
+        assertNotNull(seleccion1);
+        assertTrue(spider.moverCartas(seleccion1, 6, 7));
+        Columna seleccion2 = spider.seleccionarCartas(6, 0);
+        assertNotNull(seleccion2);
+        assertTrue(spider.moverCartas(seleccion2, 6, 9));
+        Columna seleccion3 = spider.seleccionarCartas(5, 0);
+        assertNotNull(seleccion3);
+        assertTrue(spider.moverCartas(seleccion3, 5, 7));
+        Columna seleccion4 = spider.seleccionarCartas(0, 0);
+        assertNotNull(seleccion4);
+        assertFalse(spider.moverCartas(seleccion4, 0, 1));
+        Columna seleccion5 = spider.seleccionarCartas(1, 0);
+        assertNotNull(seleccion5);
+        assertFalse(spider.moverCartas(seleccion5, 1, 2));
+        Columna seleccion6 = spider.seleccionarCartas(2, 0);
+        assertNotNull(seleccion6);
+        assertFalse(spider.moverCartas(seleccion6, 2, 1));
+        Columna seleccion7 = spider.seleccionarCartas(8, 0);
+        assertNotNull(seleccion7);
+        assertFalse(spider.moverCartas(seleccion7, 8, 7));
         Mesa mesa = spider.getEstadoMesa();
 
         assertEquals(12, mesa.columnaMesaEnPosicion(0).peek().getNumero(), 0);
@@ -253,21 +272,23 @@ public class SpiderTest {
 
     @Test
     public void moverVariasCartasEntreColumnas() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0M0" +
                         "F0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
         Spider spider = new Spider(semilla, null);
         spider.repartirCartasInicio();
 
-        assertFalse(spider.moverCartas(8, 2, 1));
-        assertTrue(spider.moverCartas(5, 6, 0));
-        assertTrue(spider.moverCartas(6, 7, 1));
-        assertTrue(spider.moverCartas(7, 2, 2));
-        assertTrue(spider.moverCartas(2, 6, 3));
-        assertTrue(spider.moverCartas(6, 9, 4));
-        assertFalse(spider.moverCartas(3, 4, 1));
-        assertFalse(spider.moverCartas(9, 0, 5));
-        assertFalse(spider.moverCartas(9, 5, 5));
+        assertFalse(spider.moverCartas(spider.seleccionarCartas(8, 1), 8, 2));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(5, 0), 5, 6));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(6, 1), 6, 7));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(7, 2), 7, 2));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(2, 3), 2, 6));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(6, 4), 6, 9));
+        assertFalse(spider.moverCartas(spider.seleccionarCartas(3, 1), 3, 4));
+        assertFalse(spider.moverCartas(spider.seleccionarCartas(9, 5), 9, 0));
+        Columna seleccion = spider.seleccionarCartas(9, 5);
+        assertNotNull(seleccion);
+        assertFalse(spider.moverCartas(seleccion, 9, 5));
         Mesa mesa = spider.getEstadoMesa();
 
         assertEquals(12, mesa.columnaMesaEnPosicion(0).peek().getNumero(), 0);
@@ -294,31 +315,31 @@ public class SpiderTest {
 
     @Test
     public void testVaciarUnaColumnaMesa() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0M0" +
                         "F0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
         Spider spider = new Spider(semilla, null);
         spider.repartirCartasInicio();
 
-        assertTrue(spider.moverCartas(8, 7, 0));
-        assertTrue(spider.moverCartas(7, 2, 1));
-        assertTrue(spider.moverCartas(4, 7, 0));
-        assertTrue(spider.moverCartas(2, 4, 2));
-        assertTrue(spider.moverCartas(2, 0, 0));
-        assertTrue(spider.moverCartas(2, 8, 0));
-        assertTrue(spider.moverCartas(4, 9, 3));
-        assertTrue(spider.moverCartas(2, 4, 0));
-        assertTrue(spider.moverCartas(2, 6, 0));
-        assertTrue(spider.moverCartas(2, 7, 0));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(8, 0), 8, 7));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(7, 1), 7, 2));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(4, 0), 4, 7));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(2, 2), 2, 4));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(2, 0), 2, 0));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(2, 0), 2, 8));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(4, 3), 4, 9));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(2, 0), 2, 4));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(2, 0), 2, 6));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(2, 0), 2, 7));
 
         // Se pueden mover cartas o segmentos de cartas sin importar a una columna vacia
-        assertTrue(spider.moverCartas(0, 2, 1));
-        assertTrue(spider.moverCartas(2, 0, 1));
-        assertTrue(spider.moverCartas(6, 2, 0));
-        assertTrue(spider.moverCartas(2, 6, 0));
-        assertTrue(spider.moverCartas(9, 2, 3));
-        assertTrue(spider.moverCartas(2, 9, 3));
-        assertFalse(spider.moverCartas(3, 2, 1));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(0, 1), 0, 2));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(2, 1), 2, 0));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(6, 0), 6, 2));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(2, 0), 2, 6));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(9, 3), 9, 2));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(2, 3), 2, 9));
+        assertFalse(spider.moverCartas(spider.seleccionarCartas(3, 1), 3, 2));
         // Se verifica que no se puede sacar cartas del mazo si hay una columna vacia
         assertFalse(spider.sacarDelMazo());
         Mesa mesa = spider.getEstadoMesa();
@@ -349,25 +370,25 @@ public class SpiderTest {
      * en una columna mesa, lo cual deberia enviar dicho segmento de cartas a una columna final automaticamente.
      */
     void completarUnaColumnaFinal(Spider spider) {
-        assertTrue(spider.moverCartas(8, 7, 0));
-        assertTrue(spider.moverCartas(7, 8, 0));
-        assertTrue(spider.moverCartas(6, 7, 0));
-        assertTrue(spider.moverCartas(5, 8, 0));
-        assertTrue(spider.moverCartas(8, 2, 2));
-        assertTrue(spider.moverCartas(2, 6, 3));
-        assertTrue(spider.moverCartas(2, 0, 0));
-        assertTrue(spider.moverCartas(2, 8, 0));
-        assertTrue(spider.moverCartas(7, 2, 1));
-        assertTrue(spider.moverCartas(4, 7, 0));
-        assertTrue(spider.moverCartas(2, 4, 2));
-        assertTrue(spider.moverCartas(2, 4, 0));
-        assertTrue(spider.moverCartas(2, 7, 0));
-        assertTrue(spider.moverCartas(6, 9, 4));
-        assertTrue(spider.moverCartas(8, 6, 1));
-        assertTrue(spider.moverCartas(7, 8, 2));
-        assertTrue(spider.moverCartas(8, 0, 3));
-        assertTrue(spider.moverCartas(9, 0, 5));
-        assertTrue(spider.moverCartas(0, 9, 11));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(8, 0), 8, 7));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(7, 0), 7, 8));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(6, 0), 6, 7));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(5, 0), 5, 8));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(8, 2), 8, 2));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(2, 3), 2, 6));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(2, 0), 2, 0));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(2, 0), 2, 8));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(7, 1), 7, 2));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(4, 0), 4, 7));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(2, 2), 2, 4));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(2, 0), 2, 4));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(2, 0), 2, 7));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(6, 4), 6, 9));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(8, 1), 8, 6));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(7, 2), 7, 8));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(8, 3), 8, 0));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(9, 5), 9, 0));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(0, 11), 0, 9));
     }
 
     /**
@@ -408,7 +429,7 @@ public class SpiderTest {
 
     @Test
     public void testCompletarUnaColumnaFinal() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0M0" +
                         "F0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
         Spider spider = new Spider(semilla, null);
@@ -421,7 +442,7 @@ public class SpiderTest {
 
     @Test
     public void verificarJuegoGanado() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("C0B0A0L0K0J0F0E0D0A0L0K0J0I0H0G0I0H0G0B0I0H0G0F0E0D0F0E0D0C0F0E0D0C0B0A0C0B0A0M0C0B0A0L0K0J0L0K0J0M0" +
                         "L0I0F0C0L0K0H0E0B0K0J0G0D0A0J0I0F0C0L0I0H0E0B0K0H0G0D0A0J0G0I0F0C0L0I0F0H0E0B0K0H0E0G0D0A0J0G0D0M0M0M0M0M0M0");
         Spider spider = new Spider(semilla, null);
@@ -429,7 +450,7 @@ public class SpiderTest {
         for (int i = 0; i < 5; i++)
             assertTrue(spider.sacarDelMazo());
 
-        assertTrue(spider.moverCartas(0, 1, 2));
+        assertTrue(spider.moverCartas(spider.seleccionarCartas(0, 2), 0, 1));
 
         int cantidadCartas = 3;
         for (int j = 0; j < 11; j++) {
@@ -437,23 +458,23 @@ public class SpiderTest {
                 assertFalse(spider.estaGanado());
 
                 if (cantidadCartas == 11) {
-                    assertTrue(spider.moverCartas(k, 0, cantidadCartas));
+                    assertTrue(spider.moverCartas(spider.seleccionarCartas(k, cantidadCartas), k, 0));
                     cantidadCartas = 0;
                 }
 
                 else {
                     if (j == 0) {
                         if (k == 3) {
-                            assertTrue(spider.moverCartas(k, 1, cantidadCartas));
+                            assertTrue(spider.moverCartas(spider.seleccionarCartas(k, cantidadCartas), k, 1));
                             cantidadCartas++;
                             break;
                         } else
-                            assertTrue(spider.moverCartas(k, k + 1, cantidadCartas));
+                            assertTrue(spider.moverCartas(spider.seleccionarCartas(k, cantidadCartas), k, k + 1));
                     } else {
                         if (k == 9)
-                            assertTrue(spider.moverCartas(k, 1, cantidadCartas));
+                            assertTrue(spider.moverCartas(spider.seleccionarCartas(k, cantidadCartas), k, 1));
                         else
-                            assertTrue(spider.moverCartas(k, k + 1, cantidadCartas));
+                            assertTrue(spider.moverCartas(spider.seleccionarCartas(k, cantidadCartas), k, k + 1));
                     }
                     cantidadCartas++;
                 }
@@ -475,7 +496,7 @@ public class SpiderTest {
      */
     @Test
     public void EstadosParticularesDeMesaEnColumnasMesa() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0M0" +
                         "F0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
         Spider spider1 = new Spider(semilla, null);
@@ -483,9 +504,9 @@ public class SpiderTest {
         assertTrue(spider1.sacarDelMazo());
         assertTrue(spider1.sacarDelMazo());
         assertTrue(spider1.sacarDelMazo());
-        assertTrue(spider1.moverCartas(1, 2, 0));
-        assertTrue(spider1.moverCartas(3, 2, 0));
-        assertTrue(spider1.moverCartas(2, 8, 2));
+        assertTrue(spider1.moverCartas(spider1.seleccionarCartas(1, 0), 1, 2));
+        assertTrue(spider1.moverCartas(spider1.seleccionarCartas(3, 0), 3, 2));
+        assertTrue(spider1.moverCartas(spider1.seleccionarCartas(2, 2), 2, 8));
         Mesa mesa1 = spider1.getEstadoMesa();
         Carta carta1 = mesa1.sacarCartaMazo();
         carta1.darVuelta();
@@ -517,9 +538,9 @@ public class SpiderTest {
         assertTrue(spider2.sacarDelMazo());
         assertTrue(spider2.sacarDelMazo());
         assertFalse(spider2.sacarDelMazo());
-        assertTrue(spider2.moverCartas(1, 2, 0));
-        assertTrue(spider2.moverCartas(4, 6, 0));
-        assertTrue(spider2.moverCartas(6, 0, 1));
+        assertTrue(spider2.moverCartas(spider2.seleccionarCartas(1, 0), 1, 2));
+        assertTrue(spider2.moverCartas(spider2.seleccionarCartas(4, 0), 4, 6));
+        assertTrue(spider2.moverCartas(spider2.seleccionarCartas(6, 1), 6, 0));
         Mesa mesa2 = spider2.getEstadoMesa();
         assertNull(mesa2.sacarCartaMazo());
         assertEquals(1, mesa2.columnaMesaEnPosicion(0).peek().getNumero(), 0);
@@ -543,13 +564,13 @@ public class SpiderTest {
         assertEquals(9, mesa2.columnaMesaEnPosicion(9).peek().getNumero(), 0);
         assertEquals(10, mesa2.columnaMesaEnPosicion(9).size(), 0);
 
-        GeneradorSemillas nuevaSemilla = GeneradorSemillas.generarSemillaConString
+        Semilla nuevaSemilla = GeneradorSemillas.generarSemillaConString
                 ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0M0" +
                         "F0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
         Spider spider3 = new Spider(nuevaSemilla, mesa2);
         assertFalse(spider3.sacarDelMazo());
-        assertTrue(spider3.moverCartas(6, 8, 0));
-        assertTrue(spider3.moverCartas(2, 3, 2));
+        assertTrue(spider3.moverCartas(spider3.seleccionarCartas(6, 0), 6, 8));
+        assertTrue(spider3.moverCartas(spider3.seleccionarCartas(2, 2), 2, 3));
         Mesa mesa3 = spider3.getEstadoMesa();
         assertNull(mesa3.sacarCartaMazo());
         assertEquals(1, mesa3.columnaMesaEnPosicion(0).peek().getNumero(), 0);
@@ -576,7 +597,7 @@ public class SpiderTest {
 
     @Test
     public void EstadosParticularesDeMesaEnColumnasFinales() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0M0" +
                         "F0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
         Spider spider1 = new Spider(semilla, null);
@@ -591,7 +612,7 @@ public class SpiderTest {
 
     @Test
     public void verificacionDeCorrectaPersistenciaDeMesa() {
-        GeneradorSemillas semilla = GeneradorSemillas.generarSemillaConString
+        Semilla semilla = GeneradorSemillas.generarSemillaConString
                 ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0M0" +
                         "F0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
         Spider spider1 = new Spider(semilla, null);
@@ -600,11 +621,12 @@ public class SpiderTest {
         // Forma el primer estado del juego
         completarUnaColumnaFinal(spider1);
         Mesa mesa1 = spider1.getEstadoMesa();
+        assertEquals(1, mesa1.getTipoMesa(), 0);
         // Serializa el primer estado del juego
         boolean seGrabo1 = false;
         try {
             FileOutputStream fileOut = new FileOutputStream("src/main/resources/mesa.txt");
-            mesa1.serializar(fileOut);
+            ControladorArchivos.serializarMesa(fileOut, mesa1);
             seGrabo1 = true;
         } catch (IOException ex) {
             fail();
@@ -614,7 +636,7 @@ public class SpiderTest {
         Mesa nuevaMesa1 = null;
         try {
             FileInputStream fileIn = new FileInputStream("src/main/resources/mesa.txt");
-            nuevaMesa1 = Mesa.deserializar(fileIn);
+            nuevaMesa1 = ControladorArchivos.deserializarMesa(fileIn);
 
         } catch (IOException | ClassNotFoundException ex) {
             fail();
@@ -622,24 +644,26 @@ public class SpiderTest {
         assertNotNull(nuevaMesa1);
 
         // Verifica la correcta carga y lectura del primer estado del juego
+        assertEquals(1, nuevaMesa1.getTipoMesa(), 0);
         Spider spider2 = new Spider(null, nuevaMesa1);
         Mesa mesa2 = spider2.getEstadoMesa();
         verificarUnaColumnaFinal(mesa2);
 
         // Forma el segundo estado del juego
-        assertTrue(spider2.moverCartas(0, 2, 0));
+        assertTrue(spider2.moverCartas(spider2.seleccionarCartas(0, 0), 0, 2));
         assertTrue(spider2.sacarDelMazo());
         assertTrue(spider2.sacarDelMazo());
-        assertTrue(spider2.moverCartas(7, 5, 0));
-        assertTrue(spider2.moverCartas(5, 9, 1));
-        assertTrue(spider2.moverCartas(9, 8, 2));
-        assertTrue(spider2.moverCartas(8, 1, 3));
+        assertTrue(spider2.moverCartas(spider2.seleccionarCartas(7, 0), 7, 5));
+        assertTrue(spider2.moverCartas(spider2.seleccionarCartas(5, 1), 5, 9));
+        assertTrue(spider2.moverCartas(spider2.seleccionarCartas(9, 2), 9, 8));
+        assertTrue(spider2.moverCartas(spider2.seleccionarCartas(8, 3), 8, 1));
         mesa2 = spider2.getEstadoMesa();
+        assertEquals(1, mesa2.getTipoMesa(), 0);
         // Serializa el segundo estado del juego
         boolean seGrabo2 = false;
         try {
             FileOutputStream fileOut = new FileOutputStream("src/main/resources/mesa.txt");
-            mesa2.serializar(fileOut);
+            ControladorArchivos.serializarMesa(fileOut, mesa2);
             seGrabo2 = true;
         } catch (IOException ex) {
             fail();
@@ -649,7 +673,7 @@ public class SpiderTest {
         Mesa nuevaMesa2 = null;
         try {
             FileInputStream fileIn = new FileInputStream("src/main/resources/mesa.txt");
-            nuevaMesa2 = Mesa.deserializar(fileIn);
+            nuevaMesa2 = ControladorArchivos.deserializarMesa(fileIn);
 
         } catch (IOException | ClassNotFoundException ex) {
             fail();
@@ -657,7 +681,8 @@ public class SpiderTest {
         assertNotNull(nuevaMesa2);
 
         // Verifica la correcta carga y lectura del segundo estado del juego
-        GeneradorSemillas nuevaSemilla = GeneradorSemillas.generarSemillaConString
+        assertEquals(1, nuevaMesa2.getTipoMesa(), 0);
+        Semilla nuevaSemilla = GeneradorSemillas.generarSemillaConString
                 ("I0F0E0B0I0A0K0I0H0C0E0I0B0E0I0M0C0J0M0L0G0L0F0J0G0D0I0K0J0J0F0G0D0G0E0M0G0F0H0K0A0E0K0M0D0A0B0A0J0M0F0M0" +
                         "F0H0L0B0C0C0J0L0C0I0J0C0H0B0E0D0C0L0A0F0H0H0A0H0E0E0D0K0L0M0G0D0K0B0D0K0B0D0A0G0L0F0G0K0H0I0L0M0B0C0J0A0");
         Spider spider3 = new Spider(nuevaSemilla, nuevaMesa2);
@@ -696,5 +721,8 @@ public class SpiderTest {
         assertTrue(spider3.sacarDelMazo());
         assertTrue(spider3.sacarDelMazo());
         assertFalse(spider3.sacarDelMazo());
+
+        mesa3 = spider3.getEstadoMesa();
+        assertEquals(1, mesa3.getTipoMesa(), 0);
     }
 }
