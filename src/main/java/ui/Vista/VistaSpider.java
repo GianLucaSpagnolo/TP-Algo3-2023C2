@@ -25,13 +25,13 @@ public class VistaSpider implements VistaJuego{
     private final int mazoX = 544;
     private final int mazoY = 500;
 
-    public VistaSpider(Solitario modelo) {
+    public VistaSpider(Solitario modelo, int tamanio) {
         //escena principal
         this.modelo = modelo;
 
         Mesa mesa = modelo.getEstadoMesa();
 
-        VistaPrincipal base = new VistaPrincipal(mesa.getTipoMesa());
+        VistaPrincipal base = new VistaPrincipal(mesa, tamanio);
         this.stage = base.getStage();
         Pane ventana = base.getVentana();
 

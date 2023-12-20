@@ -10,11 +10,11 @@ public class VistaColumnaFinal extends StackPane implements VistaColumna {
     public VistaColumnaFinal(Columna columnaFinal, int indice){
         super();
         this.indice = indice;
-        VistaCarta base = new VistaCarta(null, -1, indice, 2);
+        VistaCarta base = new VistaCarta(null, -1, indice, 1);
         this.getChildren().add(base);
         Carta carta = columnaFinal.peek();
         if (carta != null) {
-            VistaCarta vc = new VistaCarta(carta, -1, indice, 2);
+            VistaCarta vc = new VistaCarta(carta, -1, indice, 1);
             this.getChildren().add(vc);
         }
     }
@@ -25,11 +25,11 @@ public class VistaColumnaFinal extends StackPane implements VistaColumna {
 
     public void actualizar(Columna columna) {
         this.getChildren().clear();
-        VistaCarta base = new VistaCarta(null, 0, indice, 2);
+        VistaCarta base = new VistaCarta(null, 0, indice, 1);
         this.getChildren().add(base);
         Carta carta = columna.peek();
         if (carta != null) {
-            VistaCarta vc = new VistaCarta(carta, -1, indice, 2);
+            VistaCarta vc = new VistaCarta(carta, -1, indice, 1);
             this.getChildren().add(vc);
         }
     }

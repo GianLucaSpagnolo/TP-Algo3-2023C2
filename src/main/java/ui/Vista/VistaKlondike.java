@@ -26,13 +26,13 @@ public class VistaKlondike implements VistaJuego {
     private final int mazosY = 50;
 
 
-    public VistaKlondike(Solitario modelo) {
+    public VistaKlondike(Solitario modelo, int tamanio) {
         //escena principal
         this.modelo = modelo;
 
         Mesa mesa = modelo.getEstadoMesa();
 
-        VistaPrincipal base = new VistaPrincipal(mesa.getTipoMesa());
+        VistaPrincipal base = new VistaPrincipal(mesa, tamanio);
         this.stage = base.getStage();
         Pane ventana = base.getVentana();
 

@@ -24,6 +24,8 @@ public class Main extends Application {
     private static Solitario modelo;
     private static final String[] variantes = NombresVariantes.getListaVariantes();
 
+    private static final int tamanioDefault = 1;
+
     public static void main(String[] args) {
         launch();
     }
@@ -39,23 +41,23 @@ public class Main extends Application {
         }
     }
 
-    private static void iniciarKlondike(Mesa estadoJuego) {
+    private static void iniciarKlondike(Mesa estadoJuego, int tamanio) {
         Klondike modeloKlondike = new Klondike(null, estadoJuego);
         if (estadoJuego == null) {
             modeloKlondike.repartirCartasInicio();
         }
-        VistaKlondike vistaKlondike = new VistaKlondike(modeloKlondike);
+        VistaKlondike vistaKlondike = new VistaKlondike(modeloKlondike, tamanio);
         ControladorKlondike controladorKlondike = new ControladorKlondike(modeloKlondike, vistaKlondike);
         modelo = modeloKlondike;
         controladorKlondike.iniciar();
     }
 
-    private static void iniciarSpider(Mesa estadoJuego) {
+    private static void iniciarSpider(Mesa estadoJuego, int tamanio) {
         Spider modeloSpider = new Spider(null, estadoJuego);
         if (estadoJuego == null) {
             modeloSpider.repartirCartasInicio();
         }
-        VistaSpider vistaSpider = new VistaSpider(modeloSpider);
+        VistaSpider vistaSpider = new VistaSpider(modeloSpider, tamanio);
         ControladorSpider controladorSpider = new ControladorSpider(modeloSpider, vistaSpider);
         modelo = modeloSpider;
         controladorSpider.iniciar();
@@ -64,11 +66,19 @@ public class Main extends Application {
     public static void iniciarJuego(String varianteElegida, Mesa estadoJuego) {
         if (varianteElegida != null) {
             if (varianteElegida.equals(variantes[0])) {
-                iniciarKlondike(estadoJuego);
+                iniciarKlondike(estadoJuego, tamanioDefault);
             } else if (varianteElegida.equals(variantes[1])) {
-                iniciarSpider(estadoJuego);
+                iniciarSpider(estadoJuego, tamanioDefault);
             }
         }
+    }
+
+    public static void nuevoTamanioJuego(int tamanio, Mesa estadoJuego) {
+        int modoDeJuego = estadoJuego.getTipoMesa();
+        if (modoDeJuego == 0)
+            iniciarKlondike(estadoJuego, tamanio);
+        else if (modoDeJuego == 1)
+            iniciarSpider(estadoJuego, tamanio);
     }
 
     @Override
