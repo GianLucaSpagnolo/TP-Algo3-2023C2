@@ -26,9 +26,9 @@ public class VistaPrincipal {
     private final Mesa estado;
 
     private final double[] medidasAnchoPequenio = {503, 635};
-    private final double[] medidasAnchoGrande = {703, 835};
+    private final double[] medidasAnchoGrande = {753, 953};
     private final double[] medidasAltoPequenio = {570, 630};
-    private final double[] medidasAltoGrande = {770, 830};
+    private final double[] medidasAltoGrande = {850, 975};
 
     public VistaPrincipal(Mesa estadoJuego, int tamanioPantalla) {
         stage = new Stage();

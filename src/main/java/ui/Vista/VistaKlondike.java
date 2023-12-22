@@ -14,16 +14,18 @@ import Solitario.*;
 public class VistaKlondike implements VistaJuego {
     private final Solitario modelo;
     private final Stage stage;
-    private final HBox sectorMazos;
-    private final HBox sectorColumnasFinales;
-    private final HBox sectorColumnasMesa;
+    private HBox sectorMazos;
+    private HBox sectorColumnasFinales;
+    private HBox sectorColumnasMesa;
 
-    private final int columnasFinalesX = 221;
-    private final int columnasFinalesY = 50;
-    private final int columnasMesaX = 50;
-    private final int columnasMesaY = 120;
-    private final int mazosX = 50;
-    private final int mazosY = 50;
+    private final int dimension;
+
+    private int columnasFinalesX;
+    private int columnasFinalesY;
+    private int columnasMesaX;
+    private int columnasMesaY;
+    private int mazosX;
+    private int mazosY;
 
 
     public VistaKlondike(Solitario modelo, int tamanio) {
@@ -32,14 +34,31 @@ public class VistaKlondike implements VistaJuego {
 
         Mesa mesa = modelo.getEstadoMesa();
 
-        VistaPrincipal base = new VistaPrincipal(mesa, tamanio);
+        this.dimension = tamanio;
+        VistaPrincipal base = new VistaPrincipal(mesa, dimension);
         this.stage = base.getStage();
         Pane ventana = base.getVentana();
 
+        if (tamanio == 1)
+            dibujarklondikePequenio(ventana, mesa);
+        else if (tamanio == 2)
+            dibujarklondikeGrande(ventana, mesa);
+
+        stage.show();
+    }
+
+    private void dibujarklondikePequenio(Pane ventana, Mesa mesa) {
+        // Tamaños para Klondike pequeño
+        columnasFinalesX = 221;
+        columnasFinalesY = 50;
+        columnasMesaX = 50;
+        columnasMesaY = 120;
+        mazosX = 50;
+        mazosY = 50;
 
         //sectorMazos
-        VistaMazo vistaMazo = new VistaMazo(mesa.getBaraja());
-        VistaMazo vistaMazoDescarte = new VistaMazo(mesa.getBarajaDescarte());
+        VistaMazo vistaMazo = new VistaMazo(mesa.getBaraja(), dimension);
+        VistaMazo vistaMazoDescarte = new VistaMazo(mesa.getBarajaDescarte(), dimension);
         HBox sectorMazos = new HBox(10);
 
         Canvas circulo = new Canvas(47,62);
@@ -61,8 +80,8 @@ public class VistaKlondike implements VistaJuego {
         //SectorColumnasFinales
         HBox sectorColumnasFinales = new HBox(10);
         for (int i=0; i < 4;i++) {
-            VistaColumnaFinal vcf = new VistaColumnaFinal(mesa.columnaFinalEnPosicion(i), i);
-            Canvas rectangulo = dibujarRectangulo(columnasFinalesX, columnasFinalesY, i);
+            VistaColumnaFinal vcf = new VistaColumnaFinal(mesa.columnaFinalEnPosicion(i), i, dimension);
+            Canvas rectangulo = dibujarRectanguloPequenio(columnasFinalesX, columnasFinalesY, i);
             ventana.getChildren().add(rectangulo);
             sectorColumnasFinales.getChildren().add(vcf);
         }
@@ -74,8 +93,8 @@ public class VistaKlondike implements VistaJuego {
         //SectorColumnasMesa
         HBox sectorColumnasMesa = new HBox(10);
         for (int i=0; i < 7; i++) {
-            VistaColumnaMesa vcm = new VistaColumnaMesa(mesa.columnaMesaEnPosicion(i), i);
-            Canvas rectangulo = dibujarRectangulo(columnasMesaX, columnasMesaY + 15, i);
+            VistaColumnaMesa vcm = new VistaColumnaMesa(mesa.columnaMesaEnPosicion(i), i, dimension);
+            Canvas rectangulo = dibujarRectanguloPequenio(columnasMesaX, columnasMesaY + 15, i);
             ventana.getChildren().add(rectangulo);
             sectorColumnasMesa.getChildren().add(vcm);
         }
@@ -83,12 +102,66 @@ public class VistaKlondike implements VistaJuego {
         sectorColumnasMesa.setLayoutY(columnasMesaY);
         this.sectorColumnasMesa = sectorColumnasMesa;
         ventana.getChildren().add(sectorColumnasMesa);
-        stage.show();
     }
 
-    public Stage getStage() {return stage;}
+    private void dibujarklondikeGrande(Pane ventana, Mesa mesa) {
+        // Tamaños para klondike grande
+        columnasFinalesX = 333;
+        columnasFinalesY = 60;
+        columnasMesaX = 75;
+        columnasMesaY = 190;
+        mazosX = 75;
+        mazosY = 60;
 
-    private Canvas dibujarRectangulo(int x, int y, int i) {
+        //sectorMazos
+        VistaMazo vistaMazo = new VistaMazo(mesa.getBaraja(), dimension);
+        VistaMazo vistaMazoDescarte = new VistaMazo(mesa.getBarajaDescarte(), dimension);
+        HBox sectorMazos = new HBox(20);
+
+        Canvas circulo = new Canvas(71,94);
+        GraphicsContext gc1 = circulo.getGraphicsContext2D();
+        gc1.setFill(Color.LIGHTGREEN);
+        gc1.fillOval(2,2,67,90);
+        gc1.setFill(Color.GREEN);
+        gc1.fillOval(6,6,59,83);
+        circulo.setLayoutX(mazosX);
+        circulo.setLayoutY(mazosY);
+        ventana.getChildren().add(circulo);
+
+        sectorMazos.getChildren().addAll(vistaMazo, vistaMazoDescarte);
+        sectorMazos.setLayoutX(mazosX);
+        sectorMazos.setLayoutY(mazosY);
+        this.sectorMazos = sectorMazos;
+        ventana.getChildren().add(sectorMazos);
+
+        //SectorColumnasFinales
+        HBox sectorColumnasFinales = new HBox(15);
+        for (int i=0; i < 4;i++) {
+            VistaColumnaFinal vcf = new VistaColumnaFinal(mesa.columnaFinalEnPosicion(i), i, dimension);
+            Canvas rectangulo = dibujarRectanguloGrande(columnasFinalesX, columnasFinalesY, i);
+            ventana.getChildren().add(rectangulo);
+            sectorColumnasFinales.getChildren().add(vcf);
+        }
+        sectorColumnasFinales.setLayoutX(columnasFinalesX);
+        sectorColumnasFinales.setLayoutY(columnasFinalesY);
+        this.sectorColumnasFinales = sectorColumnasFinales;
+        ventana.getChildren().add(sectorColumnasFinales);
+
+        //SectorColumnasMesa
+        HBox sectorColumnasMesa = new HBox(15);
+        for (int i=0; i < 7; i++) {
+            VistaColumnaMesa vcm = new VistaColumnaMesa(mesa.columnaMesaEnPosicion(i), i, dimension);
+            Canvas rectangulo = dibujarRectanguloGrande(columnasMesaX, columnasMesaY + 25, i);
+            ventana.getChildren().add(rectangulo);
+            sectorColumnasMesa.getChildren().add(vcm);
+        }
+        sectorColumnasMesa.setLayoutX(columnasMesaX);
+        sectorColumnasMesa.setLayoutY(columnasMesaY);
+        this.sectorColumnasMesa = sectorColumnasMesa;
+        ventana.getChildren().add(sectorColumnasMesa);
+    }
+
+    private Canvas dibujarRectanguloPequenio(int x, int y, int i) {
         Canvas rectangulo = new Canvas(47,62);
         GraphicsContext gc2 = rectangulo.getGraphicsContext2D();
         gc2.setFill(Color.LIGHTGREEN);
@@ -100,6 +173,20 @@ public class VistaKlondike implements VistaJuego {
         return rectangulo;
     }
 
+    private Canvas dibujarRectanguloGrande(int x, int y, int i) {
+        Canvas rectangulo = new Canvas(71,94);
+        GraphicsContext gc2 = rectangulo.getGraphicsContext2D();
+        gc2.setFill(Color.LIGHTGREEN);
+        gc2.fillRect(2,2,67,90);
+        gc2.setFill(Color.GREEN);
+        gc2.fillRect(6,6,59,83);
+        rectangulo.setLayoutX(x + 71 * i + 15 * i);
+        rectangulo.setLayoutY(y);
+        return rectangulo;
+    }
+
+
+    public Stage getStage() {return stage;}
 
     public void registrarSacarDelMazo(EventHandler<MouseEvent> eventHandler) {
         StackPane mazo = (StackPane) sectorMazos.getChildren().get(0);
@@ -108,8 +195,8 @@ public class VistaKlondike implements VistaJuego {
 
     public void actualizarMazos() {
         Mesa mesa = modelo.getEstadoMesa();
-        ((VistaMazo) sectorMazos.getChildren().get(0)).actualizarMazo(mesa.getBaraja());
-        ((VistaMazo) sectorMazos.getChildren().get(1)).actualizarMazo(mesa.getBarajaDescarte());
+        ((VistaMazo) sectorMazos.getChildren().get(0)).actualizarMazo(mesa.getBaraja(), dimension);
+        ((VistaMazo) sectorMazos.getChildren().get(1)).actualizarMazo(mesa.getBarajaDescarte(), dimension);
     }
 
     public void registrarClickEnColumnaMesa(EventHandler<MouseEvent> eventHandler) {
@@ -141,7 +228,7 @@ public class VistaKlondike implements VistaJuego {
 
     public void actualizarColumnaMesa(int indice) {
         Mesa mesa = modelo.getEstadoMesa();
-        ((VistaColumnaMesa)sectorColumnasMesa.getChildren().get(indice)).actualizar(mesa.columnaMesaEnPosicion(indice));
+        ((VistaColumnaMesa)sectorColumnasMesa.getChildren().get(indice)).actualizar(mesa.columnaMesaEnPosicion(indice), dimension);
     }
 
     public void registrarClickEnBarajaDescarte(EventHandler<MouseEvent> eventHandler) {
@@ -166,7 +253,7 @@ public class VistaKlondike implements VistaJuego {
 
     public void actualizarColumnaFinal(int indice) {
         Mesa mesa = modelo.getEstadoMesa();
-        ((VistaColumnaFinal)sectorColumnasFinales.getChildren().get(indice)).actualizar(mesa.columnaFinalEnPosicion(indice));
+        ((VistaColumnaFinal)sectorColumnasFinales.getChildren().get(indice)).actualizar(mesa.columnaFinalEnPosicion(indice), dimension);
     }
 
 }
