@@ -21,6 +21,7 @@ public class VistaPrincipal {
     private final String[] tamaniosString = {"  Pequeño     ", "   Grande"};
     private final Stage stage;
     private static Stage stageVentanaSeleccion;
+    private static Stage stageVentanaFinal;
     private static int contadorVentanaSeleccion = 0;
 
     private Pane ventana;
@@ -66,6 +67,8 @@ public class VistaPrincipal {
                 }
                 else if (contadorVentanaSeleccion == 0) {
                     contadorVentanaSeleccion++;
+                    if (stageVentanaFinal != null)
+                        stageVentanaFinal.close();
                     VistaInicial vi = new VistaInicial(stage);
                 }
             });
@@ -74,6 +77,8 @@ public class VistaPrincipal {
             tamanio.setOnAction(this::cambiarTamanio);
 
             stage.setOnCloseRequest(windowEvent -> {
+                if (stageVentanaFinal != null)
+                    stageVentanaFinal.close();
                 if (contadorVentanaSeleccion == 1)
                     stageVentanaSeleccion.close();
             });
@@ -116,4 +121,6 @@ public class VistaPrincipal {
     public static void setStageVentanaSeleccion(Stage ventanaSeleccion) { stageVentanaSeleccion = ventanaSeleccion; }
 
     public static void actualizarContadorVentanaSeleccion() { contadorVentanaSeleccion = 0; }
+
+    public static void setStageVentanaFinal(Stage ventanaFinal) { stageVentanaFinal = ventanaFinal; }
 }
