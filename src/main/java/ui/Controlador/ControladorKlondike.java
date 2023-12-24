@@ -17,6 +17,7 @@ public class ControladorKlondike {
     private Boolean hayCartaColumnaMesa = false;
     private Boolean hayCartaColumnaFinal = false;
     private boolean hayJuegoGanado = false;
+
     public ControladorKlondike(Klondike modelo, VistaKlondike vista) {
         this.modelo = modelo;
         this.vista = vista;
