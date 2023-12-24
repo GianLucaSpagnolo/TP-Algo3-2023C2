@@ -42,8 +42,14 @@ public class VistaInicial {
             stage.setTitle("Menu inicial");
             cajaOpciones.getItems().addAll(NombresVariantes.getListaVariantes());
             cajaOpciones.setOnAction(this::cambiarEscena);
-            botonCancelar.setOnAction(s -> stage.close());
+            botonCancelar.setOnAction(s -> {
+                VistaPrincipal.actualizarContadorVentanaSeleccion();
+                stage.close();
+            });
             stage.setResizable(false);
+
+            VistaPrincipal.setStageVentanaSeleccion(stage);
+            stage.setOnCloseRequest(windowEvent -> VistaPrincipal.actualizarContadorVentanaSeleccion());
             stage.show();
         }
     }
@@ -53,6 +59,7 @@ public class VistaInicial {
         if (escenaAbierta != null) {
             escenaAbierta.close();
         }
+        VistaPrincipal.actualizarContadorVentanaSeleccion();
         stage.close();
         while (!cajaOpciones.getItems().isEmpty()) {
             cajaOpciones.getItems().remove(0);

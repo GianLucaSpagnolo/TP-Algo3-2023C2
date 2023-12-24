@@ -8,27 +8,28 @@
 <?import javafx.scene.text.Font?>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="349.0" prefWidth="533.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label layoutX="55.0" layoutY="21.0" prefHeight="58.0" prefWidth="509.0" text="¡FELICIDADES! Juego ganado :D" textFill="RED">
-         <font>
-            <Font name="Comic Sans MS" size="28.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="202.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@foto_victoria.png" />
-         </image>
-      </ImageView>
-      <Button fx:id="botonCerrar" layoutX="69.0" layoutY="260.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="155.0" text="Cerrar">
-         <font>
-            <Font size="22.0" />
-         </font>
-      </Button>
-      <Button fx:id="botonNuevoJuego" layoutX="310.0" layoutY="260.0" mnemonicParsing="false" text="Nuevo juego">
-         <font>
-            <Font size="22.0" />
-         </font>
-      </Button>
-   </children>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="349.0"
+      prefWidth="533.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1">
+   <Label layoutX="55.0" layoutY="21.0" prefHeight="58.0" prefWidth="509.0" text="¡FELICIDADES! Juego ganado :D"
+          textFill="RED">
+      <font>
+         <Font name="Comic Sans MS" size="28.0"/>
+      </font>
+   </Label>
+   <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="202.0" layoutY="85.0" pickOnBounds="true"
+              preserveRatio="true">
+      <Image url="@foto_victoria.png"/>
+   </ImageView>
+   <Button fx:id="botonCerrar" layoutX="69.0" layoutY="260.0" mnemonicParsing="false" prefHeight="46.0"
+           prefWidth="155.0" text="Cerrar">
+      <font>
+         <Font size="22.0"/>
+      </font>
+   </Button>
+   <Button fx:id="botonNuevoJuego" layoutX="310.0" layoutY="260.0" mnemonicParsing="false" text="Nuevo juego">
+      <font>
+         <Font size="22.0"/>
+      </font>
+   </Button>
 </Pane>

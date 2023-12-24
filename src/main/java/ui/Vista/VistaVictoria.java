@@ -44,9 +44,11 @@ public class VistaVictoria {
             });
             botonNuevoJuego.setOnAction(event -> {
                 escenaAbierta.close();
+                stage.close();
                 VistaInicial vi = new VistaInicial(stage);
             });
 
+            VistaPrincipal.setStageVentanaFinal(stage);
             stage.setOnCloseRequest(windowEvent -> escenaAbierta.close());
             stage.setTitle("Bien ahi master");
             stage.setResizable(false);

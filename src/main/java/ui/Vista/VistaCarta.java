@@ -9,21 +9,27 @@ public class VistaCarta extends ImageView {
     private final int indice;
     private final int indiceColumna;
     private final Carta carta;
-    public VistaCarta(Carta carta, int indice, int indiceColumnaMesa) {
-        super(obtenerRuta(carta));
+    public VistaCarta(Carta carta, int indice, int indiceColumnaMesa, int tamanio) {
+        super(obtenerRuta(carta, tamanio));
         this.carta = carta;
         this.indice = indice;
         this.indiceColumna = indiceColumnaMesa;
     }
 
-    private static String obtenerRuta(Carta carta) {
+    private static String obtenerRuta(Carta carta, int tamanio) {
+        String direccion = "";
+        if (tamanio == 1)
+            direccion = "Cartas/Small/";
+        else if (tamanio == 2)
+            direccion = "Cartas/Medium/";
+
         if (carta == null) {
-            return "Cartas/Small/transparente.png";
+            return direccion + "transparente.png";
         }
         if (carta.esVisible()) {
-            return "Cartas/Small/" + carta.getPalo().nombre + " " + carta.getNumero() + ".png";
+            return direccion + carta.getPalo().nombre + " " + carta.getNumero() + ".png";
         }
-        return "Cartas/Small/Dada Vuelta.png";
+        return direccion + "DadaVuelta.png";
     }
 
     public int getIndiceColumna() {
