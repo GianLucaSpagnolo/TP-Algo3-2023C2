@@ -3,6 +3,8 @@ package ui.Controlador;
 import Reglas.Klondike;
 import Solitario.Columna;
 import javafx.scene.input.PickResult;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import ui.Vista.*;
 
 public class ControladorKlondike {
@@ -14,6 +16,7 @@ public class ControladorKlondike {
     private Boolean hayCartaDescarte = false;
     private Boolean hayCartaColumnaMesa = false;
     private Boolean hayCartaColumnaFinal = false;
+    private boolean hayJuegoGanado = false;
     public ControladorKlondike(Klondike modelo, VistaKlondike vista) {
         this.modelo = modelo;
         this.vista = vista;
@@ -21,10 +24,20 @@ public class ControladorKlondike {
 
     public void iniciar() {
 
+        Media sonidoInicial = new Media(getClass().getResource("/Sonidos/sonido_comienzo.mp3").toString());
+        MediaPlayer reproducirSonidoInicial = new MediaPlayer(sonidoInicial);
+        Media sonidoCarta = new Media(getClass().getResource("/Sonidos/sonido_carta.mp3").toString());
+        MediaPlayer reproducirSonidoCarta = new MediaPlayer(sonidoCarta);
+        Media sonidoVictoria = new Media(getClass().getResource("/Sonidos/sonido_victoria.mp3").toString());
+        MediaPlayer reproducirSonidoVictoria = new MediaPlayer(sonidoVictoria);
+
+        reproducirSonidoInicial.play();
+
         vista.registrarSacarDelMazo(mouseEvent -> {
             if ((!hayCartaDescarte) && (!hayCartaColumnaMesa) && (!hayCartaColumnaFinal)) {
                 modelo.sacarDelMazo();
                 vista.actualizarMazos();
+                reproducirSonidoCarta.play();
             } else if (hayCartaColumnaMesa) {
                 hayCartaColumnaMesa = false;
                 modelo.moverCartas(segmentoSeleccionado, indiceColumnaMesa, -1);
@@ -65,20 +78,26 @@ public class ControladorKlondike {
                     hayCartaColumnaMesa = true;
                 }
             } else if ((hayCartaColumnaMesa) && (!hayCartaDescarte) && ((indice != -1) || ((segmentoSeleccionado.getCartas().get(segmentoSeleccionado.size() - 1).getNumero() == 13) && (indice == -1))) && ((vistaCarta == null) || (vistaCarta.getCarta().esVisible()))) {
-                modelo.moverCartas(segmentoSeleccionado, indiceColumnaMesa, indiceColumnaSeleccionada);
+                boolean movimiento = modelo.moverCartas(segmentoSeleccionado, indiceColumnaMesa, indiceColumnaSeleccionada);
+                if (movimiento)
+                    reproducirSonidoCarta.play();
                 vista.actualizarColumnaMesa(indiceColumnaMesa);
                 vista.actualizarColumnaMesa(indiceColumnaSeleccionada);
                 vista.deseleccionarCartas(indiceColumnaMesa);
                 hayCartaColumnaMesa = false;
             } else if (hayCartaDescarte && ((indice != -1) || ((modelo.getEstadoMesa().getBarajaDescarte().peek().getNumero() == 13) && (indice == -1))) && ((vistaCarta == null) || (vistaCarta.getCarta().esVisible()))) {
-                modelo.moverCartaDescarteAColumnaMesa(indiceColumnaSeleccionada);
+                boolean movimiento = modelo.moverCartaDescarteAColumnaMesa(indiceColumnaSeleccionada);
+                if (movimiento)
+                    reproducirSonidoCarta.play();
                 vista.deseleccionarCartaDescarte();
                 vista.actualizarMazos();
                 vista.actualizarColumnaMesa(indiceColumnaSeleccionada);
                 hayCartaDescarte = false;
             } else if (hayCartaColumnaFinal && ((indice != -1) || ((modelo.getEstadoMesa().columnaFinalEnPosicion(indiceColumnaFinal).peek().getNumero() == 13) && (indice == -1))) && ((vistaCarta == null) || (vistaCarta.getCarta().esVisible()))) {
                 hayCartaColumnaFinal = false;
-                modelo.moverCartaColumnaFinalAColumnaMesa(indiceColumnaFinal, indiceColumnaSeleccionada);
+                boolean movimiento = modelo.moverCartaColumnaFinalAColumnaMesa(indiceColumnaFinal, indiceColumnaSeleccionada);
+                if (movimiento)
+                    reproducirSonidoCarta.play();
                 vista.deseleccionarCartaColumnaFinal(indiceColumnaFinal);
                 vista.actualizarColumnaMesa(indiceColumnaSeleccionada);
                 vista.actualizarColumnaFinal(indiceColumnaFinal);
@@ -124,25 +143,35 @@ public class ControladorKlondike {
                 vista.seleccionarCartaColumnaFinal(indiceColumnaFinal);
             } else if (hayCartaColumnaFinal) {
                 hayCartaColumnaFinal = false;
-                modelo.moverEntreColumnasFinales(indiceColumnaFinal, indiceColumnaSeleccionada);
+                boolean movimiento = modelo.moverEntreColumnasFinales(indiceColumnaFinal, indiceColumnaSeleccionada);
+                if (movimiento)
+                    reproducirSonidoCarta.play();
                 vista.deseleccionarCartaColumnaFinal(indiceColumnaFinal);
                 vista.actualizarColumnaFinal(indiceColumnaSeleccionada);
                 vista.actualizarColumnaFinal(indiceColumnaFinal);
             } else if (hayCartaDescarte) {
                 hayCartaDescarte = false;
-                modelo.moverCartaDescarteAColumnaFinal(indiceColumnaSeleccionada);
+                boolean movimiento = modelo.moverCartaDescarteAColumnaFinal(indiceColumnaSeleccionada);
+                if (movimiento)
+                    reproducirSonidoCarta.play();
                 vista.deseleccionarCartaDescarte();
                 vista.actualizarColumnaFinal(indiceColumnaSeleccionada);
                 vista.actualizarMazos();
-                if (modelo.estaGanado()) {
+                if (modelo.estaGanado() && !hayJuegoGanado) {
+                    hayJuegoGanado = true;
+                    reproducirSonidoVictoria.play();
                     VistaVictoria vi = new VistaVictoria(vista.getStage());
                 }
             } else if (hayCartaColumnaMesa) {
                 hayCartaColumnaMesa = false;
-                modelo.moverCartaColumnaFinal(segmentoSeleccionado, indiceColumnaMesa, indiceColumnaSeleccionada);
+                boolean movimiento = modelo.moverCartaColumnaFinal(segmentoSeleccionado, indiceColumnaMesa, indiceColumnaSeleccionada);
+                if (movimiento)
+                    reproducirSonidoCarta.play();
                 vista.actualizarColumnaFinal(indiceColumnaSeleccionada);
                 vista.actualizarColumnaMesa(indiceColumnaMesa);
-                if (modelo.estaGanado()) {
+                if (modelo.estaGanado() && !hayJuegoGanado) {
+                    hayJuegoGanado = true;
+                    reproducirSonidoVictoria.play();
                     VistaVictoria vi = new VistaVictoria(vista.getStage());
                 }
             }

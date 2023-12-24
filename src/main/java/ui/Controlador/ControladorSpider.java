@@ -1,7 +1,10 @@
 package ui.Controlador;
+
 import Reglas.Spider;
 import Solitario.Columna;
 import javafx.scene.input.PickResult;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import ui.Vista.*;
 
 public class ControladorSpider {
