@@ -96,6 +96,7 @@ public class VistaPrincipal {
         }
 
         stage.close();
+        Main.resguardarSeleccion();
         Main.nuevoTamanioJuego(tamanioElegido + 1, estado);
     }
 

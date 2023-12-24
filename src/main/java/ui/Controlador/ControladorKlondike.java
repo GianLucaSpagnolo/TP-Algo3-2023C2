@@ -7,7 +7,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import ui.Vista.*;
 
-public class ControladorKlondike {
+public class ControladorKlondike implements Controlador{
     private final VistaKlondike vista;
     private final Klondike modelo;
     private Columna segmentoSeleccionado;
@@ -39,6 +39,14 @@ public class ControladorKlondike {
         Media sonidoVictoria = new Media(getClass().getResource("/Sonidos/sonido_victoria.mp3").toString());
         MediaPlayer reproducirSonidoVictoria = new MediaPlayer(sonidoVictoria);
         reproducirSonidoVictoria.play();
+    }
+
+    public void resguardarSegmentoSeleccionado() {
+        if (hayCartaColumnaMesa) {
+            modelo.moverCartas(segmentoSeleccionado, indiceColumnaMesa, -1);
+            vista.deseleccionarCartas(indiceColumnaMesa);
+            vista.actualizarColumnaMesa(indiceColumnaMesa);
+        }
     }
 
     public void iniciar() {
@@ -157,7 +165,7 @@ public class ControladorKlondike {
             } else if (hayCartaColumnaFinal) {
                 hayCartaColumnaFinal = false;
                 boolean movimiento = modelo.moverEntreColumnasFinales(indiceColumnaFinal, indiceColumnaSeleccionada);
-                if (movimiento)
+                if (movimiento && (indiceColumnaFinal != indiceColumnaSeleccionada))
                     reproducirSonidoCarta();
                 vista.deseleccionarCartaColumnaFinal(indiceColumnaFinal);
                 vista.actualizarColumnaFinal(indiceColumnaSeleccionada);

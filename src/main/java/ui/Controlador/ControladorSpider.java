@@ -7,7 +7,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import ui.Vista.*;
 
-public class ControladorSpider {
+public class ControladorSpider implements Controlador{
     private final VistaSpider vista;
     private final Spider modelo;
 
@@ -37,6 +37,14 @@ public class ControladorSpider {
         Media sonidoVictoria = new Media(getClass().getResource("/Sonidos/sonido_victoria.mp3").toString());
         MediaPlayer reproducirSonidoVictoria = new MediaPlayer(sonidoVictoria);
         reproducirSonidoVictoria.play();
+    }
+
+    public void resguardarSegmentoSeleccionado() {
+        if (hayCartaColumnaMesa) {
+            modelo.moverCartas(segmentoSeleccionado, indiceColumnaMesa, -1);
+            vista.deseleccionarCartas(indiceColumnaMesa);
+            vista.actualizarColumnaMesa(indiceColumnaMesa);
+        }
     }
 
     public void iniciar() {

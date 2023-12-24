@@ -7,6 +7,7 @@ import Solitario.*;
 import Solitario.Mesa;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import ui.Controlador.Controlador;
 import ui.Controlador.ControladorKlondike;
 import ui.Controlador.ControladorSpider;
 import ui.Vista.NombresVariantes;
@@ -25,6 +26,7 @@ public class Main extends Application {
     private static final String[] variantes = NombresVariantes.getListaVariantes();
 
     private static final int tamanioDefault = 1;
+    private static Controlador controlador;
 
     public static void main(String[] args) {
         launch();
@@ -49,6 +51,7 @@ public class Main extends Application {
         VistaKlondike vistaKlondike = new VistaKlondike(modeloKlondike, tamanio);
         ControladorKlondike controladorKlondike = new ControladorKlondike(modeloKlondike, vistaKlondike);
         modelo = modeloKlondike;
+        controlador = controladorKlondike;
         controladorKlondike.iniciar();
     }
 
@@ -60,6 +63,7 @@ public class Main extends Application {
         VistaSpider vistaSpider = new VistaSpider(modeloSpider, tamanio);
         ControladorSpider controladorSpider = new ControladorSpider(modeloSpider, vistaSpider);
         modelo = modeloSpider;
+        controlador = controladorSpider;
         controladorSpider.iniciar();
     }
 
@@ -81,12 +85,18 @@ public class Main extends Application {
             iniciarSpider(estadoJuego, tamanio);
     }
 
+    public static void resguardarSeleccion() {
+        controlador.resguardarSegmentoSeleccionado();
+    }
+
     @Override
     public void stop() throws Exception {
         if (modelo != null) {
             if (modelo.estaGanado()) {
                 ControladorArchivos.vaciarArchivo(rutaArchivoGuardado);
             } else {
+                resguardarSeleccion();
+
                 Mesa estadoJuego = modelo.getEstadoMesa();
                 FileOutputStream fileOut = new FileOutputStream(rutaArchivoGuardado);
                 ControladorArchivos.serializarMesa(fileOut, estadoJuego);
