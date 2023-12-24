@@ -22,22 +22,34 @@ public class ControladorKlondike {
         this.vista = vista;
     }
 
-    public void iniciar() {
-
-        Media sonidoInicial = new Media(getClass().getResource("/Sonidos/sonido_comienzo.mp3").toString());
-        MediaPlayer reproducirSonidoInicial = new MediaPlayer(sonidoInicial);
+    private void reproducirSonidoCarta() {
         Media sonidoCarta = new Media(getClass().getResource("/Sonidos/sonido_carta.mp3").toString());
         MediaPlayer reproducirSonidoCarta = new MediaPlayer(sonidoCarta);
+        reproducirSonidoCarta.play();
+    }
+
+    private void reproducirSonidoInicial() {
+        Media sonidoInicial = new Media(getClass().getResource("/Sonidos/sonido_comienzo.mp3").toString());
+        MediaPlayer reproducirSonidoInicial = new MediaPlayer(sonidoInicial);
+        reproducirSonidoInicial.play();
+    }
+
+    private void reproducirSonidoVictoria() {
         Media sonidoVictoria = new Media(getClass().getResource("/Sonidos/sonido_victoria.mp3").toString());
         MediaPlayer reproducirSonidoVictoria = new MediaPlayer(sonidoVictoria);
+        reproducirSonidoVictoria.play();
+    }
 
-        reproducirSonidoInicial.play();
+    public void iniciar() {
+
+        reproducirSonidoInicial();
 
         vista.registrarSacarDelMazo(mouseEvent -> {
             if ((!hayCartaDescarte) && (!hayCartaColumnaMesa) && (!hayCartaColumnaFinal)) {
                 modelo.sacarDelMazo();
                 vista.actualizarMazos();
-                reproducirSonidoCarta.play();
+                if (!modelo.getEstadoMesa().getBaraja().estaVacio() || !modelo.getEstadoMesa().getBarajaDescarte().estaVacio())
+                    reproducirSonidoCarta();
             } else if (hayCartaColumnaMesa) {
                 hayCartaColumnaMesa = false;
                 modelo.moverCartas(segmentoSeleccionado, indiceColumnaMesa, -1);
@@ -79,8 +91,8 @@ public class ControladorKlondike {
                 }
             } else if ((hayCartaColumnaMesa) && (!hayCartaDescarte) && ((indice != -1) || ((segmentoSeleccionado.getCartas().get(segmentoSeleccionado.size() - 1).getNumero() == 13) && (indice == -1))) && ((vistaCarta == null) || (vistaCarta.getCarta().esVisible()))) {
                 boolean movimiento = modelo.moverCartas(segmentoSeleccionado, indiceColumnaMesa, indiceColumnaSeleccionada);
-                if (movimiento)
-                    reproducirSonidoCarta.play();
+                if (movimiento && (indiceColumnaMesa != indiceColumnaSeleccionada))
+                    reproducirSonidoCarta();
                 vista.actualizarColumnaMesa(indiceColumnaMesa);
                 vista.actualizarColumnaMesa(indiceColumnaSeleccionada);
                 vista.deseleccionarCartas(indiceColumnaMesa);
@@ -88,7 +100,7 @@ public class ControladorKlondike {
             } else if (hayCartaDescarte && ((indice != -1) || ((modelo.getEstadoMesa().getBarajaDescarte().peek().getNumero() == 13) && (indice == -1))) && ((vistaCarta == null) || (vistaCarta.getCarta().esVisible()))) {
                 boolean movimiento = modelo.moverCartaDescarteAColumnaMesa(indiceColumnaSeleccionada);
                 if (movimiento)
-                    reproducirSonidoCarta.play();
+                    reproducirSonidoCarta();
                 vista.deseleccionarCartaDescarte();
                 vista.actualizarMazos();
                 vista.actualizarColumnaMesa(indiceColumnaSeleccionada);
@@ -97,7 +109,7 @@ public class ControladorKlondike {
                 hayCartaColumnaFinal = false;
                 boolean movimiento = modelo.moverCartaColumnaFinalAColumnaMesa(indiceColumnaFinal, indiceColumnaSeleccionada);
                 if (movimiento)
-                    reproducirSonidoCarta.play();
+                    reproducirSonidoCarta();
                 vista.deseleccionarCartaColumnaFinal(indiceColumnaFinal);
                 vista.actualizarColumnaMesa(indiceColumnaSeleccionada);
                 vista.actualizarColumnaFinal(indiceColumnaFinal);
@@ -145,7 +157,7 @@ public class ControladorKlondike {
                 hayCartaColumnaFinal = false;
                 boolean movimiento = modelo.moverEntreColumnasFinales(indiceColumnaFinal, indiceColumnaSeleccionada);
                 if (movimiento)
-                    reproducirSonidoCarta.play();
+                    reproducirSonidoCarta();
                 vista.deseleccionarCartaColumnaFinal(indiceColumnaFinal);
                 vista.actualizarColumnaFinal(indiceColumnaSeleccionada);
                 vista.actualizarColumnaFinal(indiceColumnaFinal);
@@ -153,25 +165,25 @@ public class ControladorKlondike {
                 hayCartaDescarte = false;
                 boolean movimiento = modelo.moverCartaDescarteAColumnaFinal(indiceColumnaSeleccionada);
                 if (movimiento)
-                    reproducirSonidoCarta.play();
+                    reproducirSonidoCarta();
                 vista.deseleccionarCartaDescarte();
                 vista.actualizarColumnaFinal(indiceColumnaSeleccionada);
                 vista.actualizarMazos();
                 if (modelo.estaGanado() && !hayJuegoGanado) {
                     hayJuegoGanado = true;
-                    reproducirSonidoVictoria.play();
+                    reproducirSonidoVictoria();
                     VistaVictoria vi = new VistaVictoria(vista.getStage());
                 }
             } else if (hayCartaColumnaMesa) {
                 hayCartaColumnaMesa = false;
                 boolean movimiento = modelo.moverCartaColumnaFinal(segmentoSeleccionado, indiceColumnaMesa, indiceColumnaSeleccionada);
                 if (movimiento)
-                    reproducirSonidoCarta.play();
+                    reproducirSonidoCarta();
                 vista.actualizarColumnaFinal(indiceColumnaSeleccionada);
                 vista.actualizarColumnaMesa(indiceColumnaMesa);
                 if (modelo.estaGanado() && !hayJuegoGanado) {
                     hayJuegoGanado = true;
-                    reproducirSonidoVictoria.play();
+                    reproducirSonidoVictoria();
                     VistaVictoria vi = new VistaVictoria(vista.getStage());
                 }
             }
