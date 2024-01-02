@@ -1,5 +1,5 @@
 # Trabajo Practico - Algoritmos y Programacion 3
-### 2C 2023
+### ♠ Solitario ♠ 2023 Segundo Cuatrimestre
 
 ## Integrantes:
 Requejo Mateo - 110109
